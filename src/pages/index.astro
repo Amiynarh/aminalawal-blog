@@ -3,15 +3,19 @@ import { getCollection } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import BaseLayout from '@layouts/BaseLayout.astro'
 import BlogInsight from '@components/blog/BlogInsight.astro'
+import ProjectCard from '@components/projects/ProjectCard.astro'
 import HeroSection from '@components/ui/sections/HeroSection.astro'
 import FeaturesSection from '@components/ui/sections/FeaturesSection.astro'
 import HeroSectionAlt from '@components/ui/sections/HeroSectionAlt.astro'
 import SimpleYoutubeBtn from '@components/ui/buttons/SimpleYoutubeBtn.astro'
+import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro'
 import blogHeroImg from '@images/test3.png'
 
 const posts: CollectionEntry<'posts'>[] = (await getCollection('posts')).sort(
     (a: CollectionEntry<'posts'>, b: CollectionEntry<'posts'>) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 ).slice(0, 3);
+
+const projects: CollectionEntry<'projects'>[] = (await getCollection('projects')).slice(0, 3);
 ---
 
 <BaseLayout title="Amina's Blog - Cloud & DevOps Engineer" description="Cloud & DevOps Engineer. I break things, automate fixes, and write about it. Here, I share lessons from building in the cloud, navigating DevOps, and pushing the boundaries of automation and AI.">
@@ -25,6 +29,7 @@ const posts: CollectionEntry<'posts'>[] = (await getCollection('posts')).sort(
     />
 
     <FeaturesSection />
+
 
     <section class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full">
         <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
@@ -42,8 +47,30 @@ const posts: CollectionEntry<'posts'>[] = (await getCollection('posts')).sort(
                 ))
             }
         </div>
+        <div class="mt-8 flex justify-center">
+            <PrimaryCTA url="/posts" title="View All Posts" />
+        </div>
     </section>
 
+    <section class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full">
+        <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
+            <h2 class="text-3xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl md:leading-tight">
+                Featured Projects
+            </h2>
+            <p class="mt-1 text-pretty text-neutral-600 dark:text-neutral-400">
+                Some of my recent technical projects and contributions
+            </p>
+        </div>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project) => (
+                <ProjectCard project={project} />
+            ))}
+        </div>
+        <div class="mt-8 flex justify-center">
+            <PrimaryCTA url="/projects" title="View All Projects" />
+        </div>
+    </section>
+    
     <HeroSectionAlt
         title="Follow me on GitHub"
         subTitle="I build. I experiment. I sometimes even document it. Check out my GitHub to see what I'm up to."
