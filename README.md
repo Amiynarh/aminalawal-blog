@@ -1,6 +1,6 @@
-# Amina's Blog - A personal blog built with Astro
+# A personal blog built with Astro
 
-![Amina's Blog](https://images.aminalawal.com/logos/blog-banner.png)
+![Amina's Blog](src/images/readme-image.png)
 
 A clean, responsive blog template built with Astro and Tailwind CSS. Easily customizable with minimal frontend knowledge required.
 
