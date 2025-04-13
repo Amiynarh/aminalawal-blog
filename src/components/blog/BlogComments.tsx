@@ -6,6 +6,10 @@ const id = 'inject-comments'
 const commentSetting = Settings.Comment.giscus
 
 function getCurrentTheme(): string {
+    if (typeof window === 'undefined') {
+        return 'light' // Default theme during SSR
+    }
+
     if (window.localStorage.getItem('hs_theme')) {
         return window.localStorage.getItem('hs_theme') ?? 'default'
     }
@@ -13,24 +17,24 @@ function getCurrentTheme(): string {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
 }
 
-function convertThemToGiscusThem(them: any): string {
-    if (!them) {
-        return commentSetting.lightThem
+function convertThemeToGiscusTheme(theme: string | null): string {
+    if (!theme) {
+        return commentSetting.lightTheme
     }
 
-    return them === 'dark' ? commentSetting.darkThem : commentSetting.lightThem
+    return theme === 'dark' ? commentSetting.darkTheme : commentSetting.lightTheme
 }
 
 function BlogComments() {
     const [mounted, setMounted] = React.useState(false)
-    const [theme, setTheme] = React.useState(convertThemToGiscusThem(getCurrentTheme()))
+    const [theme, setTheme] = React.useState(convertThemeToGiscusTheme(getCurrentTheme()))
 
     const handleThemeChange = (event: any) => {
-        setTheme(convertThemToGiscusThem(event?.detail))
+        setTheme(convertThemeToGiscusTheme(event?.detail))
     }
 
     React.useEffect(() => {
-        const theme = convertThemToGiscusThem(getCurrentTheme())
+        const theme = convertThemeToGiscusTheme(getCurrentTheme())
         setTheme(theme)
 
         window.addEventListener('on-hs-appearance-change', handleThemeChange)
@@ -58,7 +62,7 @@ function BlogComments() {
                             reactionsEnabled="1"
                             emitMetadata="0"
                             inputPosition="top"
-                            lang="zh-CN"
+                            lang="en"
                             loading="lazy"
                             theme={theme}
                         />
