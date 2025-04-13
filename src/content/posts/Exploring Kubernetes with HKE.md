@@ -146,12 +146,3 @@ Key takeaways:
 The platform’s ability to automatically handle complex tasks while providing comprehensive monitoring and optimization recommendations makes it a compelling choice for teams looking to streamline their Kubernetes operations.
 
 Get started [here](https://ui.hostspacecloud.com/) today!
-
-<!-- ## Also Read
-
-* [2023 年终总结](https://godruoyi.com/posts/review-2023)
-* [2022 年终总结](https://godruoyi.com/posts/review-of-2022)
-* [2021 年终总结](https://godruoyi.com/posts/review-2021)
-* [2020 年终总结](https://godruoyi.com/posts/2020-year-end-review)
-* [2019 年终总结](https://godruoyi.com/posts/continue-refueling-in-2019) -->
-
