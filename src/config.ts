@@ -12,8 +12,8 @@ export const NavigationLinks: NavigationLink[] = [
     { name: 'Posts', url: '/posts' },
     { name: 'Categories', url: '/categories' },
     { name: 'Timeline', url: '/timeline' },
-    { name: 'About', url: '/posts/exploring-kubernetes-with-hke' },
-    { name: 'Friends', url: '/friends' },
+    { name: 'Portfolio', url: 'https://aminalawal.com' },
+    // { name: 'Friends', url: '/friends' },
 ]
 
 export const FooterLinks = [
@@ -51,17 +51,18 @@ export const Settings = {
     Comment: {
         // Please note that the environment value here is `string` type on Cloudflare Pages
         // If you want to disable the comment system, please delete the `COMMENT_ENABLE` environment variable not just set it to `false`.
-        enable: !!(import.meta.env.COMMENT_ENABLE) || !!process.env.COMMENT_ENABLE,
+        enable: !!import.meta.env.COMMENT_ENABLE,
 
         // please visit https://giscus.app/ to learn how to configure it.
         // You can also check out this article: https://liruifengv.com/posts/add-comments-to-astro/.
+        // enable: true,
         giscus: {
-            repo: 'godruoyi/gblog',
-            repoId: 'MDEwOlJlcG9zaXRvcnkxMjcyODI0NzA',
+            repo: 'Amiynarh/aminalawal-blog',
+            repoId: 'R_kgDOOY0NQQ',
             category: 'Announcements',
-            categoryId: 'DIC_kwDOB5YtJs4CfZnX',
-            darkThem: 'noborder_gray',
-            lightThem: 'light',
+            categoryId: 'DIC_kwDOOY0NQc4CpDRk',
+            darkTheme: 'noborder_gray',
+            lightTheme: 'light',
         },
     },
 
@@ -69,7 +70,7 @@ export const Settings = {
         // If you don't want to upload the build assert(image/js/css/etc...) to anywhere, just set this to false
         // Please note that the environment value here is `string` type on Cloudflare Pages
         // If you want to disable the comment system, please delete the `S3_ENABLE` environment variable not just set it to `false`.
-        uploadAssetsToS3: !!(import.meta.env.S3_ENABLE) || !!process.env.S3_ENABLE,
+        uploadAssetsToS3: !!import.meta.env.S3_ENABLE,
         config: {
             // see https://github.com/syhily/astro-uploader to get how to configure the uploader,
             // The following configuration will upload the compiled `assets` folder to S3 or R2.
@@ -80,10 +81,10 @@ export const Settings = {
             // Note that you may also need to modify `build.assetsPrefix` in `astro.config.mjs` if you want to
             // automatically replace all images/js/css with a CDN link.
             paths: ['assets'],
-            endpoint: (process.env.S3_ENDPOINT ?? import.meta.env.S3_ENDPOINT) as string,
-            bucket: (process.env.S3_BUCKET ?? import.meta.env.S3_BUCKET) as string,
-            accessKey: (process.env.S3_ACCESS_KEY ?? import.meta.env.S3_ACCESS_KEY) as string,
-            secretAccessKey: (process.env.S3_SECRET_ACCESS_KEY ?? import.meta.env.S3_SECRET_ACCESS_KEY) as string,
+            endpoint: import.meta.env.S3_ENDPOINT as string,
+            bucket: import.meta.env.S3_BUCKET as string,
+            accessKey: import.meta.env.S3_ACCESS_KEY as string,
+            secretAccessKey: import.meta.env.S3_SECRET_ACCESS_KEY as string,
             root: 'gblog',
         },
     },
