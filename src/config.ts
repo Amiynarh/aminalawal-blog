@@ -3,7 +3,7 @@ import type { NavigationLink, Site } from './types.ts'
 export const SITE: Site = {
     author: 'Amina Lawal',
     url: 'https://aminalawal.com',
-    title: 'Blog Site',
+    title: 'Amina Lawal',
     description: 'Amina\'s personal blog, I enjoy the process of building something using any technology stack',
     shortDescription: '',
 }
@@ -23,7 +23,7 @@ export const FooterLinks = [
             { name: 'Posts', url: '/posts' },
             { name: 'Timeline', url: '/timeline' },
             { name: 'Categories', url: '/categories' },
-            { name: 'About Me', url: '/posts/exploring-kubernetes-with-hke' },
+            { name: 'Portfolio', url: 'https://aminalawal.com' },
         ],
     },
     {
@@ -67,19 +67,11 @@ export const Settings = {
     },
 
     Assets: {
-        // If you don't want to upload the build assert(image/js/css/etc...) to anywhere, just set this to false
-        // Please note that the environment value here is `string` type on Cloudflare Pages
-        // If you want to disable the comment system, please delete the `S3_ENABLE` environment variable not just set it to `false`.
-        uploadAssetsToS3: !!import.meta.env.S3_ENABLE,
+        // S3 upload disabled - assets will be served directly from your hosting provider
+        uploadAssetsToS3: false,
+        // Optional: Keep this configuration commented out in case you want to enable S3 later
+        /*
         config: {
-            // see https://github.com/syhily/astro-uploader to get how to configure the uploader,
-            // The following configuration will upload the compiled `assets` folder to S3 or R2.
-            // You can set a separate domain for it so that you can access all resources using a CDN domain name.
-            //
-            // For example: https://images.godruoyi.com/gblog/assets/brand-logo.webp
-            //
-            // Note that you may also need to modify `build.assetsPrefix` in `astro.config.mjs` if you want to
-            // automatically replace all images/js/css with a CDN link.
             paths: ['assets'],
             endpoint: import.meta.env.S3_ENDPOINT as string,
             bucket: import.meta.env.S3_BUCKET as string,
@@ -87,6 +79,7 @@ export const Settings = {
             secretAccessKey: import.meta.env.S3_SECRET_ACCESS_KEY as string,
             root: 'gblog',
         },
+        */
     },
 }
 
