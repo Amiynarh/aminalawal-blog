@@ -55,4 +55,22 @@ const friendsCollection = defineCollection({
     ),
 })
 
-export const collections = { posts, categories: categoryCollection, friends: friendsCollection }
+const projects = defineCollection({
+    type: 'content',
+    schema: ({ image }) => z.object({
+        title: z.string(),
+        description: z.string(),
+        url: z.string().url(),
+        repo: z.string().optional(),
+        tech: z.array(z.string()),
+        banner: image().or(z.string()),
+        featured: z.boolean().optional(),
+    }),
+})
+
+export const collections = { 
+    posts, 
+    categories: categoryCollection, 
+    friends: friendsCollection,
+    projects
+}
