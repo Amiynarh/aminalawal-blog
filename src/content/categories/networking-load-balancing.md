@@ -1,5 +1,5 @@
 ---
-title: Networking & Load Balancing
-slug: networking-load-balancing
+title: Networking
+slug: networking
 description: Cloud networking, DNS, and traffic management
 ---
