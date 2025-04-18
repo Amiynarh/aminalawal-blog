@@ -1,0 +1,4 @@
+name = "aminalawal-blog"
+compatibility_date = "2025-04-14"
+main = "dist/worker.js"
+site = { bucket = "./dist" }
