@@ -10,9 +10,6 @@ import { remarkReadingTime } from './src/support/plugins.ts'
 import { uploadAssetsToS3 } from './src/support/uploader.ts'
 
 export default defineConfig({
-    experimental: {
-        hybridOutput: true
-    },
     site: SITE.url,
     output: 'server',
     adapter: cloudflare(),
