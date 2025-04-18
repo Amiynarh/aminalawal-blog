@@ -1,16 +1,11 @@
-name = "aminalawal-blog"
-compatibility_date = "2025-04-01"
+name = "amina"
+compatibility_date = "2025-04-1"
 compatibility_flags = ["nodejs_compat"]
 main = "./dist/_worker.js/index.js"
-
 [assets]
 directory = "./dist"
 binding = "ASSETS"
 
 [observability]
 enabled = true
-
 upload_source_maps = true
-kv_namespaces = [
-  { binding = "SESSION", id = "SESSION" }
-]
