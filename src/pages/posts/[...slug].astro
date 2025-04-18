@@ -1,7 +1,9 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content'
+export const prerender = true;
+
 import BaseLayout from '@layouts/BaseLayout.astro'
-import BlogComments from '@components/blog/BlogComments'
+import BlogComments from '@components/blog/BlogComments.tsx'
 import BlogTOC from '@components/blog/BlogTOC.astro'
 import Image from '@components/ui/images/Image.astro'
 import { formatDateTime } from '@support/time'
@@ -26,7 +28,18 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<'posts'>
 
 const post = Astro.props
-const { Content, remarkPluginFrontmatter, headings } = await post.render()
+let Content, remarkPluginFrontmatter, headings;
+
+try {
+    const renderResult = await post.render()
+    Content = renderResult.Content
+    remarkPluginFrontmatter = renderResult.remarkPluginFrontmatter
+    headings = renderResult.headings
+} catch (error) {
+    console.error('Error rendering post:', error)
+    throw error
+}
+
 
 const category: CollectionEntry<'categories'> = (await getCollection('categories')).filter(
     c => c.slug === post.data.category,
@@ -82,7 +95,7 @@ const ogImage = post.data.ogImage
                             <li class="inline-flex items-center">
                                 <a
                                     class="flex items-center text-sm text-orange-400 hover:text-orange-500 focus:outline-none focus:text-orange-500"
-                                    href=`/categories/${category.slug}`
+                                    href={`/categories/${category.slug}`}
                                 >
                                     {category?.data?.title}
                                 </a>
