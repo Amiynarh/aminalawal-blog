@@ -1,14 +1,13 @@
 ---
-title: "Deploying Actions Runner Controller for Cost-Efficient GitHub Actions"
-description: "Actions Runner Controller (ARC) emerges as a solution to manage self-hosted runners on your Kubernetes cluster, offering cost savings, autoscaling capabilities, and seamless integration with GitOps practices."
-pubDate: "2024-01-21 16:00:00"
-category: "containers-orchestration"
-banner: "@images/banners/ACR.png"
-tags: ["CI/CD Pipelines", "Github Actions", "Kubernetes", "Helm", "Argo Cd"]
-# selected: true
+title: "IP Addresses & Subnetting - Every device needs an address to communicate"
+description: "Networking is how computers and servers communicate with each other over the Internet or a private network. It’s like a postal system for data—your data (letters) needs an address (IP) and a path (routes) to reach its destination."
+pubDate: "2025-04-01 13:00:00"
+category: "networking"
+banner: "@images/banners/networking101.png"
+tags: ["Networking", "IP Address", "Subnetting"]
+selected: true
 ---
 
-# **IP Addresses & Subnetting** – Every device needs an address to communicate.
 
 ### **What is an IP Address?**
 
@@ -55,9 +54,9 @@ curl icanhazip.com
     ```
     
 
-## **Lesson 2: Subnetting (Breaking Down Networks)**
+## Subnetting (Breaking Down Networks)
 
-### **What is Subnetting?**
+### What is Subnetting?
 
 Subnetting is dividing a large network into smaller, more manageable networks (**subnets**). This helps with:
 
@@ -67,7 +66,7 @@ Subnetting is dividing a large network into smaller, more manageable networks (*
 
 ✅ Reduced network congestion
 
-### **IP Address Structure (IPv4)**
+### IP Address Structure (IPv4)
 
 An IPv4 address has **four numbers (octets)** separated by dots, each ranging from **0 to 255**. Example
 
@@ -101,7 +100,7 @@ Common subnet masks:
     - **Host Portion:** `10`
     - Usable IPs: **254** (from `.1` to `.254`)
 
-### **Hands-on Task: Check Your Subnet Mask**
+### Hands-on Task: Check Your Subnet Mask
 
 **On macOS, run:**
 
@@ -109,7 +108,7 @@ Common subnet masks:
 ifconfig | grep netmask
 ```
 
-![Screenshot 2025-04-07 at 18.06.00.png](attachment:42bdd1cc-0eb1-49fe-8e14-333a8c46e2c0:Screenshot_2025-04-07_at_18.06.00.png)
+![Output](@images/posts/Networking/output.png)
 
 ### **Understanding the Output**
 
