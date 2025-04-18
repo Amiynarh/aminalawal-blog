@@ -1,5 +1,5 @@
 name = "amina"
-compatibility_date = "2025-04-1"
+compatibility_date = "2025-04-14"
 compatibility_flags = ["nodejs_compat"]
 main = "./dist/_worker.js/index.js"
 upload_source_maps = true
