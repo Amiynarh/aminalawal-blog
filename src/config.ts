@@ -13,7 +13,7 @@ export const NavigationLinks: NavigationLink[] = [
     { name: 'Categories', url: '/categories' },
     { name: 'Timeline', url: '/timeline' },
     { name: 'Projects', url: '/projects' },
-    { name: 'Portfolio', url: 'https://aminalawal.com' },
+    { name: 'Portfolio', url: 'https://portfolio.aminalawal.com' },
     // { name: 'Friends', url: '/friends' },
 ]
 
@@ -25,7 +25,7 @@ export const FooterLinks = [
             { name: 'Timeline', url: '/timeline' },
             { name: 'Categories', url: '/categories' },
             { name: 'Projects', url: '/projects' },
-            { name: 'Portfolio', url: 'https://aminalawal.com' },
+            { name: 'Portfolio', url: 'https://portfolio.aminalawal.com' },
         ],
     },
     {
