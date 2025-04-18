@@ -1,7 +1,7 @@
 name = "aminalawal-blog"
 compatibility_date = "2025-04-14"
-main = "dist/worker.js"
-site = { bucket = "./dist" }
+main = "dist/_worker.js/index.js"
+site = { bucket = "./dist/client" }
 kv_namespaces = [
   { binding = "SESSION", id = "SESSION" }
 ]
