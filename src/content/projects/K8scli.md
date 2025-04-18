@@ -1,10 +1,10 @@
 ---
-title: "Genetic Algorithm"
+title: "Kubernetes Deployment Tool (Coming Soon)"
 description: "A CLI tool for managing Kubernetes deployments across multiple clusters"
-url: "https://github.com/Amiynarh/TimetableScheduler-Genetic-Algorithm"
-repo: "amiynarh/timetable-scheduler"
-tech: ["AI", "Flask", "Genetic Algorithm"]
-banner: "@images/posts/2024/hke3.png"
+url: "https://github.com/amiynarh/k8s-deploy-tool"
+repo: "amiynarh/k8s-deploy-tool"
+tech: ["Go", "Kubernetes", "Terraform"]
+banner: "@images/posts/2024/hke2.png"
 featured: true
 ---
 
