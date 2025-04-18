@@ -1,4 +1,5 @@
 import { defineConfig, passthroughImageService, sharpImageService } from 'astro/config'
+import cloudflare from '@astrojs/cloudflare'
 import mdx from '@astrojs/mdx'
 import tailwind from '@astrojs/tailwind'
 import react from '@astrojs/react'
@@ -10,6 +11,8 @@ import { uploadAssetsToS3 } from './src/support/uploader.ts'
 
 export default defineConfig({
     site: SITE.url,
+    output: 'server',
+    adapter: cloudflare(),
     image: {
         // If you don't want to optimize images during the BUILD process please set the ASTRO_IMAGE_OPTIMIZE environment variable to false
         // Please note that the environment value here is `string` type on Cloudflare Pages,
@@ -47,7 +50,6 @@ export default defineConfig({
         enabled: false,
     },
     prefetch: true,
-    output: 'static',
     build: {
         // Specifies the directory in the build output where Astro-generated assets (bundled JS and CSS for example) should live.
         // see https://docs.astro.build/en/reference/configuration-reference/#buildassets
