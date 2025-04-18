@@ -66,6 +66,7 @@
     "mysql2": "^3.9.7",
     "preline": "^2.1.0",
     "timeago.js": "^4.0.2",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.0.0",
+    "wrangler": "^4.12.0"
   }
 }

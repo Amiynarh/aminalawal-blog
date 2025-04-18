@@ -11,7 +11,7 @@ import { uploadAssetsToS3 } from './src/support/uploader.ts'
 
 export default defineConfig({
     experimental: {
-        sessions: true
+        hybridOutput: true
     },
     site: SITE.url,
     output: 'server',
