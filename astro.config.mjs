@@ -11,7 +11,7 @@ import { uploadAssetsToS3 } from './src/support/uploader.ts'
 
 export default defineConfig({
     site: SITE.url,
-    output: 'server',
+    output: 'static',
     adapter: cloudflare(),
     publicDir: './public',
     image: {
