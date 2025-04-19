@@ -1,7 +1,7 @@
 // copy from https://github.com/delucis/astro-blog-full-text-rss
 // see https://github.com/delucis/astro-blog-full-text-rss/blob/latest/src/pages/rss.xml.ts
 // get more context
-
+ 
 import { getContainerRenderer as getMDXRenderer } from '@astrojs/mdx'
 import rss, { type RSSFeedItem } from '@astrojs/rss'
 import type { APIContext } from 'astro'
@@ -14,7 +14,7 @@ import { SITE } from '@/config'
 
 export async function GET(context: APIContext) {
     // Get the URL to prepend to relative site links. Based on `site` in `astro.config.mjs`.
-    let baseUrl = context.site?.href || 'https://godruoyi.com'
+    let baseUrl = context.site?.href || 'https://aminalawal.com'
     if (baseUrl.at(-1) === '/') {
         baseUrl = baseUrl.slice(0, -1)
     }
@@ -59,5 +59,6 @@ export async function GET(context: APIContext) {
         description: SITE.description,
         site: baseUrl,
         items: feedItems,
+        stylesheet: '/rss/pretty-feed-v3.xsl'
     })
 }
