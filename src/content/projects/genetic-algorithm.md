@@ -1,11 +1,12 @@
 ---
 title: "Genetic Algorithm"
-description: "A CLI tool for managing Kubernetes deployments across multiple clusters"
+description: "An intelligent timetable generator powered by Genetic Algorithm to generate university timetables while satisfying various constraints."
 url: "https://github.com/Amiynarh/TimetableScheduler-Genetic-Algorithm"
 repo: "amiynarh/timetable-scheduler"
 tech: ["AI", "Flask", "Genetic Algorithm"]
-banner: "@images/posts/2024/hke3.png"
+banner: "@images/projects/timetablescheduler.jpeg"
 featured: true
 ---
 
-A robust CLI tool built with Go that simplifies Kubernetes deployment workflows across multiple clusters with built-in rollback capabilities and deployment history tracking.
+An intelligent timetable generator powered by Genetic Algorithm. This project utilizes a genetic algorithm to generate university timetables while satisfying various constraints.
+

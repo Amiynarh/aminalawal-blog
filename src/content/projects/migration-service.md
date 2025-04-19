@@ -4,8 +4,7 @@ description: "A Database Migration Service that supports Psql & sql from GCP Clo
 url: "https://github.com/amiynarh/k8s-deploy-tool"
 repo: "Private"
 tech: ["Python", "SQL"]
-banner: "@images/posts/2024/hke4.png"
+banner: "@images/projects/migrationservice.png"
 featured: true
 ---
 
-A robust CLI tool built with Go that simplifies Kubernetes deployment workflows across multiple clusters with built-in rollback capabilities and deployment history tracking.
