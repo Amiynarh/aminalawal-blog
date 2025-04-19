@@ -34,19 +34,20 @@ export const FooterLinks = [
             { name: 'RSS', url: '/rss.xml' },
             { name: 'Site Map', url: '/sitemap-index.xml' },
             { name: 'Twitter', url: 'https://x.com/amiynarh' },
+            { name: 'LinkedIn', url: 'https://linkedin.com/in/aminalawalofficial' },
         ],
     },
 ]
 
 export const Settings = {
     GoogleAnalytics: {
-        enable: false,
-        id: 'G-TKQ4L3ZDSF',
+        enable: true,
+        id: 'G-3FZ9XRHGG9',
     },
 
     // See https://github.com/umami-software/umami
     UmamiAnalytics: {
-        enable: true,
+        enable: false,
         dataWebsiteID: 'bf63658a-9418-4f39-a6a1-5a0cedb6e429',
     },
 
