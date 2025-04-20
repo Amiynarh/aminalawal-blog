@@ -1,5 +1,6 @@
 ---
 title: Serverless
 slug: serverless
-description: Serverless computing and function-as-a-service
+description: Serverless architectures and platforms
+lastUpdated: "2025-04-20"
 ---

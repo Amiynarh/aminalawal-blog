@@ -1,5 +1,6 @@
 ---
 title: Monitoring & Logging
 slug: monitoring-logging
-description: Observability, metrics, and log management
+description: System observability and logging tools
+lastUpdated: "2025-04-20"
 ---

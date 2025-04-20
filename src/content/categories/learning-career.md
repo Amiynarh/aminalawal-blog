@@ -1,5 +1,6 @@
 ---
 title: Learning & Career
 slug: learning-career
-description: DevOps career growth and learning resources
+description: Career development and learning resources
+lastUpdated: "2025-04-20"
 ---

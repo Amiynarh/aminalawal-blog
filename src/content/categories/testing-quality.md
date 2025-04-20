@@ -1,5 +1,6 @@
 ---
-title: Testing & Quality Assurance
+title: Testing & Quality
 slug: testing-quality
-description: Articles about test automation and software quality practices
+description: Testing methodologies and quality assurance
+lastUpdated: "2025-04-20"
 ---

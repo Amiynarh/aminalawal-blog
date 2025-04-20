@@ -34,6 +34,7 @@ const categoryCollection = defineCollection({
     schema: () => z.object({
         title: z.string(),
         description: z.string(),
+        lastUpdated: z.coerce.date().optional().default(new Date()),
     }),
 })
 

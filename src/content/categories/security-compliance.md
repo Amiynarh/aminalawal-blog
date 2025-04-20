@@ -1,5 +1,6 @@
 ---
 title: Security & Compliance
 slug: security-compliance
-description: DevSecOps and cloud security best practices
+description: Security best practices and compliance standards
+lastUpdated: "2025-04-20"
 ---

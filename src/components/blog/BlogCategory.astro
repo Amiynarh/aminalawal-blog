@@ -1,13 +1,13 @@
 ---
 
-const { slug, title, description, count, publishDate } = Astro.props
+const { slug, title, description, count, lastUpdated } = Astro.props
 
 interface Props {
     slug: string
     title: string
     description: string
     count: number
-    publishDate: string
+    lastUpdated: string
 }
 ---
 
@@ -60,7 +60,7 @@ interface Props {
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="12 6 12 12 16 14" />
             </svg>
-            update {publishDate}
+            updated {lastUpdated}
         </span>
     </div>
 </a>
