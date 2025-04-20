@@ -41,9 +41,11 @@ try {
 }
 
 
-const category: CollectionEntry<'categories'> = (await getCollection('categories')).filter(
-    c => c.slug === post.data.category,
-).pop() as CollectionEntry<'categories'>
+const categories = await getCollection('categories')
+const category = categories.find(c => c.slug === post.data.category)
+if (!category) {
+    throw new Error(`Category not found for post: ${post.slug}`)
+}
 
 const tags = post.data.tags ?? [category.slug]
 const URL = Astro.url.href
