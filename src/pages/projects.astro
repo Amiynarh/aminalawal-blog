@@ -4,21 +4,89 @@ import ProjectCard from '@components/projects/ProjectCard.astro'
 import { getCollection } from 'astro:content'
 
 const projects = await getCollection('projects')
+
+const skillGroups = [
+    {
+        label: "Languages",
+        skills: ["Bash", "Python"],
+    },
+    {
+        label: "Cloud",
+        skills: ["Google Cloud (GCP)", "AWS"],
+    },
+    {
+        label: "Frameworks",
+        skills: ["FastAPI", "Django", "Next.js"],
+    },
+    {
+        label: "Infrastructure",
+        skills: ["Kubernetes", "Docker", "Terraform", "Helm", "GitOps"],
+    },
+    {
+        label: "Observability",
+        skills: ["Grafana", "Prometheus", "ELK Stack"],
+    },
+    {
+        label: "Certifications",
+        skills: ["GCP Professional Cloud Architect"],
+    },
+]
 ---
 
-<BaseLayout 
-    title="Projects" 
-    description="A showcase of my technical projects with details about technologies used, challenges faced, and solutions implemented">
-    <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">My Projects</h1>
-        <p class="mb-8 text-pretty text-neutral-600 dark:text-neutral-400">
-            A showcase of my technical projects with details about technologies used, challenges faced, and solutions implemented
-        </p>
-        
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
-                <ProjectCard project={project} />
-            ))}
+<BaseLayout
+    title="Projects | Amina Lawal"
+    description="Technical projects and infrastructure work by Amina Lawal, covering AI infrastructure, cloud architecture, and platform engineering.">
+    <section class="mx-auto max-w-[85rem] px-4 py-14 sm:px-6 lg:px-8 2xl:max-w-full">
+        <div class="mx-auto max-w-5xl">
+
+            <!-- Header -->
+            <div class="mb-12">
+                <p class="text-sm font-semibold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
+                    Projects
+                </p>
+                <h1 class="text-4xl font-bold tracking-tight text-neutral-800 dark:text-neutral-200 sm:text-5xl mb-4">
+                    Things I've built
+                </h1>
+                <p class="text-pretty text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
+                    A selection of technical projects spanning AI infrastructure, cloud architecture, and platform engineering. Details on technologies, challenges, and outcomes.
+                </p>
+            </div>
+
+            <!-- Project grid -->
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-20">
+                {projects.map((project) => (
+                    <ProjectCard project={project} />
+                ))}
+            </div>
+
+            <!-- Skills & Technologies -->
+            <div>
+                <div class="mb-8">
+                    <p class="text-sm font-semibold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-2">
+                        Skills
+                    </p>
+                    <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
+                        Technologies & tools
+                    </h2>
+                </div>
+                <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    {skillGroups.map((group) => (
+                        <div class="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800/60 p-5">
+                            <h3 class="text-xs font-bold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
+                                {group.label}
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                {group.skills.map((skill) => (
+                                    <span class="inline-block rounded-md bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 text-sm font-medium px-3 py-1">
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
         </div>
-    </div>
+    </section>
 </BaseLayout>
