@@ -1,0 +1,233 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro'
+
+const talks = [
+    {
+        title: "Beyond the Region: Scaling Intelligent Features with Cloud Run and Gemini's Global Network",
+        event: "DevFest Abuja 2025",
+        date: "December 2025",
+        location: "Abuja, Nigeria",
+        type: "talk",
+        url: "https://www.devfestabuja.com/agenda",
+        recording: "",
+        description: "A deep dive into architecting globally distributed AI services:deploying across multiple Cloud Run regions and stitching them together with a global load balancer so AI experiences stay fast regardless of where users are in the world.",
+    },
+    {
+        title: "Beyond the Region: Scaling Intelligent Features with Cloud Run and Gemini's Global Network",
+        event: "DevFest Kano 2025",
+        date: "December 2025",
+        location: "Kano, Nigeria",
+        type: "talk",
+        url: "",
+        recording: "",
+        description: "The same talk at DevFest Kano:building globally distributed AI services with Cloud Run and Gemini's global network.",
+    },
+    {
+        title: "Scaling Modern Applications with Infrastructure as Code and CI/CD on Google Cloud",
+        event: "GDG Ilorin",
+        date: "2025",
+        location: "Ilorin, Nigeria",
+        type: "talk",
+        url: "https://gdg.community.dev/gdg-ilorin/",
+        recording: "https://www.youtube.com/watch?v=yux4QBvjKJI",
+        description: "A practical walkthrough of managing Google Cloud infrastructure with Terraform, deploying with CI/CD pipelines, and scaling applications reliably:presented to the GDG Ilorin developer community.",
+    },
+    {
+        title: "Contribute to Hacktoberfest with Layer 5",
+        event: "Hacktoberfest × Layer 5",
+        date: "October 2025",
+        location: "Online",
+        type: "workshop",
+        url: "",
+        recording: "",
+        description: "Hosted and moderated this session alongside Ijeoma Eti, a Backend Engineer at Layer 5, guiding community members through their first contributions to a production CNCF-graduated open-source codebase.",
+    },
+    {
+        title: "Building a Strong Foundation: Choosing the Right Tech Stack",
+        event: "FMCIDE / NITDA:3 Million Tech Talents (3MTT), Episode 5",
+        date: "2024",
+        location: "Online",
+        type: "talk",
+        url: "https://www.youtube.com/watch?v=KpYNOyahMhI&list=PLydIEN1yMMVLpThlOmlV3uIpVRhzU84Aa&index=7",
+        recording: "https://www.youtube.com/watch?v=KpYNOyahMhI&list=PLydIEN1yMMVLpThlOmlV3uIpVRhzU84Aa&index=7",
+        description: "Named speaker on the 3 Million Tech Talents programme's My Career in Tech webinar series:Nigeria's largest government-backed technology skills initiative, launched by the Federal Ministry of Communications, Innovation and Digital Economy. Selection as a named speaker constituted an explicit endorsement of my standing in Nigeria's technology ecosystem, made independently of any employer affiliation.",
+    },
+    {
+        title: "Technical Judge",
+        event: "NASA Space Apps Challenge:Kano Local Hackathon",
+        date: "2023",
+        location: "Kano, Nigeria",
+        type: "judge",
+        url: "https://en.wikipedia.org/wiki/NASA_International_Space_Apps_Challenge",
+        recording: "",
+        description: "Served as a technical judge for the NASA Space Apps Challenge local hackathon in Kano:one of the world's largest hackathons, organised annually by NASA and run across hundreds of cities worldwide.",
+    },
+    {
+        title: "Policy Dialogue on the Nigeria Data Protection Act",
+        event: "GIZ / Digital Transformation Center Nigeria",
+        date: "February 2024",
+        location: "Abuja, Nigeria",
+        type: "panel",
+        url: "",
+        recording: "",
+        description: "Invited panellist at a dialogue convened by GIZ/DTC in collaboration with NDPC and NITDA. Argued that organisations must build data protection compliance into infrastructure:access controls, data residency, encryption, audit trails:not treat the NDPA as a documentation exercise. Session contributed to GIZ/DTC Policy Brief PB/004, published July 2024 on behalf of the German Federal Government and European Union.",
+    },
+    {
+        title: "Policy Dialogue on the Nigerian Startup Act",
+        event: "GIZ / Digital Transformation Center Nigeria",
+        date: "July 2023",
+        location: "Abuja, Nigeria",
+        type: "panel",
+        url: "",
+        recording: "",
+        description: "Named panellist:alongside NITDA's Acting National Coordinator and Startup Act Implementation Committee members:at a €15M EU/German Federal Government initiative. As the only practising DevOps engineer on the panel, identified three implementation gaps: affordable cloud infrastructure outside Lagos, a university-startup talent pipeline, and enforceable cybersecurity provisions. Covered by Techpoint Africa.",
+    },
+    {
+        title: "Kano State Digital Access Programme",
+        event: "UK Foreign, Commonwealth & Development Office",
+        date: "December 2022",
+        location: "Kano, Nigeria",
+        type: "panel",
+        url: "",
+        recording: "",
+        description: "Participated alongside 65 delegates from government, higher institutions, civil society, and the technology sector. Led the infrastructure workstream: connectivity realities beyond Lagos, PPP policy implementability, and how the Skills for Inclusive Digital Participation programme can produce employment rather than certificate outputs.",
+    },
+]
+
+const typeBadge: Record<string, { label: string; classes: string }> = {
+    talk:     { label: "Talk",     classes: "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400" },
+    panel:    { label: "Panel",    classes: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400" },
+    workshop: { label: "Workshop", classes: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400" },
+    judge:    { label: "Judge",    classes: "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400" },
+    podcast:  { label: "Podcast",  classes: "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400" },
+}
+---
+
+<BaseLayout
+    title="Speaking & Appearances:Amina Lawal"
+    description="Amina Lawal's conference talks, policy panel appearances, workshop facilitation, and community speaking engagements."
+>
+    <section class="mx-auto max-w-[85rem] px-4 py-14 sm:px-6 lg:px-8 2xl:max-w-full">
+        <div class="mx-auto max-w-3xl">
+
+            <!-- Header -->
+            <div class="mb-12">
+                <p class="text-sm font-semibold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
+                    Speaking
+                </p>
+                <h1 class="text-4xl font-bold tracking-tight text-neutral-800 dark:text-neutral-200 sm:text-5xl mb-6">
+                    Talks & appearances
+                </h1>
+                <p class="text-pretty text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
+                    I speak at developer conferences, government policy dialogues, and community events on AI infrastructure, Platform Engineering, cloud architecture, and building inclusive tech ecosystems. My speaker profile is on Sessionize.
+                </p>
+                <div class="mt-5">
+                    <a
+                        href="https://sessionize.com/aminalawal/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 hover:text-orange-500 dark:hover:text-orange-400 transition"
+                    >
+                        <span class="inline-block size-2 rounded-full bg-orange-500"></span>
+                        View speaker profile on Sessionize →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="flex flex-wrap gap-2 mb-6">
+                {Object.entries(typeBadge).map(([, v]) => (
+                    <span class={`inline-block rounded-full text-xs font-semibold px-2.5 py-0.5 ${v.classes}`}>{v.label}</span>
+                ))}
+            </div>
+
+            <!-- Talks list -->
+            <div class="space-y-4 mb-16">
+                {talks.map((talk) => {
+                    const badge = typeBadge[talk.type] ?? typeBadge.talk
+                    return (
+                        <div class="group rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800/60 p-6 transition hover:border-orange-200 dark:hover:border-orange-900">
+                            <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
+                                <div class="flex-1">
+                                    <span class={`inline-block rounded-full text-xs font-semibold px-2.5 py-0.5 mb-2 ${badge.classes}`}>
+                                        {badge.label}
+                                    </span>
+                                    <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug">
+                                        {talk.url && talk.type !== 'talk'
+                                            ? <a href={talk.url} target="_blank" rel="noopener noreferrer">{talk.title}</a>
+                                            : talk.title
+                                        }
+                                    </h3>
+                                </div>
+                                <p class="text-sm text-neutral-500 dark:text-neutral-500 shrink-0">{talk.date}</p>
+                            </div>
+
+                            <p class="text-sm font-medium text-orange-500 dark:text-orange-400 mb-2">
+                                {talk.event} · {talk.location}
+                            </p>
+
+                            <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mb-3">{talk.description}</p>
+
+                            {(talk.url && talk.type === 'talk' || talk.recording) && (
+                                <div class="flex flex-wrap gap-3">
+                                    {talk.url && talk.type === 'talk' && (
+                                        <a
+                                            href={talk.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="inline-flex items-center gap-1 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-orange-500 dark:hover:text-orange-400 transition"
+                                        >
+                                            Event page →
+                                        </a>
+                                    )}
+                                    {talk.recording && (
+                                        <a
+                                            href={talk.recording}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-600 dark:text-red-400 hover:underline"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                                            Watch recording
+                                        </a>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    )
+                })}
+            </div>
+
+            <!-- Invite CTA -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-neutral-900 dark:to-neutral-900/50 border border-orange-100 dark:border-neutral-800 px-8 py-12 text-center">
+                <div class="absolute top-4 right-8 size-20 rounded-full bg-orange-200/40 dark:bg-orange-900/20 blur-2xl"></div>
+                <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-3">
+                    Invite me to speak
+                </h2>
+                <p class="text-neutral-600 dark:text-neutral-400 mb-6 max-w-md mx-auto text-pretty">
+                    I'm open to conference talks, panel discussions, workshops, podcast appearances, and community events:on AI infrastructure, Platform Engineering, cloud architecture, and representation in tech. Submit a speaking request via Sessionize, or reach out directly.
+                </p>
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <a
+                        href="https://sessionize.com/aminalawal/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-x-2 rounded-lg px-6 py-3 text-sm font-bold text-neutral-50 bg-orange-400 hover:bg-orange-500 transition duration-300"
+                    >
+                        View Sessionize profile
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </a>
+                    <a
+                        href="https://mail.google.com/mail/?view=cm&fs=1&to=amynalawal@gmail.com&subject=Speaking%20Invitation"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-x-2 rounded-lg px-6 py-3 text-sm font-bold border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:border-orange-400 dark:hover:border-orange-500 hover:text-orange-500 dark:hover:text-orange-400 transition duration-300"
+                    >
+                        Send an email
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</BaseLayout>
