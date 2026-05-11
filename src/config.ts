@@ -4,37 +4,46 @@ export const SITE: Site = {
     author: 'Amina Lawal',
     url: 'https://aminalawal.com',
     title: 'Amina Lawal',
-    description: 'Amina\'s personal blog, I enjoy the process of building something using any technology stack',
+    description: 'Cloud & Platform Engineer specialising in AI infrastructure. Founder of G3Women, speaker, and writer for FreeCodeCamp and Google Cloud.',
     shortDescription: '',
 }
 
 export const NavigationLinks: NavigationLink[] = [
-    { name: 'Posts', url: '/posts' },
-    { name: 'Categories', url: '/categories' },
-    { name: 'Timeline', url: '/timeline' },
+    { name: 'Writing', url: '/writing' },
     { name: 'Projects', url: '/projects' },
-    { name: 'Portfolio', url: 'https://portfolio.aminalawal.com' },
-    // { name: 'Friends', url: '/friends' },
+    { name: 'Community', url: '/community' },
+    { name: 'Speaking', url: '/speaking' },
+    { name: 'Now', url: '/now' },
 ]
 
 export const FooterLinks = [
     {
-        section: 'Blog',
+        section: 'Writing',
         links: [
-            { name: 'Posts', url: '/posts' },
-            { name: 'Timeline', url: '/timeline' },
-            { name: 'Categories', url: '/categories' },
-            { name: 'Projects', url: '/projects' },
-            { name: 'Portfolio', url: 'https://portfolio.aminalawal.com' },
+            { name: 'All Writing', url: '/writing' },
+            { name: 'FreeCodeCamp', url: 'https://www.freecodecamp.org/news/author/Bronze/' },
+            { name: 'Blog Archive', url: '/posts' },
+            { name: 'RSS', url: '/rss.xml' },
         ],
     },
     {
-        section: 'Other',
+        section: 'Work',
         links: [
-            { name: 'RSS', url: '/rss.xml' },
-            { name: 'Site Map', url: '/sitemap-index.xml' },
-            { name: 'Twitter', url: 'https://x.com/amiynarh' },
-            { name: 'LinkedIn', url: 'https://linkedin.com/in/aminalawalofficial' },
+            { name: 'Projects', url: '/projects' },
+            { name: 'Speaking', url: '/speaking' },
+            { name: 'Community', url: '/community' },
+        ],
+    },
+    {
+        section: 'Connect',
+        links: [
+            { name: 'Now', url: '/now' },
+            { name: 'LinkedIn', url: 'https://www.linkedin.com/in/aminalawalofficial/' },
+            { name: 'Twitter / X', url: 'https://x.com/amiynarh' },
+            { name: 'Instagram', url: 'https://www.instagram.com/miynaarh/' },
+            { name: 'GitHub', url: 'https://github.com/Amiynarh' },
+            { name: 'YouTube', url: 'https://youtube.com/@aminalawal3999' },
+            { name: 'Sessionize', url: 'https://sessionize.com/aminalawal/' },
         ],
     },
 ]
