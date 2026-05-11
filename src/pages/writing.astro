@@ -1,0 +1,160 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content'
+
+const blogPosts = (await getCollection('posts')).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+)
+
+// Add new external articles here as you publish them
+const externalArticles = [
+    {
+        title: "How to Build and Deploy Multi-Architecture Docker Apps on Google Cloud Using ARM Nodes (Without QEMU)",
+        publication: "FreeCodeCamp",
+        publicationColor: "green",
+        date: "April 13, 2026",
+        dateSort: new Date("2026-04-13"),
+        url: "https://www.freecodecamp.org/news/build-and-deploy-multi-architecture-docker-apps-on-google-cloud-using-arm-nodes/",
+        description: "A practical guide to building Docker images that run natively on both ARM and x86 processors using Google Cloud. Covers Docker Buildx, cross-platform compilation, and deploying to a GKE cluster with mixed CPU architectures for cost optimisation.",
+        tags: ["Docker", "Google Cloud", "Kubernetes", "ARM", "Multi-arch"],
+    },
+    {
+        title: "GCP Network Reliability: Going Beyond the Basics with Cloud Armor and Private Service Connect",
+        publication: "Google Cloud",
+        publicationColor: "blue",
+        date: "January 28, 2026",
+        dateSort: new Date("2026-01-28"),
+        url: "https://medium.com/google-cloud/gcp-network-reliability-going-beyond-the-basics-with-cloud-armor-and-private-service-connect-af2637d8aa72",
+        description: "Building a zero-trust network architecture on GCP:combining Cloud Armor for external DDoS and WAF protection with Private Service Connect for secure internal API connectivity, eliminating public IPs and legacy VPC peering.",
+        tags: ["GCP", "Networking", "Security", "Cloud Armor", "Private Service Connect"],
+    },
+    {
+        title: "How to Reduce Latency in Your Generative AI Apps with Gemini and Cloud Run",
+        publication: "FreeCodeCamp",
+        publicationColor: "green",
+        date: "December 10, 2025",
+        dateSort: new Date("2025-12-10"),
+        url: "https://www.freecodecamp.org/news/how-to-reduce-latency-in-your-generative-ai-apps-with-gemini-and-cloud-run/",
+        description: "Building a globally distributed AI service with Cloud Run and Gemini:deploying across three continents (USA, Europe, Asia) and stitching regions together with a global load balancer for geography-aware, low-latency AI responses.",
+        tags: ["Gemini", "Cloud Run", "AI", "Performance", "Google Cloud"],
+    },
+    {
+        title: "Cloud-Native Reliability: Building an Auto-Healing Web App on GCP with MIGs and a Global Load Balancer",
+        publication: "Google Cloud",
+        publicationColor: "blue",
+        date: "November 17, 2025",
+        dateSort: new Date("2025-11-17"),
+        url: "https://medium.com/google-cloud/cloud-native-reliability-101-building-an-auto-healing-web-app-on-gcp-with-migs-and-a-global-load-f71fa2c21d6c",
+        description: "Deploying a highly available, fault-tolerant web application on GCP using Managed Instance Groups and a Global External Application Load Balancer:with automatic failure recovery and traffic distribution across multiple zones.",
+        tags: ["GCP", "Reliability", "Load Balancing", "MIGs", "High Availability"],
+    },
+]
+
+const pubBadgeClasses: Record<string, string> = {
+    green: "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400",
+    blue: "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400",
+}
+---
+
+<BaseLayout
+    title="Writing:Amina Lawal"
+    description="Technical articles by Amina Lawal, published on FreeCodeCamp and Google Cloud's Medium publication."
+>
+    <section class="mx-auto max-w-[85rem] px-4 py-14 sm:px-6 lg:px-8 2xl:max-w-full">
+        <div class="mx-auto max-w-3xl">
+
+            <!-- Header -->
+            <div class="mb-12">
+                <p class="text-sm font-semibold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
+                    Writing
+                </p>
+                <h1 class="text-4xl font-bold tracking-tight text-neutral-800 dark:text-neutral-200 sm:text-5xl mb-6">
+                    Articles & tutorials
+                </h1>
+                <p class="text-pretty text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
+                    I write about cloud infrastructure, AI systems, and reliability engineering:published on FreeCodeCamp and Google Cloud's Medium publication. Practical, implementation-focused, and grounded in what actually works.
+                </p>
+                <div class="mt-5 flex flex-wrap gap-3">
+                    <a
+                        href="https://www.freecodecamp.org/news/author/Bronze/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 hover:text-orange-500 dark:hover:text-orange-400 transition"
+                    >
+                        <span class="inline-block size-2 rounded-full bg-green-500"></span>
+                        FreeCodeCamp author page →
+                    </a>
+                </div>
+            </div>
+
+            <!-- External articles -->
+            <div class="mb-16">
+                <h2 class="text-xl font-bold text-neutral-800 dark:text-neutral-200 mb-6">
+                    Published articles
+                </h2>
+                <div class="space-y-5">
+                    {externalArticles.map((article) => (
+                        <a
+                            href={article.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="group flex flex-col rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/30 p-6 transition hover:border-orange-200 dark:hover:border-orange-900 hover:shadow-md"
+                        >
+                            <div class="flex flex-wrap items-center gap-2 mb-3">
+                                <span class={`inline-block rounded-full text-xs font-semibold px-2.5 py-0.5 ${pubBadgeClasses[article.publicationColor]}`}>
+                                    {article.publication}
+                                </span>
+                                <span class="text-xs text-neutral-500 dark:text-neutral-500">{article.date}</span>
+                            </div>
+                            <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug mb-3">
+                                {article.title}
+                            </h3>
+                            <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed flex-grow mb-4">
+                                {article.description}
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                {article.tags.map(tag => (
+                                    <span class="inline-block rounded-md bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 text-xs px-2 py-0.5">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                            <span class="mt-4 text-sm font-semibold text-orange-500 dark:text-orange-400 group-hover:underline">
+                                Read article →
+                            </span>
+                        </a>
+                    ))}
+                </div>
+            </div>
+
+            <!-- Blog archive -->
+            {blogPosts.length > 0 && (
+                <div>
+                    <div class="mb-6">
+                        <h2 class="text-xl font-bold text-neutral-800 dark:text-neutral-200">Blog archive</h2>
+                        <p class="text-sm text-neutral-500 dark:text-neutral-500 mt-1">Earlier posts published directly on this site.</p>
+                    </div>
+                    <div class="space-y-3">
+                        {blogPosts.map(post => (
+                            <a
+                                href={`/posts/${post.id}/`}
+                                class="group flex items-start justify-between gap-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/30 px-5 py-4 transition hover:border-orange-200 dark:hover:border-orange-900"
+                            >
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition truncate">
+                                        {post.data.title}
+                                    </h3>
+                                    <p class="text-xs text-neutral-500 dark:text-neutral-500 mt-0.5">{post.data.category}</p>
+                                </div>
+                                <time class="text-xs text-neutral-500 dark:text-neutral-500 shrink-0 mt-0.5">
+                                    {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                                </time>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+        </div>
+    </section>
+</BaseLayout>
