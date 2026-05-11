@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import BaseLayout from '@layouts/BaseLayout.astro'
-import BlogInsight from '@components/blog/BlogInsight.astro'
 import ProjectCard from '@components/projects/ProjectCard.astro'
 import HeroSection from '@components/ui/sections/HeroSection.astro'
 import FeaturesSection from '@components/ui/sections/FeaturesSection.astro'
@@ -11,42 +10,79 @@ import SimpleYoutubeBtn from '@components/ui/buttons/SimpleYoutubeBtn.astro'
 import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro'
 import blogHeroImg from '@images/test3.png'
 
-const posts: CollectionEntry<'posts'>[] = (await getCollection('posts')).sort(
-    (a: CollectionEntry<'posts'>, b: CollectionEntry<'posts'>) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-).slice(0, 3);
-
 const projects: CollectionEntry<'projects'>[] = (await getCollection('projects')).slice(0, 3);
 ---
 
-<BaseLayout title="Amina's Blog - Cloud & DevOps Engineer" description="Cloud & DevOps Engineer. I break things, automate fixes, and write about it. Here, I share lessons from building in the cloud, navigating DevOps, and pushing the boundaries of automation and AI.">
+<BaseLayout
+    title="Amina Lawal | Platform Engineer, Community Builder & Writer"
+    description="Cloud & Platform Engineer specialising in AI infrastructure. Founder of G3Women, speaker, and writer for FreeCodeCamp and Google Cloud."
+>
     <HeroSection
         title=`Hello, <span class="text-yellow-500 dark:text-yellow-400">I'm Amina.</span>`
-        subTitle="Cloud & DevOps Engineer. I break things, automate fixes, and write about it. Here, I share lessons from building in the cloud, navigating DevOps, and pushing the boundaries of automation and AI."
+        subTitle="Platform Engineer focused on AI infrastructure. I build distributed systems, found communities, shape policy, and write about the messy reality of all of it."
         src={blogHeroImg}
-        alt="Amina's blog"
+        alt="Amina Lawal"
+        primaryBtn="Read my writing"
+        primaryBtnURL="/writing"
+        secondaryBtn="Say hello on LinkedIn"
+        secondaryBtnURL="https://www.linkedin.com/in/aminalawalofficial/"
     />
 
     <FeaturesSection />
 
-
+    <!-- Latest writing (external) -->
     <section class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full">
         <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
             <h2 class="text-3xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl md:leading-tight">
-                Latest Post
+                Latest Writing
             </h2>
             <p class="mt-1 text-pretty text-neutral-600 dark:text-neutral-400">
-                I always have something to say. The challenge? Actually writing it down.
+                Published on FreeCodeCamp and Google Cloud's Medium publication.
             </p>
         </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {
-                posts.map(b => (
-                    <BlogInsight blog={b} />
-                ))
-            }
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 max-w-4xl mx-auto">
+            <!-- FreeCodeCamp article -->
+            <a
+                href="https://www.freecodecamp.org/news/build-and-deploy-multi-architecture-docker-apps-on-google-cloud-using-arm-nodes/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group flex flex-col rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800/60 p-6 transition hover:border-orange-200 dark:hover:border-orange-900 hover:shadow-md"
+            >
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="inline-block rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 text-xs font-semibold px-2.5 py-0.5">FreeCodeCamp</span>
+                    <span class="text-xs text-neutral-500 dark:text-neutral-500">April 2026</span>
+                </div>
+                <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug mb-2">
+                    How to Build and Deploy Multi-Architecture Docker Apps on Google Cloud Using ARM Nodes (Without QEMU)
+                </h3>
+                <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed flex-grow">
+                    Building Docker images that run on both ARM and x86 using Google Cloud, Docker Buildx, and a Kubernetes cluster with mixed CPU architectures.
+                </p>
+                <span class="mt-4 text-sm font-semibold text-orange-500 dark:text-orange-400 group-hover:underline">Read article →</span>
+            </a>
+
+            <!-- Medium article -->
+            <a
+                href="https://medium.com/google-cloud/gcp-network-reliability-going-beyond-the-basics-with-cloud-armor-and-private-service-connect-af2637d8aa72"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group flex flex-col rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800/60 p-6 transition hover:border-orange-200 dark:hover:border-orange-900 hover:shadow-md"
+            >
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="inline-block rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 text-xs font-semibold px-2.5 py-0.5">Google Cloud</span>
+                    <span class="text-xs text-neutral-500 dark:text-neutral-500">January 2026</span>
+                </div>
+                <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug mb-2">
+                    GCP Network Reliability: Going Beyond the Basics with Cloud Armor and Private Service Connect
+                </h3>
+                <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed flex-grow">
+                    Zero-trust network architecture on GCP: combining Cloud Armor for external protection and Private Service Connect for internal API connectivity.
+                </p>
+                <span class="mt-4 text-sm font-semibold text-orange-500 dark:text-orange-400 group-hover:underline">Read article →</span>
+            </a>
         </div>
         <div class="mt-8 flex justify-center">
-            <PrimaryCTA url="/posts" title="View All Posts" />
+            <PrimaryCTA url="/writing" title="All Writing" />
         </div>
     </section>
 
@@ -68,7 +104,57 @@ const projects: CollectionEntry<'projects'>[] = (await getCollection('projects')
             <PrimaryCTA url="/projects" title="View All Projects" />
         </div>
     </section>
-    
+
+    <!-- Community & Speaking section -->
+    <section class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full">
+        <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+            <div>
+                <p class="text-sm font-semibold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
+                    Community & Advocacy
+                </p>
+                <h2 class="text-3xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl leading-tight">
+                    Beyond the terminal
+                </h2>
+                <p class="mt-4 text-pretty text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                    Engineering is only part of the story. I founded G3Women to close structural gaps in digital tech for women in northern Nigeria. I speak at conferences, shape policy at government level, and run programmes that produce engineers, not just certificates.
+                </p>
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <PrimaryCTA url="/speaking" title="Talks & Events" />
+                    <a
+                        href="https://g3women.org"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-x-2 rounded-lg px-4 py-3 text-sm font-bold border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-orange-400 dark:hover:border-orange-500 hover:text-orange-500 dark:hover:text-orange-400 transition duration-300"
+                    >
+                        G3Women →
+                    </a>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="rounded-xl bg-orange-50 dark:bg-neutral-900/50 border border-orange-100 dark:border-neutral-800 p-5">
+                    <p class="text-2xl font-bold text-orange-500 dark:text-orange-400 mb-1">385+</p>
+                    <p class="font-semibold text-neutral-800 dark:text-neutral-200 text-sm">IWD Attendees</p>
+                    <p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Annual summit, Kano (grown from 45 virtual)</p>
+                </div>
+                <div class="rounded-xl bg-yellow-50 dark:bg-neutral-900/50 border border-yellow-100 dark:border-neutral-800 p-5">
+                    <p class="text-2xl font-bold text-yellow-500 dark:text-yellow-400 mb-1">250+</p>
+                    <p class="font-semibold text-neutral-800 dark:text-neutral-200 text-sm">WomenWhoAutomate</p>
+                    <p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Applications for G3Women's first cohort</p>
+                </div>
+                <div class="rounded-xl bg-neutral-100 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 p-5">
+                    <p class="text-2xl font-bold text-neutral-700 dark:text-neutral-300 mb-1">10</p>
+                    <p class="font-semibold text-neutral-800 dark:text-neutral-200 text-sm">HerSite IWD 2026</p>
+                    <p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Websites built for women-led businesses in a day</p>
+                </div>
+                <div class="rounded-xl bg-neutral-100 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 p-5">
+                    <p class="text-2xl font-bold text-neutral-700 dark:text-neutral-300 mb-1">1/57</p>
+                    <p class="font-semibold text-neutral-800 dark:text-neutral-200 text-sm">GDE Academy EMEA</p>
+                    <p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Selected from 1,452 applicants (2025)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <HeroSectionAlt
         title="Follow me on GitHub"
         subTitle="I build. I experiment. I sometimes even document it. Check out my GitHub to see what I'm up to."
@@ -81,25 +167,24 @@ const projects: CollectionEntry<'projects'>[] = (await getCollection('projects')
                 Subscribe to my YouTube
             </h2>
             <p class="mt-1 text-pretty text-neutral-600 dark:text-neutral-400">
-                Tutorials, tech talks, and behind-the-scenes of my DevOps journey.
+                Tutorials, tech talks, and behind-the-scenes of my DevOps and AI infrastructure journey.
             </p>
         </div>
-        
+
         <div class="mx-auto grid max-w-5xl gap-6 sm:grid-cols-1 md:grid-cols-2">
             <div class="aspect-video overflow-hidden rounded-xl shadow-lg">
-                <iframe 
+                <iframe
                     class="h-full w-full"
-                    src="https://www.youtube.com/embed/x-iHbFicvH4" 
-                    
-                    title="YouTube video player" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    src="https://www.youtube.com/embed/x-iHbFicvH4"
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen>
                 </iframe>
             </div>
             <div class="flex flex-col justify-center">
                 <h3 class="mb-2 text-xl font-bold text-neutral-800 dark:text-neutral-200">Latest Video</h3>
                 <p class="mb-4 text-pretty text-neutral-600 dark:text-neutral-400">
-                    Check out my latest content where I break down everything you need to know—from what containers are to running your first Docker container. 
+                    Check out my latest content where I break down everything you need to know: from what containers are to running your first Docker container.
                 </p>
                 <div class="inline-block">
                     <SimpleYoutubeBtn url="https://youtube.com/@aminalawal3999" title="Subscribe Now" />
