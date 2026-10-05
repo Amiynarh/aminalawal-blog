@@ -1,233 +1,128 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro'
+import PageHeader from '@components/PageHeader.astro'
+import { CONTACT, TALKS, TALK_TYPES } from '@/data/site'
+import type { TalkType } from '@/data/site'
 
-const talks = [
-    {
-        title: "Beyond the Region: Scaling Intelligent Features with Cloud Run and Gemini's Global Network",
-        event: "DevFest Abuja 2025",
-        date: "December 2025",
-        location: "Abuja, Nigeria",
-        type: "talk",
-        url: "https://www.devfestabuja.com/agenda",
-        recording: "",
-        description: "A deep dive into architecting globally distributed AI services:deploying across multiple Cloud Run regions and stitching them together with a global load balancer so AI experiences stay fast regardless of where users are in the world.",
-    },
-    {
-        title: "Beyond the Region: Scaling Intelligent Features with Cloud Run and Gemini's Global Network",
-        event: "DevFest Kano 2025",
-        date: "December 2025",
-        location: "Kano, Nigeria",
-        type: "talk",
-        url: "",
-        recording: "",
-        description: "The same talk at DevFest Kano:building globally distributed AI services with Cloud Run and Gemini's global network.",
-    },
-    {
-        title: "Scaling Modern Applications with Infrastructure as Code and CI/CD on Google Cloud",
-        event: "GDG Ilorin",
-        date: "2025",
-        location: "Ilorin, Nigeria",
-        type: "talk",
-        url: "https://gdg.community.dev/gdg-ilorin/",
-        recording: "https://www.youtube.com/watch?v=yux4QBvjKJI",
-        description: "A practical walkthrough of managing Google Cloud infrastructure with Terraform, deploying with CI/CD pipelines, and scaling applications reliably:presented to the GDG Ilorin developer community.",
-    },
-    {
-        title: "Contribute to Hacktoberfest with Layer 5",
-        event: "Hacktoberfest × Layer 5",
-        date: "October 2025",
-        location: "Online",
-        type: "workshop",
-        url: "",
-        recording: "",
-        description: "Hosted and moderated this session alongside Ijeoma Eti, a Backend Engineer at Layer 5, guiding community members through their first contributions to a production CNCF-graduated open-source codebase.",
-    },
-    {
-        title: "Building a Strong Foundation: Choosing the Right Tech Stack",
-        event: "FMCIDE / NITDA:3 Million Tech Talents (3MTT), Episode 5",
-        date: "2024",
-        location: "Online",
-        type: "talk",
-        url: "https://www.youtube.com/watch?v=KpYNOyahMhI&list=PLydIEN1yMMVLpThlOmlV3uIpVRhzU84Aa&index=7",
-        recording: "https://www.youtube.com/watch?v=KpYNOyahMhI&list=PLydIEN1yMMVLpThlOmlV3uIpVRhzU84Aa&index=7",
-        description: "Named speaker on the 3 Million Tech Talents programme's My Career in Tech webinar series:Nigeria's largest government-backed technology skills initiative, launched by the Federal Ministry of Communications, Innovation and Digital Economy. Selection as a named speaker constituted an explicit endorsement of my standing in Nigeria's technology ecosystem, made independently of any employer affiliation.",
-    },
-    {
-        title: "Technical Judge",
-        event: "NASA Space Apps Challenge:Kano Local Hackathon",
-        date: "2023",
-        location: "Kano, Nigeria",
-        type: "judge",
-        url: "https://en.wikipedia.org/wiki/NASA_International_Space_Apps_Challenge",
-        recording: "",
-        description: "Served as a technical judge for the NASA Space Apps Challenge local hackathon in Kano:one of the world's largest hackathons, organised annually by NASA and run across hundreds of cities worldwide.",
-    },
-    {
-        title: "Policy Dialogue on the Nigeria Data Protection Act",
-        event: "GIZ / Digital Transformation Center Nigeria",
-        date: "February 2024",
-        location: "Abuja, Nigeria",
-        type: "panel",
-        url: "",
-        recording: "",
-        description: "Invited panellist at a dialogue convened by GIZ/DTC in collaboration with NDPC and NITDA. Argued that organisations must build data protection compliance into infrastructure:access controls, data residency, encryption, audit trails:not treat the NDPA as a documentation exercise. Session contributed to GIZ/DTC Policy Brief PB/004, published July 2024 on behalf of the German Federal Government and European Union.",
-    },
-    {
-        title: "Policy Dialogue on the Nigerian Startup Act",
-        event: "GIZ / Digital Transformation Center Nigeria",
-        date: "July 2023",
-        location: "Abuja, Nigeria",
-        type: "panel",
-        url: "",
-        recording: "",
-        description: "Named panellist:alongside NITDA's Acting National Coordinator and Startup Act Implementation Committee members:at a €15M EU/German Federal Government initiative. As the only practising DevOps engineer on the panel, identified three implementation gaps: affordable cloud infrastructure outside Lagos, a university-startup talent pipeline, and enforceable cybersecurity provisions. Covered by Techpoint Africa.",
-    },
-    {
-        title: "Kano State Digital Access Programme",
-        event: "UK Foreign, Commonwealth & Development Office",
-        date: "December 2022",
-        location: "Kano, Nigeria",
-        type: "panel",
-        url: "",
-        recording: "",
-        description: "Participated alongside 65 delegates from government, higher institutions, civil society, and the technology sector. Led the infrastructure workstream: connectivity realities beyond Lagos, PPP policy implementability, and how the Skills for Inclusive Digital Participation programme can produce employment rather than certificate outputs.",
-    },
+const years = [...new Set(TALKS.map(t => t.year))].sort((a, b) => b - a)
+const types = Object.keys(TALK_TYPES) as TalkType[]
+
+const topics = [
+    { title: 'Platform engineering', body: 'Golden paths, internal developer platforms, and abstracting infrastructure without hiding it.' },
+    { title: 'Cloud architecture on GCP', body: 'Multi-region design, networking, reliability patterns and the trade-offs behind them.' },
+    { title: 'IaC & delivery', body: 'Terraform, CI/CD and GitOps that teams can actually maintain.' },
+    { title: 'Access & inclusion in tech', body: 'Building talent pipelines and communities outside the usual hubs.' },
+    { title: 'Tech policy', body: 'Data protection, startup policy and digital infrastructure, from an engineer\'s seat.' },
 ]
-
-const typeBadge: Record<string, { label: string; classes: string }> = {
-    talk:     { label: "Talk",     classes: "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400" },
-    panel:    { label: "Panel",    classes: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400" },
-    workshop: { label: "Workshop", classes: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400" },
-    judge:    { label: "Judge",    classes: "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400" },
-    podcast:  { label: "Podcast",  classes: "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400" },
-}
 ---
 
 <BaseLayout
-    title="Speaking & Appearances:Amina Lawal"
-    description="Amina Lawal's conference talks, policy panel appearances, workshop facilitation, and community speaking engagements."
+    title="Speaking"
+    description="Talks, workshops and policy panels by Amina Lawal on platform engineering, cloud architecture on Google Cloud, and inclusive tech ecosystems."
 >
-    <section class="mx-auto max-w-[85rem] px-4 py-14 sm:px-6 lg:px-8 2xl:max-w-full">
-        <div class="mx-auto max-w-3xl">
+    <PageHeader
+        path="/speaking"
+        title="Talks, workshops & panels."
+        lede="From DevFest stages to government policy dialogues, I speak about building infrastructure that holds up, and the ecosystems that let more people build it."
+    >
+        <a href={CONTACT.sessionize} target="_blank" rel="noopener noreferrer" class="btn-primary group">Sessionize profile <span class="transition group-hover:translate-x-0.5">↗</span></a>
+        <a href={`mailto:${CONTACT.email}?subject=Speaking invitation`} class="btn-ghost">Invite me to speak</a>
+    </PageHeader>
 
-            <!-- Header -->
-            <div class="mb-12">
-                <p class="text-sm font-semibold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
-                    Speaking
-                </p>
-                <h1 class="text-4xl font-bold tracking-tight text-neutral-800 dark:text-neutral-200 sm:text-5xl mb-6">
-                    Talks & appearances
-                </h1>
-                <p class="text-pretty text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
-                    I speak at developer conferences, government policy dialogues, and community events on AI infrastructure, Platform Engineering, cloud architecture, and building inclusive tech ecosystems. My speaker profile is on Sessionize.
-                </p>
-                <div class="mt-5">
-                    <a
-                        href="https://sessionize.com/aminalawal/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 hover:text-orange-500 dark:hover:text-orange-400 transition"
-                    >
-                        <span class="inline-block size-2 rounded-full bg-orange-500"></span>
-                        View speaker profile on Sessionize →
-                    </a>
-                </div>
-            </div>
-
-            <!-- Legend -->
-            <div class="flex flex-wrap gap-2 mb-6">
-                {Object.entries(typeBadge).map(([, v]) => (
-                    <span class={`inline-block rounded-full text-xs font-semibold px-2.5 py-0.5 ${v.classes}`}>{v.label}</span>
+    <!-- Topics -->
+    <section class="section pb-0 pt-14">
+        <div class="container-page">
+            <p class="eyebrow" data-reveal>$ cat topics.txt</p>
+            <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                {topics.map((t, i) => (
+                    <div class="card p-5" data-reveal style={`--reveal-delay: ${i * 50}ms`}>
+                        <h2 class="font-bold text-neutral-900 dark:text-neutral-100">{t.title}</h2>
+                        <p class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{t.body}</p>
+                    </div>
                 ))}
             </div>
+        </div>
+    </section>
 
-            <!-- Talks list -->
-            <div class="space-y-4 mb-16">
-                {talks.map((talk) => {
-                    const badge = typeBadge[talk.type] ?? typeBadge.talk
-                    return (
-                        <div class="group rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800/60 p-6 transition hover:border-orange-200 dark:hover:border-orange-900">
-                            <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
-                                <div class="flex-1">
-                                    <span class={`inline-block rounded-full text-xs font-semibold px-2.5 py-0.5 mb-2 ${badge.classes}`}>
-                                        {badge.label}
-                                    </span>
-                                    <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug">
-                                        {talk.url && talk.type !== 'talk'
-                                            ? <a href={talk.url} target="_blank" rel="noopener noreferrer">{talk.title}</a>
-                                            : talk.title
-                                        }
-                                    </h3>
-                                </div>
-                                <p class="text-sm text-neutral-500 dark:text-neutral-500 shrink-0">{talk.date}</p>
-                            </div>
-
-                            <p class="text-sm font-medium text-orange-500 dark:text-orange-400 mb-2">
-                                {talk.event} · {talk.location}
-                            </p>
-
-                            <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mb-3">{talk.description}</p>
-
-                            {(talk.url && talk.type === 'talk' || talk.recording) && (
-                                <div class="flex flex-wrap gap-3">
-                                    {talk.url && talk.type === 'talk' && (
-                                        <a
-                                            href={talk.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            class="inline-flex items-center gap-1 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-orange-500 dark:hover:text-orange-400 transition"
-                                        >
-                                            Event page →
-                                        </a>
-                                    )}
-                                    {talk.recording && (
-                                        <a
-                                            href={talk.recording}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-600 dark:text-red-400 hover:underline"
-                                        >
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-                                            Watch recording
-                                        </a>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                    )
-                })}
-            </div>
-
-            <!-- Invite CTA -->
-            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-neutral-900 dark:to-neutral-900/50 border border-orange-100 dark:border-neutral-800 px-8 py-12 text-center">
-                <div class="absolute top-4 right-8 size-20 rounded-full bg-orange-200/40 dark:bg-orange-900/20 blur-2xl"></div>
-                <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-3">
-                    Invite me to speak
-                </h2>
-                <p class="text-neutral-600 dark:text-neutral-400 mb-6 max-w-md mx-auto text-pretty">
-                    I'm open to conference talks, panel discussions, workshops, podcast appearances, and community events:on AI infrastructure, Platform Engineering, cloud architecture, and representation in tech. Submit a speaking request via Sessionize, or reach out directly.
-                </p>
-                <div class="flex flex-wrap gap-3 justify-center">
-                    <a
-                        href="https://sessionize.com/aminalawal/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-x-2 rounded-lg px-6 py-3 text-sm font-bold text-neutral-50 bg-orange-400 hover:bg-orange-500 transition duration-300"
-                    >
-                        View Sessionize profile
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                    </a>
-                    <a
-                        href="https://mail.google.com/mail/?view=cm&fs=1&to=amynalawal@gmail.com&subject=Speaking%20Invitation"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-x-2 rounded-lg px-6 py-3 text-sm font-bold border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:border-orange-400 dark:hover:border-orange-500 hover:text-orange-500 dark:hover:text-orange-400 transition duration-300"
-                    >
-                        Send an email
-                    </a>
+    <!-- Timeline -->
+    <section class="section">
+        <div class="container-page" data-talks>
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <h2 class="font-display text-3xl font-bold text-neutral-900 dark:text-neutral-100">Appearances</h2>
+                <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by format">
+                    <button type="button" class="chip-filter" data-filter="all" aria-pressed="true">All <span class="font-mono text-xs opacity-60">{TALKS.length}</span></button>
+                    {types.map(t => (
+                        <button type="button" class="chip-filter" data-filter={t} aria-pressed="false">
+                            {t === 'judge' ? 'Judging' : `${TALK_TYPES[t]}s`} <span class="font-mono text-xs opacity-60">{TALKS.filter(x => x.type === t).length}</span>
+                        </button>
+                    ))}
                 </div>
             </div>
 
+            <div class="mt-10 space-y-12">
+                {years.map(year => (
+                    <div class="grid gap-6 md:grid-cols-[6rem_1fr]" data-year>
+                        <p class="font-display text-4xl font-bold text-paper-300 dark:text-ink-700 md:sticky md:top-28 md:self-start">{year}</p>
+                        <ol class="relative space-y-4 border-l border-paper-300 pl-6 dark:border-ink-700">
+                            {TALKS.filter(t => t.year === year).map(t => (
+                                <li class="relative" data-talk data-type={t.type}>
+                                    <span class="absolute -left-[1.95rem] top-7 size-3 rounded-full border-2 border-paper-100 bg-sun-400 dark:border-ink-950"></span>
+                                    <article class="card p-6" data-reveal>
+                                        <div class="flex flex-wrap items-center gap-2 font-mono text-xs text-neutral-500">
+                                            <span class="chip">{TALK_TYPES[t.type]}</span>
+                                            <span>{t.date}</span>
+                                            <span aria-hidden="true">·</span>
+                                            <span>{t.location}</span>
+                                        </div>
+                                        <h3 class="mt-4 text-xl font-bold leading-snug text-neutral-900 dark:text-neutral-100">{t.title}</h3>
+                                        <p class="mt-1 text-sm font-medium text-orange-500 dark:text-orange-300">{t.event}</p>
+                                        <p class="mt-3 leading-relaxed text-neutral-600 dark:text-neutral-400">{t.description}</p>
+                                        {(t.url || t.recording) && (
+                                            <div class="mt-4 flex flex-wrap gap-5 text-sm">
+                                                {t.url && <a href={t.url} target="_blank" rel="noopener noreferrer" class="link-arrow">Event page ↗</a>}
+                                                {t.recording && <a href={t.recording} target="_blank" rel="noopener noreferrer" class="link-arrow">▶ Watch recording</a>}
+                                            </div>
+                                        )}
+                                    </article>
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <section class="section pt-0">
+        <div class="container-page">
+            <div class="card flex flex-col gap-6 p-8 sm:p-12 md:flex-row md:items-center md:justify-between" data-reveal>
+                <div>
+                    <h2 class="font-display text-3xl font-bold text-neutral-900 dark:text-neutral-100">Planning an event?</h2>
+                    <p class="mt-2 max-w-xl text-neutral-600 dark:text-neutral-400">I'm open to conference talks, workshops, panels, podcasts and community events.</p>
+                </div>
+                <div class="flex shrink-0 flex-wrap gap-3">
+                    <a href={`mailto:${CONTACT.email}?subject=Speaking invitation`} class="btn-primary">Send an invitation</a>
+                    <a href={CONTACT.sessionize} target="_blank" rel="noopener noreferrer" class="btn-ghost">Sessionize ↗</a>
+                </div>
+            </div>
         </div>
     </section>
 </BaseLayout>
+
+<script>
+    const root = document.querySelector<HTMLElement>('[data-talks]')!
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-filter]'))
+    buttons.forEach(btn => btn.addEventListener('click', () => {
+        const f = btn.dataset.filter
+        buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)))
+        root.querySelectorAll<HTMLElement>('[data-talk]').forEach((t) => {
+            t.hidden = f !== 'all' && t.dataset.type !== f
+        })
+        // Hide year groups that end up empty
+        root.querySelectorAll<HTMLElement>('[data-year]').forEach((y) => {
+            y.hidden = !y.querySelector('[data-talk]:not([hidden])')
+        })
+        // Make sure newly shown cards are visible even if they were never scrolled past
+        root.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('is-visible'))
+    }))
+</script>

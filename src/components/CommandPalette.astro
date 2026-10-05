@@ -1,0 +1,185 @@
+---
+import { NavigationLinks } from '@/config'
+import { ARTICLES, CONTACT, MENTORSHIP } from '@/data/site'
+
+type Item = { group: string, label: string, hint?: string, href?: string, action?: string, keywords?: string }
+
+const items: Item[] = [
+    { group: 'Pages', label: 'Home', hint: '/', href: '/' },
+    ...NavigationLinks.map(l => ({ group: 'Pages', label: l.name, hint: l.url, href: l.url })),
+    { group: 'Pages', label: 'Blog archive', hint: '/posts', href: '/posts' },
+    { group: 'Actions', label: 'Copy email address', hint: CONTACT.email, action: 'copy-email', keywords: 'contact mail' },
+    { group: 'Actions', label: 'Toggle dark mode', hint: 'theme', action: 'theme', keywords: 'light dark theme' },
+    { group: 'Actions', label: 'Join the mentorship waitlist', hint: 'learncloud', href: MENTORSHIP.waitlist, keywords: 'mentorship cohort apply' },
+    ...ARTICLES.map(a => ({ group: 'Writing', label: a.title, hint: a.publication, href: a.url, keywords: a.tags.join(' ') })),
+    { group: 'Elsewhere', label: 'G3Women', hint: 'g3women.org', href: CONTACT.g3women, keywords: 'ngo women' },
+    { group: 'Elsewhere', label: 'LinkedIn', hint: 'in/aminalawalofficial', href: CONTACT.linkedin },
+    { group: 'Elsewhere', label: 'GitHub', hint: '@Amiynarh', href: CONTACT.github },
+    { group: 'Elsewhere', label: 'X / Twitter', hint: '@amiynarh', href: CONTACT.x },
+    { group: 'Elsewhere', label: 'YouTube', hint: '@aminalawal3999', href: CONTACT.youtube },
+    { group: 'Elsewhere', label: 'Sessionize speaker profile', hint: 'sessionize', href: CONTACT.sessionize },
+]
+---
+
+<div id="palette" class="fixed inset-0 z-[90] hidden" role="dialog" aria-modal="true" aria-label="Search the site">
+    <div class="absolute inset-0 bg-ink-950/40 backdrop-blur-sm" data-palette-close></div>
+    <div class="relative mx-auto mt-[12vh] w-[calc(100%-2rem)] max-w-xl overflow-hidden rounded-2xl border border-paper-200 bg-paper-50 shadow-2xl dark:border-ink-700 dark:bg-ink-900">
+        <div class="flex items-center gap-3 border-b border-paper-200 px-4 dark:border-ink-700">
+            <span class="font-mono text-sm text-sun-500">$</span>
+            <input
+                id="palette-input"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Jump to a page, article or link…"
+                class="h-14 w-full bg-transparent text-[15px] text-neutral-900 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-neutral-400 dark:text-neutral-100"
+                role="combobox"
+                aria-expanded="true"
+                aria-controls="palette-list"
+                aria-autocomplete="list"
+            />
+            <kbd class="kbd">esc</kbd>
+        </div>
+        <ul id="palette-list" role="listbox" class="max-h-[50vh] overflow-y-auto p-2" data-lenis-prevent>
+            {items.map((item, i) => (
+                <li
+                    role="option"
+                    id={`palette-opt-${i}`}
+                    data-palette-item
+                    data-group={item.group}
+                    data-href={item.href}
+                    data-action={item.action}
+                    data-search={`${item.label} ${item.hint ?? ''} ${item.keywords ?? ''} ${item.group}`.toLowerCase()}
+                    class="flex cursor-pointer items-center justify-between gap-4 rounded-xl px-3 py-2.5 text-sm text-neutral-700 aria-selected:bg-sun-400 aria-selected:text-ink-950 dark:text-neutral-300"
+                >
+                    <span class="flex min-w-0 items-center gap-3">
+                        <span class="w-16 shrink-0 font-mono text-[10px] uppercase tracking-wider opacity-60">{item.group}</span>
+                        <span class="truncate">{item.label}</span>
+                    </span>
+                    {item.hint && <span class="hidden shrink-0 font-mono text-xs opacity-60 sm:inline">{item.hint}</span>}
+                </li>
+            ))}
+        </ul>
+        <p id="palette-empty" class="hidden px-4 pb-6 pt-2 font-mono text-sm text-neutral-500">command not found. Try “writing” or “mentorship”.</p>
+        <div class="flex items-center gap-4 border-t border-paper-200 px-4 py-2.5 font-mono text-[11px] text-neutral-500 dark:border-ink-700">
+            <span><kbd class="kbd">↑</kbd> <kbd class="kbd">↓</kbd> navigate</span>
+            <span><kbd class="kbd">↵</kbd> open</span>
+            <span class="ms-auto" id="palette-toast" aria-live="polite"></span>
+        </div>
+    </div>
+</div>
+
+<script define:vars={{ email: CONTACT.email }}>
+    const root = document.getElementById('palette')
+    const input = document.getElementById('palette-input')
+    const empty = document.getElementById('palette-empty')
+    const toast = document.getElementById('palette-toast')
+    const options = Array.from(root.querySelectorAll('[data-palette-item]'))
+    let visible = options
+    let active = 0
+    let lastFocus = null
+
+    function render() {
+        const q = input.value.trim().toLowerCase()
+        visible = options.filter((o) => {
+            const show = !q || q.split(/\s+/).every(w => o.dataset.search.includes(w))
+            o.hidden = !show
+            return show
+        })
+        active = Math.min(active, Math.max(visible.length - 1, 0))
+        empty.classList.toggle('hidden', visible.length > 0)
+        options.forEach(o => o.setAttribute('aria-selected', 'false'))
+        const current = visible[active]
+        if (current) {
+            current.setAttribute('aria-selected', 'true')
+            input.setAttribute('aria-activedescendant', current.id)
+            current.scrollIntoView({ block: 'nearest' })
+        }
+    }
+
+    function open() {
+        lastFocus = document.activeElement
+        root.classList.remove('hidden')
+        window.__lenis?.stop()
+        input.value = ''
+        active = 0
+        toast.textContent = ''
+        render()
+        input.focus()
+    }
+
+    function close() {
+        root.classList.add('hidden')
+        window.__lenis?.start()
+        lastFocus?.focus?.()
+    }
+
+    function run(option) {
+        if (!option)
+            return
+        const { href, action } = option.dataset
+        if (action === 'copy-email') {
+            navigator.clipboard?.writeText(email).then(() => {
+                toast.textContent = 'Copied ✓'
+            })
+            return
+        }
+        if (action === 'theme') {
+            close()
+            window.dispatchEvent(new CustomEvent('site:toggle-theme'))
+            return
+        }
+        if (href) {
+            if (/^https?:/.test(href))
+                window.open(href, '_blank', 'noopener')
+            else
+                window.location.href = href
+            close()
+        }
+    }
+
+    document.addEventListener('keydown', (e) => {
+        const typing = /INPUT|TEXTAREA/.test(document.activeElement?.tagName ?? '') || document.activeElement?.isContentEditable
+        if ((e.key === 'k' && (e.metaKey || e.ctrlKey)) || (e.key === '/' && !typing)) {
+            e.preventDefault()
+            root.classList.contains('hidden') ? open() : close()
+            return
+        }
+        if (root.classList.contains('hidden'))
+            return
+        if (e.key === 'Escape') {
+            e.preventDefault()
+            close()
+        }
+        else if (e.key === 'ArrowDown') {
+            e.preventDefault()
+            active = (active + 1) % Math.max(visible.length, 1)
+            render()
+        }
+        else if (e.key === 'ArrowUp') {
+            e.preventDefault()
+            active = (active - 1 + visible.length) % Math.max(visible.length, 1)
+            render()
+        }
+        else if (e.key === 'Enter') {
+            e.preventDefault()
+            run(visible[active])
+        }
+    })
+
+    input.addEventListener('input', () => {
+        active = 0
+        render()
+    })
+    options.forEach(o => o.addEventListener('click', () => run(o)))
+    options.forEach(o => o.addEventListener('mousemove', () => {
+        const i = visible.indexOf(o)
+        if (i !== active) {
+            active = i
+            render()
+        }
+    }))
+    root.querySelectorAll('[data-palette-close]').forEach(el => el.addEventListener('click', close))
+    document.querySelectorAll('[data-palette-open]').forEach(el => el.addEventListener('click', open))
+    window.addEventListener('site:open-palette', open)
+</script>

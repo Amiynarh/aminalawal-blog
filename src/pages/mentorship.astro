@@ -1,0 +1,234 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro'
+import PageHeader from '@components/PageHeader.astro'
+import { CONTACT, MENTORSHIP } from '@/data/site'
+
+const months = MENTORSHIP.months.map(m => ({ ...m, modules: MENTORSHIP.modules.filter(mod => mod.month === m.n) }))
+
+const rhythm = [
+    { k: 'Week one: learn & build', v: 'A live, recorded session on the concepts and trade-offs, then you start the hands-on lab on your own Google Cloud account.' },
+    { k: 'Week two: break & fix', v: 'A second session for questions, debugging and reviews. You break the thing on purpose, recover it, and finish the lab.' },
+    { k: 'Deliverable', v: 'Each module ends with a postmortem, diagram or runbook, reviewed before you move on.' },
+]
+
+const faqs = [
+    { q: 'Why 4 months?', a: 'Cohort 1 ran the curriculum in 8 weeks, and one week per topic was too fast for people working or studying alongside it. Each module now gets two weeks, so there is time to finish the lab, get stuck, get unstuck and actually understand it.' },
+    { q: 'Do I need prior experience?', a: 'No. The programme is designed for beginners. What matters most is commitment: you will need time each week for the lab and the deliverable.' },
+    { q: 'Where does the money go?', a: 'Proceeds from the mentorship go to G3Women Network for Growth, the NGO I founded to close the gap for women in digital tech across northern Nigeria. Your learning funds someone else\'s.' },
+    { q: 'What do I need to start?', a: 'A laptop, a reliable internet connection, a Gmail account to set up Google Cloud, and Git installed. New GCP accounts come with free credits that comfortably cover the labs.' },
+    { q: 'What timezone are sessions in?', a: 'West Africa Time (UTC+1). Exact times are agreed once the cohort is formed. Every session is recorded.' },
+    { q: 'Do I get a certificate?', a: 'No, and that is deliberate. You leave with a GitHub portfolio of real infrastructure, written postmortems and runbooks, and skills you can defend in an interview.' },
+    { q: 'How big is a cohort?', a: 'Small, so that every lab gets reviewed. Applications are read individually.' },
+]
+---
+
+<BaseLayout
+    title="Mentorship"
+    description="Learn Cloud with Amina: a 4-month, hands-on mentorship in Cloud, DevOps and Platform Engineering on Google Cloud. Proceeds fund G3Women."
+>
+    <PageHeader
+        path="/mentorship"
+        title={`Learn Cloud with Amina. <span class="mark">Fund the next engineer.</span>`}
+        lede="A 4-month mentorship in Cloud, DevOps and Platform Engineering. You won't follow tutorials. You'll think like an engineer, break things on purpose, and build infrastructure that actually runs. Proceeds go to G3Women."
+    >
+        <a href={MENTORSHIP.waitlist} target="_blank" rel="noopener noreferrer" class="btn-primary group">
+            Join the Cohort 2 waitlist <span class="transition group-hover:translate-x-0.5">→</span>
+        </a>
+        <a href={MENTORSHIP.url} target="_blank" rel="noopener noreferrer" class="btn-ghost">Full programme site ↗</a>
+    </PageHeader>
+
+    <!-- Quick facts -->
+    <section class="border-b border-paper-200 dark:border-ink-800">
+        <dl class="container-page grid grid-cols-2 divide-paper-200 dark:divide-ink-800 md:grid-cols-4 md:divide-x">
+            {[
+                ['4 months', '8 modules × 2 weeks'],
+                ['Live', 'sessions & code reviews'],
+                ['100%', 'hands-on, real cloud'],
+                ['G3Women', 'receives the proceeds'],
+            ].map(([v, l]) => (
+                <div class="px-2 py-8 md:px-6" data-reveal>
+                    <dt class="font-mono text-xs uppercase tracking-wider text-neutral-500">{l}</dt>
+                    <dd class="mt-1 font-display text-3xl font-bold text-neutral-900 dark:text-neutral-100">{v}</dd>
+                </div>
+            ))}
+        </dl>
+    </section>
+
+    <!-- Why it exists -->
+    <section class="section">
+        <div class="container-page grid gap-10 lg:grid-cols-2 lg:gap-16">
+            <div data-reveal>
+                <p class="eyebrow">$ cat why.md</p>
+                <h2 class="h-section">A mentorship, not a course.</h2>
+            </div>
+            <div class="space-y-5 text-lg leading-relaxed text-neutral-600 dark:text-neutral-400" data-reveal style="--reveal-delay: 80ms">
+                <p>Most people learning cloud get stuck in tutorial loops: copy a command, watch it work, understand nothing. Then the first real outage arrives and none of it helps.</p>
+                <p>I'm in the sessions, in the code reviews and in the postmortems. You learn the <em class="not-italic text-neutral-900 dark:text-neutral-100">why</em> before the syntax, at a pace that leaves room to struggle properly, and you leave with a portfolio that proves you can operate real systems.</p>
+                <p class="rounded-2xl border-l-4 border-sun-400 bg-sun-100/70 p-5 text-base text-neutral-800 dark:bg-sun-400/10 dark:text-neutral-200">
+                    <strong>Where your fee goes:</strong> proceeds fund <a href={CONTACT.g3women} target="_blank" rel="noopener noreferrer" class="font-semibold underline decoration-sun-400 decoration-2 underline-offset-4">G3Women</a>'s programmes for women in digital tech across northern Nigeria.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Principles -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <p class="eyebrow" data-reveal>$ cat principles.yaml</p>
+            <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {MENTORSHIP.principles.map((p, i) => (
+                    <div class="card card-hover p-6" data-reveal style={`--reveal-delay: ${i * 70}ms`}>
+                        <span class="font-mono text-xs text-sun-600 dark:text-sun-300">0{i + 1}</span>
+                        <h3 class="mt-4 text-xl font-bold text-neutral-900 dark:text-neutral-100">{p.title}</h3>
+                        <p class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{p.body}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <!-- Curriculum, interactive -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <div data-reveal>
+                <p class="eyebrow">$ ./pipeline --stages</p>
+                <h2 class="h-section">Four months, eight modules, two weeks each.</h2>
+                <p class="lede">By the end you'll have a running Kubernetes workload, an IaC repo, a CI/CD pipeline, and dashboards proving it all works. Pick a module to see what's in it.</p>
+            </div>
+
+            <div class="mt-10 grid gap-6 lg:grid-cols-[1.1fr_1fr]" data-curriculum>
+                <div class="grid gap-6 sm:grid-cols-2">
+                    {months.map(m => (
+                        <div>
+                            <p class="font-mono text-xs uppercase tracking-wider text-neutral-500">Month {m.n} · {m.name}</p>
+                            <ol class="mt-3 grid gap-2" role="tablist" aria-label={`Month ${m.n} modules`}>
+                                {m.modules.map(mod => (
+                                    <li>
+                                        <button
+                                            type="button"
+                                            role="tab"
+                                            data-module={mod.n}
+                                            aria-selected={mod.n === '01' ? 'true' : 'false'}
+                                            aria-controls="module-panel"
+                                            class="group flex w-full flex-col items-start rounded-2xl border border-paper-200 bg-paper-50 px-5 py-4 text-left transition hover:border-sun-400 aria-selected:border-sun-400 aria-selected:bg-sun-400 aria-selected:text-ink-950 dark:border-ink-700 dark:bg-ink-900 dark:aria-selected:bg-sun-400"
+                                        >
+                                            <span class="font-mono text-[11px] opacity-60">Module {mod.n} · weeks {mod.weeks}</span>
+                                            <span class="mt-0.5 font-semibold leading-snug">{mod.title}</span>
+                                        </button>
+                                    </li>
+                                ))}
+                            </ol>
+                        </div>
+                    ))}
+                </div>
+
+                <div class="lg:sticky lg:top-28 lg:self-start">
+                    <div id="module-panel" role="tabpanel" class="terminal p-6 sm:p-8" aria-live="polite">
+                        {MENTORSHIP.modules.map(mod => (
+                            <div data-module-panel={mod.n} hidden={mod.n !== '01'}>
+                                <p class="text-xs text-neutral-500">$ cat module-{mod.n}.md</p>
+                                <p class="mt-6 text-xs uppercase tracking-wider text-sun-300">Module {mod.n} · Weeks {mod.weeks} · Month {mod.month}</p>
+                                <h3 class="mt-2 font-display text-3xl font-bold text-white">{mod.title}</h3>
+                                <p class="mt-4 font-sans text-base leading-relaxed text-neutral-400">{mod.summary}</p>
+                                <div class="mt-6 flex flex-wrap gap-2">
+                                    {mod.tags.map(t => <span class="rounded-md border border-ink-600 px-2 py-1 text-xs text-neutral-300">#{t}</span>)}
+                                </div>
+                                <!-- Two-week progress bar for the module -->
+                                <div class="mt-8 grid grid-cols-2 gap-1.5" aria-hidden="true">
+                                    <span class="h-1.5 rounded-full bg-sun-400"></span>
+                                    <span class="h-1.5 rounded-full bg-sun-400/40"></span>
+                                </div>
+                                <p class="mt-2 flex justify-between text-[11px] text-neutral-500" aria-hidden="true"><span>learn & build</span><span>break & fix</span></p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module rhythm -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <p class="eyebrow" data-reveal>$ crontab -l</p>
+            <h2 class="h-section" data-reveal>What a module looks like</h2>
+            <ol class="mt-10 grid gap-4 md:grid-cols-3">
+                {rhythm.map((s, i) => (
+                    <li class="card relative p-6" data-reveal style={`--reveal-delay: ${i * 70}ms`}>
+                        <span class="flex size-9 items-center justify-center rounded-full bg-sun-400 font-mono text-sm font-bold text-ink-950">{i + 1}</span>
+                        <h3 class="mt-5 text-lg font-bold text-neutral-900 dark:text-neutral-100">{s.k}</h3>
+                        <p class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{s.v}</p>
+                    </li>
+                ))}
+            </ol>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section pt-0">
+        <div class="container-page grid gap-10 lg:grid-cols-[1fr_1.6fr]">
+            <div data-reveal>
+                <p class="eyebrow">$ man mentorship</p>
+                <h2 class="h-section">Questions</h2>
+                <p class="mt-4 text-neutral-600 dark:text-neutral-400">Something else? <a class="link-arrow" href={`mailto:${CONTACT.email}?subject=Mentorship question`}>Email me →</a></p>
+            </div>
+            <div class="divide-y divide-paper-200 border-y border-paper-200 dark:divide-ink-800 dark:border-ink-800" data-reveal>
+                {faqs.map((f, i) => (
+                    <details class="group py-5" open={i === 0}>
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100 [&::-webkit-details-marker]:hidden">
+                            {f.q}
+                            <span class="flex size-7 shrink-0 items-center justify-center rounded-full border border-paper-300 font-mono text-sm transition group-open:rotate-45 group-open:border-sun-400 group-open:bg-sun-400 group-open:text-ink-950 dark:border-ink-600">+</span>
+                        </summary>
+                        <p class="mt-3 max-w-2xl leading-relaxed text-neutral-600 dark:text-neutral-400">{f.a}</p>
+                    </details>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <div class="relative overflow-hidden rounded-[2rem] bg-sun-300 p-8 text-ink-950 dark:bg-sun-400 sm:p-14" data-reveal>
+                <div class="bg-grid pointer-events-none absolute inset-0 opacity-50"></div>
+                <div class="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <h2 class="font-display text-3xl font-bold sm:text-4xl">Cohort 2 is forming.</h2>
+                        <p class="mt-2 max-w-lg text-ink-800">Join the waitlist and you'll be the first to know when applications open.</p>
+                    </div>
+                    <a href={MENTORSHIP.waitlist} target="_blank" rel="noopener noreferrer" class="btn shrink-0 bg-ink-950 text-paper-50 hover:bg-ink-800">Join the waitlist →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</BaseLayout>
+
+<script>
+    const root = document.querySelector('[data-curriculum]')
+    const tabs = Array.from(root?.querySelectorAll<HTMLButtonElement>('[data-module]') ?? [])
+    const panels = Array.from(root?.querySelectorAll<HTMLElement>('[data-module-panel]') ?? [])
+
+    function select(mod: string) {
+        tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.module === mod)))
+        panels.forEach((p) => {
+            p.hidden = p.dataset.modulePanel !== mod
+        })
+    }
+
+    tabs.forEach((tab, i) => {
+        tab.addEventListener('click', () => select(tab.dataset.module!))
+        tab.addEventListener('mouseenter', () => {
+            if (window.matchMedia('(hover: hover)').matches)
+                select(tab.dataset.module!)
+        })
+        tab.addEventListener('keydown', (e) => {
+            const delta = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0
+            if (!delta)
+                return
+            e.preventDefault()
+            const next = tabs[(i + delta + tabs.length) % tabs.length]
+            next.focus()
+            select(next.dataset.module!)
+        })
+    })
+</script>

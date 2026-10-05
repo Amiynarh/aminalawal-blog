@@ -1,160 +1,145 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro'
 import { getCollection } from 'astro:content'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import PageHeader from '@components/PageHeader.astro'
+import { ARTICLES, CONTACT } from '@/data/site'
 
 const blogPosts = (await getCollection('posts')).sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 )
 
-// Add new external articles here as you publish them
-const externalArticles = [
-    {
-        title: "How to Build and Deploy Multi-Architecture Docker Apps on Google Cloud Using ARM Nodes (Without QEMU)",
-        publication: "FreeCodeCamp",
-        publicationColor: "green",
-        date: "April 13, 2026",
-        dateSort: new Date("2026-04-13"),
-        url: "https://www.freecodecamp.org/news/build-and-deploy-multi-architecture-docker-apps-on-google-cloud-using-arm-nodes/",
-        description: "A practical guide to building Docker images that run natively on both ARM and x86 processors using Google Cloud. Covers Docker Buildx, cross-platform compilation, and deploying to a GKE cluster with mixed CPU architectures for cost optimisation.",
-        tags: ["Docker", "Google Cloud", "Kubernetes", "ARM", "Multi-arch"],
-    },
-    {
-        title: "GCP Network Reliability: Going Beyond the Basics with Cloud Armor and Private Service Connect",
-        publication: "Google Cloud",
-        publicationColor: "blue",
-        date: "January 28, 2026",
-        dateSort: new Date("2026-01-28"),
-        url: "https://medium.com/google-cloud/gcp-network-reliability-going-beyond-the-basics-with-cloud-armor-and-private-service-connect-af2637d8aa72",
-        description: "Building a zero-trust network architecture on GCP:combining Cloud Armor for external DDoS and WAF protection with Private Service Connect for secure internal API connectivity, eliminating public IPs and legacy VPC peering.",
-        tags: ["GCP", "Networking", "Security", "Cloud Armor", "Private Service Connect"],
-    },
-    {
-        title: "How to Reduce Latency in Your Generative AI Apps with Gemini and Cloud Run",
-        publication: "FreeCodeCamp",
-        publicationColor: "green",
-        date: "December 10, 2025",
-        dateSort: new Date("2025-12-10"),
-        url: "https://www.freecodecamp.org/news/how-to-reduce-latency-in-your-generative-ai-apps-with-gemini-and-cloud-run/",
-        description: "Building a globally distributed AI service with Cloud Run and Gemini:deploying across three continents (USA, Europe, Asia) and stitching regions together with a global load balancer for geography-aware, low-latency AI responses.",
-        tags: ["Gemini", "Cloud Run", "AI", "Performance", "Google Cloud"],
-    },
-    {
-        title: "Cloud-Native Reliability: Building an Auto-Healing Web App on GCP with MIGs and a Global Load Balancer",
-        publication: "Google Cloud",
-        publicationColor: "blue",
-        date: "November 17, 2025",
-        dateSort: new Date("2025-11-17"),
-        url: "https://medium.com/google-cloud/cloud-native-reliability-101-building-an-auto-healing-web-app-on-gcp-with-migs-and-a-global-load-f71fa2c21d6c",
-        description: "Deploying a highly available, fault-tolerant web application on GCP using Managed Instance Groups and a Global External Application Load Balancer:with automatic failure recovery and traffic distribution across multiple zones.",
-        tags: ["GCP", "Reliability", "Load Balancing", "MIGs", "High Availability"],
-    },
+const entries = [
+    ...ARTICLES.map(a => ({
+        title: a.title,
+        description: a.description,
+        url: a.url,
+        external: true,
+        source: a.publication,
+        date: new Date(a.date),
+        tags: a.tags,
+    })),
+    ...blogPosts.map(p => ({
+        title: p.data.title,
+        description: p.data.description,
+        url: `/posts/${p.slug}/`,
+        external: false,
+        source: 'Blog',
+        date: p.data.pubDate,
+        tags: p.data.tags ?? [],
+    })),
+].sort((a, b) => b.date.valueOf() - a.date.valueOf())
+
+const filters = [
+    { key: 'all', label: 'All', count: entries.length },
+    { key: 'FreeCodeCamp', label: 'FreeCodeCamp', count: entries.filter(e => e.source === 'FreeCodeCamp').length },
+    { key: 'Google Cloud', label: 'Google Cloud', count: entries.filter(e => e.source === 'Google Cloud').length },
+    { key: 'Blog', label: 'Blog archive', count: entries.filter(e => e.source === 'Blog').length },
 ]
 
-const pubBadgeClasses: Record<string, string> = {
-    green: "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400",
-    blue: "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400",
+const sourceClass: Record<string, string> = {
+    'FreeCodeCamp': '!border-green-500/40 !text-green-700 dark:!text-green-400',
+    'Google Cloud': '!border-blue-500/40 !text-blue-700 dark:!text-blue-400',
+    'Blog': '',
 }
 ---
 
 <BaseLayout
-    title="Writing:Amina Lawal"
-    description="Technical articles by Amina Lawal, published on FreeCodeCamp and Google Cloud's Medium publication."
+    title="Writing"
+    description="Articles and tutorials by Amina Lawal on Google Cloud, Kubernetes, networking and reliability, published on FreeCodeCamp and Google Cloud's Medium publication."
 >
-    <section class="mx-auto max-w-[85rem] px-4 py-14 sm:px-6 lg:px-8 2xl:max-w-full">
-        <div class="mx-auto max-w-3xl">
+    <PageHeader
+        path="/writing"
+        title="Notes from production."
+        lede="Practical, tested tutorials on cloud infrastructure, networking and reliability, published on FreeCodeCamp and Google Cloud's Medium publication. Written for the engineer who has to make it work on Monday."
+    >
+        <a href={CONTACT.freecodecamp} target="_blank" rel="noopener noreferrer" class="btn-ghost">FreeCodeCamp author page ↗</a>
+        <a href="/rss.xml" class="btn-ghost">RSS</a>
+    </PageHeader>
 
-            <!-- Header -->
-            <div class="mb-12">
-                <p class="text-sm font-semibold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
-                    Writing
-                </p>
-                <h1 class="text-4xl font-bold tracking-tight text-neutral-800 dark:text-neutral-200 sm:text-5xl mb-6">
-                    Articles & tutorials
-                </h1>
-                <p class="text-pretty text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
-                    I write about cloud infrastructure, AI systems, and reliability engineering:published on FreeCodeCamp and Google Cloud's Medium publication. Practical, implementation-focused, and grounded in what actually works.
-                </p>
-                <div class="mt-5 flex flex-wrap gap-3">
-                    <a
-                        href="https://www.freecodecamp.org/news/author/Bronze/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 hover:text-orange-500 dark:hover:text-orange-400 transition"
-                    >
-                        <span class="inline-block size-2 rounded-full bg-green-500"></span>
-                        FreeCodeCamp author page →
-                    </a>
-                </div>
-            </div>
-
-            <!-- External articles -->
-            <div class="mb-16">
-                <h2 class="text-xl font-bold text-neutral-800 dark:text-neutral-200 mb-6">
-                    Published articles
-                </h2>
-                <div class="space-y-5">
-                    {externalArticles.map((article) => (
-                        <a
-                            href={article.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="group flex flex-col rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/30 p-6 transition hover:border-orange-200 dark:hover:border-orange-900 hover:shadow-md"
-                        >
-                            <div class="flex flex-wrap items-center gap-2 mb-3">
-                                <span class={`inline-block rounded-full text-xs font-semibold px-2.5 py-0.5 ${pubBadgeClasses[article.publicationColor]}`}>
-                                    {article.publication}
-                                </span>
-                                <span class="text-xs text-neutral-500 dark:text-neutral-500">{article.date}</span>
-                            </div>
-                            <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug mb-3">
-                                {article.title}
-                            </h3>
-                            <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed flex-grow mb-4">
-                                {article.description}
-                            </p>
-                            <div class="flex flex-wrap gap-2">
-                                {article.tags.map(tag => (
-                                    <span class="inline-block rounded-md bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 text-xs px-2 py-0.5">
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                            <span class="mt-4 text-sm font-semibold text-orange-500 dark:text-orange-400 group-hover:underline">
-                                Read article →
-                            </span>
-                        </a>
+    <section class="section pt-10">
+        <div class="container-page" data-writing>
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by publication">
+                    {filters.filter(f => f.count > 0).map(f => (
+                        <button type="button" class="chip-filter" data-filter={f.key} aria-pressed={f.key === 'all' ? 'true' : 'false'}>
+                            {f.label} <span class="font-mono text-xs opacity-60">{f.count}</span>
+                        </button>
                     ))}
                 </div>
+                <label class="relative block sm:w-64">
+                    <span class="sr-only">Search writing</span>
+                    <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 font-mono text-sm text-sun-500">grep</span>
+                    <input
+                        type="search"
+                        data-search
+                        placeholder="kubernetes, networking…"
+                        class="w-full rounded-full border border-paper-300 bg-paper-50 py-2 pl-14 pr-4 text-sm outline-none transition placeholder:text-neutral-400 focus:border-sun-400 focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-ink-600 dark:bg-ink-900"
+                    />
+                </label>
             </div>
 
-            <!-- Blog archive -->
-            {blogPosts.length > 0 && (
-                <div>
-                    <div class="mb-6">
-                        <h2 class="text-xl font-bold text-neutral-800 dark:text-neutral-200">Blog archive</h2>
-                        <p class="text-sm text-neutral-500 dark:text-neutral-500 mt-1">Earlier posts published directly on this site.</p>
-                    </div>
-                    <div class="space-y-3">
-                        {blogPosts.map(post => (
-                            <a
-                                href={`/posts/${post.id}/`}
-                                class="group flex items-start justify-between gap-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/30 px-5 py-4 transition hover:border-orange-200 dark:hover:border-orange-900"
-                            >
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition truncate">
-                                        {post.data.title}
-                                    </h3>
-                                    <p class="text-xs text-neutral-500 dark:text-neutral-500 mt-0.5">{post.data.category}</p>
+            <ul class="mt-10 grid gap-4">
+                {entries.map(e => (
+                    <li
+                        data-entry
+                        data-source={e.source}
+                        data-text={`${e.title} ${e.description} ${e.tags.join(' ')}`.toLowerCase()}
+                    >
+                        <a
+                            href={e.url}
+                            {...(e.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                            class="card card-hover group grid gap-4 p-6 sm:grid-cols-[8rem_1fr] sm:p-7"
+                        >
+                            <div class="flex items-center gap-3 font-mono text-xs text-neutral-500 sm:flex-col sm:items-start">
+                                <span class:list={['chip', sourceClass[e.source]]}>{e.source}</span>
+                                <time datetime={e.date.toISOString()}>{e.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</time>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-bold leading-snug text-neutral-900 transition group-hover:text-sun-600 dark:text-neutral-100 dark:group-hover:text-sun-300">
+                                    {e.title}
+                                </h2>
+                                <p class="mt-2 leading-relaxed text-neutral-600 dark:text-neutral-400">{e.description}</p>
+                                <div class="mt-4 flex flex-wrap items-center gap-1.5">
+                                    {e.tags.map(t => <span class="chip">#{t}</span>)}
+                                    <span class="link-arrow ms-auto text-sm">Read {e.external ? '↗' : '→'}</span>
                                 </div>
-                                <time class="text-xs text-neutral-500 dark:text-neutral-500 shrink-0 mt-0.5">
-                                    {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-                                </time>
-                            </a>
-                        ))}
-                    </div>
-                </div>
-            )}
-
+                            </div>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+            <p data-empty hidden class="mt-10 rounded-2xl border border-dashed border-paper-300 p-10 text-center font-mono text-sm text-neutral-500 dark:border-ink-600">
+                grep: no matches. Try another word.
+            </p>
         </div>
     </section>
 </BaseLayout>
+
+<script>
+    const root = document.querySelector<HTMLElement>('[data-writing]')!
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-filter]'))
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-entry]'))
+    const search = root.querySelector<HTMLInputElement>('[data-search]')!
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!
+    let filter = 'all'
+
+    function apply() {
+        const words = search.value.trim().toLowerCase().split(/\s+/).filter(Boolean)
+        let shown = 0
+        for (const item of items) {
+            const match = (filter === 'all' || item.dataset.source === filter)
+                && words.every(w => item.dataset.text!.includes(w))
+            item.hidden = !match
+            if (match)
+                shown++
+        }
+        empty.hidden = shown > 0
+    }
+
+    buttons.forEach(btn => btn.addEventListener('click', () => {
+        filter = btn.dataset.filter!
+        buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)))
+        apply()
+    }))
+    search.addEventListener('input', apply)
+</script>

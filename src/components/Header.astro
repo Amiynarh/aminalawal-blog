@@ -1,217 +1,150 @@
 ---
-import NavLink from '@components/ui/links/NavLink.astro'
 import BrandLogo from '@components/ui/logos/BrandLogo.astro'
-import Theme from '@components/ui/logos/Theme.astro'
 import { NavigationLinks } from '@/config'
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/'
+const isActive = (url: string) => path === url || path.startsWith(`${url}/`)
 ---
 
-<header class="sticky inset-x-0 top-4 z-50 flex w-full flex-wrap text-sm md:flex-nowrap md:justify-start xl:top-6">
+<header class="sticky top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
     <nav
-        class="relative mx-2 w-full rounded-[36px] border border-neutral-100 bg-neutral-100 px-4 py-3 backdrop-blur-md dark:border-neutral-700/40 dark:bg-neutral-800/80 dark:backdrop-blur-md md:flex md:items-center md:justify-between md:px-6 lg:px-8 xl:mx-auto"
-        aria-label="Global"
+        class="mx-auto flex max-w-6xl items-center gap-3 rounded-full border border-paper-200/80 bg-paper-50/75 py-2 pe-2 ps-2 shadow-[0_8px_30px_-18px_rgb(0_0_0_/_0.25)] backdrop-blur-xl dark:border-ink-700/80 dark:bg-ink-900/70"
+        aria-label="Main"
     >
-        <div class="flex items-center justify-between ">
-            <a
-                class="h-[42px] flex-none rounded-lg text-xl font-bold outline-none ring-zinc-500 focus-visible:ring dark:ring-zinc-200 dark:focus:outline-none"
-                href="/"
-                aria-label="Brand"
-            >
-                <BrandLogo class="h-full w-auto object-cover rounded-full" />
-            </a>
-
-            <div class="ml-auto md:hidden">
-                <button
-                    type="button"
-                    class="hs-collapse-toggle flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-neutral-600 transition duration-300 hover:bg-neutral-200 disabled:pointer-events-none disabled:opacity-50 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:outline-none"
-                    data-hs-collapse="#navbar-collapse-with-animation"
-                    aria-controls="navbar-collapse-with-animation"
-                    aria-label="Toggle navigation"
-                >
-                    <svg
-                        class="h-[1.25rem] w-[1.25rem] flex-shrink-0 hs-collapse-open:hidden"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <line x1="3" x2="21" y1="6" y2="6"></line>
-                        <line x1="3" x2="21" y1="12" y2="12"></line>
-                        <line x1="3" x2="21" y1="18" y2="18"></line>
-                    </svg>
-                    <svg
-                        class="hidden h-[1.25rem] w-[1.25rem] flex-shrink-0 hs-collapse-open:block"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            <span class="inline-block md:hidden">
-                <Theme />
+        <a href="/" class="group flex shrink-0 items-center gap-2.5 rounded-full pe-2" aria-label="Amina Lawal, home">
+            <BrandLogo class="size-9 rounded-full object-cover grayscale ring-2 ring-transparent transition group-hover:ring-sun-400" width={72} height={72} />
+            <span class="hidden font-display text-[15px] font-bold text-neutral-900 dark:text-neutral-100 sm:inline">
+                amina<span class="text-sun-500">.</span>
             </span>
-        </div>
+        </a>
 
-        <div
-            id="navbar-collapse-with-animation"
-            class="hs-collapse hidden grow basis-full overflow-hidden transition-all duration-300 md:block"
-        >
-            <div
-                class="mt-5 flex flex-col gap-x-0 gap-y-4 md:mt-0 md:flex-row md:items-center md:justify-end md:gap-x-4 lg:gap-x-7 md:gap-y-0 md:ps-7"
+        <ul class="mx-auto hidden items-center gap-0.5 lg:flex">
+            {NavigationLinks.map(link => (
+                <li>
+                    <a
+                        href={link.url}
+                        data-astro-prefetch
+                        aria-current={isActive(link.url) ? 'page' : undefined}
+                        class:list={[
+                            'rounded-full px-3.5 py-2 text-sm font-medium transition',
+                            isActive(link.url)
+                                ? 'bg-neutral-900 text-paper-50 dark:bg-paper-100 dark:text-ink-950'
+                                : 'text-neutral-600 hover:bg-paper-200/70 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-ink-800 dark:hover:text-neutral-100',
+                        ]}
+                    >
+                        {link.name}
+                    </a>
+                </li>
+            ))}
+        </ul>
+
+        <div class="ms-auto flex items-center gap-1.5 lg:ms-0">
+            <button
+                type="button"
+                data-palette-open
+                class="flex h-9 items-center gap-2 rounded-full border border-paper-200 bg-paper-100/70 px-3 text-sm text-neutral-500 transition hover:border-sun-300 hover:text-neutral-800 dark:border-ink-700 dark:bg-ink-800/70 dark:text-neutral-400 dark:hover:text-neutral-100"
+                aria-label="Search and jump to a page"
             >
-                {NavigationLinks.map(link => (
-                    <NavLink url={link.url} name={link.name} />
-                ))}
-                <span class="hidden md:inline-block">
-                    <Theme />
-                </span>
-            </div>
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                <span class="hidden sm:inline">Search</span>
+                <span class="hidden items-center gap-0.5 sm:flex"><kbd class="kbd" data-mod-key>⌘</kbd><kbd class="kbd">K</kbd></span>
+            </button>
+
+            <button
+                type="button"
+                data-theme-toggle
+                class="flex size-9 items-center justify-center rounded-full text-neutral-600 transition hover:bg-paper-200/70 hover:text-sun-600 dark:text-neutral-400 dark:hover:bg-ink-800 dark:hover:text-sun-300"
+                aria-label="Toggle dark mode"
+            >
+                <svg class="size-[18px] dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+                <svg class="hidden size-[18px] dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2m-7.07-2.93 1.41-1.41M17.66 6.34l1.41-1.41M2 12h2m16 0h2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41"></path></svg>
+            </button>
+
+            <button
+                type="button"
+                data-menu-toggle
+                class="flex size-9 items-center justify-center rounded-full text-neutral-700 transition hover:bg-paper-200/70 dark:text-neutral-300 dark:hover:bg-ink-800 lg:hidden"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+            >
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>
+            </button>
         </div>
     </nav>
+
+    <div
+        id="mobile-menu"
+        class="mx-auto mt-2 hidden max-w-6xl overflow-hidden rounded-3xl border border-paper-200 bg-paper-50/95 p-2 shadow-xl backdrop-blur-xl dark:border-ink-700 dark:bg-ink-900/95 lg:hidden"
+    >
+        <ul class="grid gap-0.5">
+            <li>
+                <a href="/" class:list={['flex items-center justify-between rounded-2xl px-4 py-3 font-medium', path === '/' ? 'bg-paper-200/70 text-sun-600 dark:bg-ink-800 dark:text-sun-300' : 'text-neutral-700 dark:text-neutral-300']}>
+                    Home <span class="font-mono text-xs text-neutral-400">~/</span>
+                </a>
+            </li>
+            {NavigationLinks.map(link => (
+                <li>
+                    <a
+                        href={link.url}
+                        aria-current={isActive(link.url) ? 'page' : undefined}
+                        class:list={['flex items-center justify-between rounded-2xl px-4 py-3 font-medium', isActive(link.url) ? 'bg-paper-200/70 text-sun-600 dark:bg-ink-800 dark:text-sun-300' : 'text-neutral-700 dark:text-neutral-300']}
+                    >
+                        {link.name} <span class="font-mono text-xs text-neutral-400">{link.url}</span>
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </div>
 </header>
-<script is:inline>
-const ViewTransitionStyleCSS = `::view-transition-group(root) {
-    animation-timing-function: var(--expo-out);
-}
-::view-transition-new(root) {
-    mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><defs><filter id="blur"><feGaussianBlur stdDeviation="2"/></filter></defs><circle cx="0" cy="0" r="18" fill="white" filter="url(%23blur)"/></svg>') top left / 0 no-repeat;
-    mask-origin: content-box;
-    animation: scale 1s;
-    transform-origin: top left;
-}
-::view-transition-old(root),.dark::view-transition-old(root) {
-    animation: scale 1s;
-    transform-origin: top left;
-    z-index: -1;
-}
-@keyframes scale {
-    to {
-        mask-size: 350vmax;
+
+<script>
+    // Mobile menu
+    const menuBtn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]')
+    const menu = document.getElementById('mobile-menu')
+    menuBtn?.addEventListener('click', () => {
+        const open = menu?.classList.toggle('hidden') === false
+        menuBtn.setAttribute('aria-expanded', String(open))
+        menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu')
+    })
+
+    // Show Ctrl instead of ⌘ outside Apple platforms
+    if (!/Mac|iPhone|iPad/.test(navigator.platform)) {
+        document.querySelectorAll('[data-mod-key]').forEach((el) => {
+            el.textContent = 'Ctrl'
+        })
     }
-}`
-const viewTransitionStyleElement = document.createElement('style')
-document.head.appendChild(viewTransitionStyleElement)
-const injectViewTransitionStyleCSS = () => viewTransitionStyleElement.textContent = ViewTransitionStyleCSS
 
-const HSThemeAppearance = {
-    init() {
-        const defaultTheme = 'default'
-        const theme = localStorage.getItem('hs_theme') || defaultTheme
+    // Theme toggle, with a circular reveal from the button where supported
+    function setTheme(dark: boolean) {
+        document.documentElement.classList.toggle('dark', dark)
+        localStorage.setItem('hs_theme', dark ? 'dark' : 'default')
+        window.dispatchEvent(new CustomEvent('on-hs-appearance-change', { detail: dark ? 'dark' : 'default' }))
+    }
 
-        if (document.querySelector('html').classList.contains('dark')) {
+    function toggleTheme(origin?: { x: number, y: number }) {
+        const dark = !document.documentElement.classList.contains('dark')
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        if (!document.startViewTransition || reduce || !origin) {
+            setTheme(dark)
             return
         }
-
-        this.setAppearance(theme)
-    },
-
-    _resetStylesOnLoad() {
-        const $resetStyles = document.createElement('style')
-        $resetStyles.textContent = `*{transition: unset !important;}`
-        $resetStyles.setAttribute('data-hs-appearance-onload-styles', '')
-        document.head.appendChild($resetStyles)
-        return $resetStyles
-    },
-
-    setAppearance(theme, saveInStore = true, dispatchEvent = true) {
-        const $resetStylesEl = this._resetStylesOnLoad()
-
-        if (saveInStore) {
-            localStorage.setItem('hs_theme', theme)
-        }
-
-        if (theme === 'auto') {
-            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
-        }
-
-        document.querySelector('html').classList.remove('dark')
-        document.querySelector('html').classList.remove('default')
-        document.querySelector('html').classList.remove('auto')
-
-        document.querySelector('html').classList.add(this.getOriginalAppearance())
-
-        setTimeout(() => $resetStylesEl.remove())
-
-        if (dispatchEvent) {
-            window.dispatchEvent(new CustomEvent('on-hs-appearance-change', { detail: theme }))
-        }
-    },
-
-    getAppearance() {
-        let theme = this.getOriginalAppearance()
-        if (theme === 'auto') {
-            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
-        }
-
-        return theme
-    },
-
-    getOriginalAppearance() {
-        const defaultTheme = 'default'
-        return localStorage.getItem('hs_theme') || defaultTheme
-    },
-}
-
-HSThemeAppearance.init()
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    if (HSThemeAppearance.getOriginalAppearance() === 'auto') {
-        HSThemeAppearance.setAppearance('auto', false)
-    }
-})
-
-window.addEventListener('load', () => {
-    const $clickableThemes = document.querySelectorAll(
-        '[data-hs-theme-click-value]',
-    )
-    const $switchableThemes = document.querySelectorAll(
-        '[data-hs-theme-switch]',
-    )
-
-    $clickableThemes.forEach(($item) => {
-        $item.addEventListener('click', () => {
-            const switchThem = () => HSThemeAppearance.setAppearance(
-                $item.getAttribute('data-hs-theme-click-value'),
-                true,
-                true,
+        const radius = Math.hypot(Math.max(origin.x, innerWidth - origin.x), Math.max(origin.y, innerHeight - origin.y))
+        const transition = document.startViewTransition(() => setTheme(dark))
+        transition.ready.then(() => {
+            document.documentElement.animate(
+                { clipPath: [`circle(0px at ${origin.x}px ${origin.y}px)`, `circle(${radius}px at ${origin.x}px ${origin.y}px)`] },
+                { duration: 550, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', pseudoElement: '::view-transition-new(root)' },
             )
+        })
+    }
 
-            if (document.startViewTransition) {
-                document.startViewTransition(() => {
-                    injectViewTransitionStyleCSS()
-                    switchThem()
-                })
-            }
-            else {
-                switchThem()
-            }
+    document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const r = btn.getBoundingClientRect()
+            toggleTheme({ x: r.left + r.width / 2, y: r.top + r.height / 2 })
         })
     })
 
-    $switchableThemes.forEach(($item) => {
-        $item.addEventListener('change', (e) => {
-            HSThemeAppearance.setAppearance(e.target.checked ? 'dark' : 'default')
-        })
-
-        $item.checked = HSThemeAppearance.getAppearance() === 'dark'
-    })
-
-    window.addEventListener('on-hs-appearance-change', (e) => {
-        $switchableThemes.forEach(($item) => {
-            $item.checked = e.detail === 'dark'
-        })
-    })
-})
+    window.addEventListener('site:toggle-theme', () => toggleTheme())
 </script>
-<script is:inline src="/vendor/preline/collapse2.1.0.min.js"></script>

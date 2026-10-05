@@ -1,25 +1,26 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro'
-import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro'
-import { SITE } from '@/config'
-
-const pageTitle: string = `Page Not Found | ${SITE.title}`
-
-const title: string = 'Not Found'
-const subTitle: string = 'Try again later'
 ---
 
-<BaseLayout title={pageTitle}>
-    <section class="grid h-svh place-content-center">
-        <div class="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">
-            <div class="mx-auto max-w-screen-sm text-center">
-                <h1 class="text-dark mb-4 text-7xl font-extrabold text-yellow-500 dark:text-yellow-400 lg:text-9xl">
-                    {title}
-                </h1>
-                <p class="mb-4 text-balance text-3xl font-bold tracking-tight text-neutral-700 dark:text-neutral-300 md:text-4xl">
-                    {subTitle}
-                </p>
-                <PrimaryCTA title="Home" url="/" />
+<BaseLayout title="Page not found" description="This page doesn't exist.">
+    <section class="bg-grid">
+        <div class="container-page flex min-h-[70vh] max-w-3xl flex-col justify-center py-20">
+            <div class="terminal p-6 sm:p-8">
+                <p class="text-neutral-500">~ $ curl -I {Astro.url.pathname}</p>
+                <p class="mt-2"><span class="text-red-400">HTTP/1.1 404 Not Found</span></p>
+                <p class="text-neutral-500">x-reason: this route was never deployed (or I moved it)</p>
+                <p class="mt-6 text-neutral-500">~ $ suggest --routes</p>
+                <ul class="mt-2 space-y-1">
+                    <li>→ <a href="/">/</a> <span class="text-neutral-600">home</span></li>
+                    <li>→ <a href="/writing">/writing</a> <span class="text-neutral-600">articles & tutorials</span></li>
+                    <li>→ <a href="/mentorship">/mentorship</a> <span class="text-neutral-600">learn cloud with me</span></li>
+                    <li>→ <a href="/speaking">/speaking</a> <span class="text-neutral-600">talks</span></li>
+                </ul>
+                <p class="mt-6">~ $ <span class="caret text-sun-500">▌</span></p>
+            </div>
+            <div class="mt-8 flex flex-wrap gap-3">
+                <a href="/" class="btn-primary">Take me home</a>
+                <button type="button" class="btn-ghost" onclick="window.dispatchEvent(new CustomEvent('site:open-palette'))">Search the site</button>
             </div>
         </div>
     </section>

@@ -1,42 +1,59 @@
 ---
-import BrandLogo from '@components/ui/logos/BrandLogo.astro'
 import { FooterLinks, SITE } from '@/config'
+import { CONTACT } from '@/data/site'
+
+const year = new Date().getFullYear()
 ---
 
-<footer class="w-full bg-neutral-300 dark:bg-neutral-900">
-    <div class="mx-auto w-full max-w-[85rem] px-4 py-10 sm:px-6 lg:px-16 lg:pt-20 2xl:max-w-screen-2xl">
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 md:grid-cols-5">
-            <div class="col-span-full flex justify-center sm:grid sm:col-span-1">
-                <BrandLogo class="h-auto w-28 rounded-full" />
+<footer class="mt-16 border-t border-paper-200 bg-paper-50 dark:border-ink-800 dark:bg-ink-900/60">
+    <div class="container-page py-16">
+        <div class="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
+            <div>
+                <p class="eyebrow">$ ./say-hello.sh</p>
+                <h2 class="mt-4 text-balance font-display text-4xl font-bold text-neutral-900 dark:text-neutral-100 sm:text-5xl">
+                    Let's build something <span class="mark">that lasts.</span>
+                </h2>
+                <p class="mt-4 max-w-md text-neutral-600 dark:text-neutral-400">
+                    Platform work, a talk, a community programme, or a mentee who wants to break things on purpose. My inbox is open.
+                </p>
+                <div class="mt-7 flex flex-wrap gap-3">
+                    <a href={`mailto:${CONTACT.email}`} class="btn-primary">
+                        Email me
+                        <span class="transition group-hover:translate-x-0.5">→</span>
+                    </a>
+                    <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" class="btn-ghost">Connect on LinkedIn</a>
+                </div>
             </div>
-            {
-                FooterLinks.map(section => (
-                    <div class="col-span-1 text-center">
-                        <h3 class="font-bold text-neutral-800 dark:text-neutral-200">
-                            {section.section}
-                        </h3>
-                        <ul class="mt-3 grid space-y-3">
-                                {section.links.map((link, _index) => (
-                                        <li>
-                                            <a
-                                                href={link.url}
-                                                class="inline-flex gap-x-2 rounded-lg text-neutral-600 outline-none ring-zinc-500 transition duration-300 hover:text-neutral-500 focus-visible:ring dark:text-neutral-400 dark:ring-zinc-200 dark:hover:text-neutral-300 dark:focus:outline-none"
-                                            >
-                                                {link.name}
-                                            </a>
-                                        </li>
-                                ))}
-                            </ul>
-                    </div>
-                ))
-            }
 
+            <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+                {FooterLinks.map(section => (
+                    <div>
+                        <h3 class="font-mono text-xs uppercase tracking-[0.18em] text-neutral-500">{section.section}</h3>
+                        <ul class="mt-4 space-y-2.5">
+                            {section.links.map(link => (
+                                <li>
+                                    <a
+                                        href={link.url}
+                                        {...(link.url.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                                        class="text-sm text-neutral-700 transition hover:text-sun-600 dark:text-neutral-300 dark:hover:text-sun-300"
+                                    >
+                                        {link.name}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+            </div>
         </div>
 
-
-        <div class="flex items-center text-center justify-center">
-            <p class="text-sm text-neutral-600 dark:text-neutral-400">
-                © <span id="current-year">2025</span> {SITE.title}
+        <div class="mt-14 flex flex-col gap-3 border-t border-paper-200 pt-6 font-mono text-xs text-neutral-500 dark:border-ink-800 sm:flex-row sm:items-center sm:justify-between">
+            <p class="flex items-center gap-2">
+                <span class="status-dot"></span>
+                All systems operational · Platform engineer, writer, founder
+            </p>
+            <p>
+                © {year} {SITE.author} · Built with Astro · Press <kbd class="kbd">/</kbd> to search
             </p>
         </div>
     </div>

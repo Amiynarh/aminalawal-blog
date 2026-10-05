@@ -66,6 +66,8 @@ const projects = defineCollection({
         tech: z.array(z.string()),
         banner: image().or(z.string()),
         featured: z.boolean().optional(),
+        // Lower numbers are listed first; unordered projects come last.
+        order: z.number().optional(),
     }),
 })
 

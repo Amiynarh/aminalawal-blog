@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --accent: #efbd45;
+        --grid-line: rgb(28 25 23 / 0.05);
+        color-scheme: light;
+    }
+
+    html.dark {
+        --grid-line: rgb(255 255 255 / 0.04);
+        color-scheme: dark;
+    }
+
+    body {
+        @apply bg-paper-100 font-sans text-neutral-800 antialiased dark:bg-ink-950 dark:text-neutral-200;
+    }
+
+    h1, h2, h3, h4 {
+        @apply font-display tracking-tight;
+    }
+
+    [hidden] {
+        display: none !important;
+    }
+
+    ::selection {
+        @apply bg-yellow-400 text-neutral-900;
+    }
+
+    :focus-visible {
+        @apply outline-none ring-2 ring-sun-400 ring-offset-2 ring-offset-paper-100 dark:ring-offset-ink-950;
+    }
+}
+
+@layer components {
+    /* Faint engineering-paper grid behind hero areas */
+    .bg-grid {
+        background-image:
+            linear-gradient(var(--grid-line) 1px, transparent 1px),
+            linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+        background-size: 32px 32px;
+    }
+
+    .container-page {
+        @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .section {
+        @apply py-16 sm:py-24;
+    }
+
+    .eyebrow {
+        @apply inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.18em] text-sun-600 dark:text-sun-300;
+    }
+
+    .h-section {
+        @apply mt-3 text-balance font-display text-3xl font-bold text-neutral-900 dark:text-neutral-100 sm:text-4xl md:text-5xl;
+    }
+
+    .lede {
+        @apply mt-4 max-w-2xl text-pretty text-lg leading-relaxed text-neutral-600 dark:text-neutral-400;
+    }
+
+    .card {
+        @apply rounded-2xl border border-paper-200 bg-paper-50 dark:border-ink-700 dark:bg-ink-900;
+    }
+
+    .card-hover {
+        @apply transition duration-300 hover:-translate-y-1 hover:border-sun-400/70 hover:shadow-[0_18px_40px_-22px_rgb(217_164_42_/_0.5)] dark:hover:border-sun-400/40;
+    }
+
+    .chip {
+        @apply inline-flex items-center gap-1.5 rounded-full border border-paper-300 bg-paper-50 px-2.5 py-0.5 font-mono text-[11px] text-neutral-600 dark:border-ink-600 dark:bg-ink-800 dark:text-neutral-400;
+    }
+
+    .chip-filter {
+        @apply inline-flex cursor-pointer items-center gap-2 rounded-full border border-paper-300 bg-paper-50 px-3.5 py-1.5 text-sm font-medium text-neutral-600 transition hover:border-sun-400 hover:text-neutral-900 dark:border-ink-600 dark:bg-ink-900 dark:text-neutral-400 dark:hover:text-sun-300;
+    }
+
+    .chip-filter[aria-pressed='true'] {
+        @apply border-neutral-900 bg-neutral-900 text-paper-50 dark:border-paper-100 dark:bg-paper-100 dark:text-ink-950;
+    }
+
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition duration-300;
+    }
+
+    .btn-primary {
+        @apply btn bg-sun-400 text-ink-950 shadow-[0_8px_24px_-12px_rgb(217_164_42_/_0.9)] hover:bg-sun-300;
+    }
+
+    .btn-ghost {
+        @apply btn border border-paper-300 bg-paper-50/60 text-neutral-800 hover:border-neutral-900 dark:border-ink-600 dark:bg-ink-900/60 dark:text-neutral-200 dark:hover:border-neutral-300;
+    }
+
+    .link-arrow {
+        @apply inline-flex items-center gap-1 font-semibold text-orange-500 underline decoration-sun-400 decoration-2 underline-offset-4 transition hover:gap-2 dark:text-orange-300;
+    }
+
+    .kbd {
+        @apply inline-flex h-5 min-w-5 items-center justify-center rounded border border-paper-300 bg-paper-100 px-1 font-mono text-[10px] font-medium text-neutral-500 dark:border-ink-600 dark:bg-ink-800 dark:text-neutral-400;
+    }
+
+    .status-dot {
+        @apply relative inline-flex size-2 rounded-full bg-green-500;
+    }
+
+    .status-dot::after {
+        content: '';
+        @apply absolute inset-0 animate-ping rounded-full bg-green-400 opacity-75;
+    }
+
+    /* Terminal window */
+    .terminal {
+        @apply overflow-hidden rounded-2xl border border-ink-700 bg-ink-900 font-mono text-[13px] leading-relaxed text-neutral-300 shadow-[0_30px_80px_-30px_rgb(0_0_0_/_0.6)];
+    }
+
+    .terminal a {
+        @apply text-sun-300 underline decoration-sun-300/40 underline-offset-2 hover:decoration-sun-300;
+    }
+
+    /* Highlighter-pen emphasis for key words in headings */
+    .mark {
+        background-image: linear-gradient(transparent 58%, rgb(239 189 69 / 0.55) 58%, rgb(239 189 69 / 0.55) 92%, transparent 92%);
+        @apply px-1 -mx-1 box-decoration-clone;
+    }
+
+    html.dark .mark {
+        background-image: linear-gradient(transparent 58%, rgb(239 189 69 / 0.28) 58%, rgb(239 189 69 / 0.28) 92%, transparent 92%);
+    }
+
+    .marquee {
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    .marquee-track {
+        animation: marquee 40s linear infinite;
+    }
+
+    .marquee:hover .marquee-track {
+        animation-play-state: paused;
+    }
+}
+
+@keyframes marquee {
+    to { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.caret {
+    animation: blink 1s steps(1) infinite;
+}
+
+/* Scroll reveal: only hidden when JS has opted in, so content never disappears without it */
+html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html.js [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .marquee-track,
+    .caret,
+    .status-dot::after {
+        animation: none;
+    }
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}
+
+/* Theme switch reveal (circle grows from the toggle) */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}

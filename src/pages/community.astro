@@ -1,329 +1,139 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro'
+import PageHeader from '@components/PageHeader.astro'
+import { CONTACT, ORGS, RECOGNITION } from '@/data/site'
 
-const orgs = [
-    {
-        id: "wtm",
-        name: "Women Techmakers",
-        role: "Ambassador, WTM Kano",
-        period: "November 2021 to Present",
-        url: "https://www.linkedin.com/company/womentechmakers/",
-        badgeClass: "bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300",
-        description: "Google's global programme for women in technology, operating across more than 80 countries. The Ambassador role is an appointment awarded to individuals who demonstrate both the credibility to represent the programme and the capacity to build something concrete from it. The programme I built under WTM Kano has run continuously for four years.",
-        highlights: [
-            "Annual IWD summits 2022 to 2025: attendance grown from 45 virtual participants to 385 in-person",
-            "Build with AI Kano 2025: hands-on workshop covering Gemini, AI Studio, and Vertex AI for developers",
-            "WTM Kano Power Panel: Challenging the Status Quo (November 2021)",
-            "100+ women trained across 6+ technical paths over four years of continuous operation",
-        ],
-        stats: [
-            { value: "385", label: "Peak IWD attendance" },
-            { value: "100+", label: "Women trained" },
-            { value: "5", label: "Annual IWD events" },
-            { value: "6+", label: "Tech paths" },
-        ],
-    },
-    {
-        id: "gdg",
-        name: "GDG Cloud Kano",
-        role: "Co-Organiser, DevFest Lead",
-        period: "2022 to 2024",
-        url: "",
-        badgeClass: "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300",
-        description: "Co-organised the GDG Cloud Kano community and led DevFest Kano across two consecutive years, bringing developers across northern Nigeria together for Google's flagship developer events. Ran Google I/O Extended sessions and technical workshops throughout the year.",
-        highlights: [
-            "DevFest Kano: led two consecutive annual conferences as DevFest Lead",
-            "Google I/O Extended: organised Google's flagship annual developer event locally",
-            "1,000+ cumulative event participants across GDG activities",
-        ],
-        stats: [
-            { value: "1000+", label: "Event participants" },
-            { value: "2", label: "DevFests led" },
-            { value: "2", label: "Years as organiser" },
-        ],
-    },
-    {
-        id: "cncf",
-        name: "CNCF Kaduna Chapter",
-        role: "Co-Founder, Organiser",
-        period: "August 2025 to Present",
-        url: "https://community.cncf.io/cloud-native-kaduna/",
-        badgeClass: "bg-cyan-100 dark:bg-cyan-900/40 text-cyan-700 dark:text-cyan-300",
-        description: "The Cloud Native Computing Foundation is the vendor-neutral home of Kubernetes, Prometheus, Envoy, and over 170 graduated and incubating open-source projects that underpin modern cloud infrastructure globally. CNCF chapter organisers must apply and receive formal approval before operating under the CNCF name. Co-founded the seventh cloud-native community chapter in Nigeria.",
-        highlights: [
-            "7th cloud-native community chapter in Nigeria",
-            "Formally approved and listed on the official CNCF chapter directory",
-            "Also contributed 3 merged pull requests to Meshery, a graduated CNCF project, covering Datadog, Kafka, and Microsoft Graph Worker designs",
-        ],
-        stats: [
-            { value: "7th", label: "CNCF chapter in Nigeria" },
-            { value: "3", label: "Merged PRs to Meshery" },
-        ],
-    },
-    {
-        id: "global-shapers",
-        name: "Global Shapers Community",
-        role: "Vice Curator, Impact Officer, Kano Hub",
-        period: "2021 to 2024",
-        url: "https://www.weforum.org/people/amina-lawal/",
-        badgeClass: "bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300",
-        description: "A World Economic Forum initiative comprising young leaders across 400 cities worldwide, selected for their potential to drive community impact. Membership is by competitive application; leadership is by peer election. Joined the Kano Hub in 2021, elected Impact Officer (2022-2023) and then Vice Curator (2023-2024), the deputy leadership role. Both appointments confirmed by Global Shapers headquarters in Geneva.",
-        highlights: [
-            "Girl-Up Project: youth empowerment initiative",
-            "Soft Skills Series: community training programme",
-            "HPV Vaccine Awareness Campaign",
-            "Vice Curator: supported the Curator and ensured Hub operations ran effectively",
-        ],
-        stats: [
-            { value: "WEF", label: "World Economic Forum" },
-            { value: "400+", label: "Cities worldwide" },
-            { value: "2x", label: "Elected to Hub leadership" },
-        ],
-    },
-    {
-        id: "tedx",
-        name: "TEDxBayeroUniversity",
-        role: "Co-Curator",
-        period: "2020 to 2021",
-        url: "",
-        badgeClass: "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300",
-        description: "Co-curated TEDx events at Bayero University, Kano, independently organised TED events under license from TED. Responsible for identifying and vetting speakers, developing the event programme, and ensuring the quality of ideas presented aligned with TED's global standards.",
-        highlights: [
-            "2 TEDx events organised and curated",
-            "15+ speakers curated across both events",
-            "300+ total attendees",
-        ],
-        stats: [
-            { value: "2", label: "Events curated" },
-            { value: "15+", label: "Speakers curated" },
-            { value: "300+", label: "Attendees" },
-        ],
-    },
-    {
-        id: "gdsc",
-        name: "Google Developer Student Club",
-        role: "Lead, Bayero University Kano",
-        period: "2020 to 2022",
-        url: "",
-        badgeClass: "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300",
-        description: "Led the GDSC chapter at Bayero University Kano, building a developer community on campus and running technical programmes for students transitioning into software and cloud engineering. Established industry partnerships and delivered a consistent calendar of workshops throughout the academic year.",
-        highlights: [
-            "1,000+ student members in the campus developer community",
-            "13+ technical workshops delivered during tenure",
-            "4+ industry partnerships established",
-        ],
-        stats: [
-            { value: "1000+", label: "Student members" },
-            { value: "13+", label: "Workshops delivered" },
-            { value: "4+", label: "Industry partnerships" },
-        ],
-    },
+const g3Stats = [
+    { value: 300, suffix: '+', label: 'IWD 2025 participants' },
+    { value: 250, suffix: '+', label: 'WomenWhoAutomate applicants' },
+    { value: 10, suffix: '', label: 'HerSite websites launched' },
+    { value: 6, suffix: '', label: 'partner institutions, IWD 2025' },
+]
+
+const g3Programmes = [
+    { name: 'WomenWhoAutomate', body: 'G3Women\'s first technical cohort, which drew 250+ applications.' },
+    { name: 'HerSite', body: 'On IWD 2026, 10 live websites built for women-led businesses in a single day, from 97 applicants across Africa.', url: 'https://g3women.org/hersite' },
+    { name: 'IWD Summit', body: '300+ participants and 6 partner institutions in 2025.' },
+    { name: 'G3Digital Academy', body: 'A multilingual learning platform in English, Hausa, Yoruba and Igbo.', url: 'https://academy.g3women.org/' },
 ]
 ---
 
 <BaseLayout
-    title="Community and Impact | Amina Lawal"
-    description="Amina Lawal's community leadership, organisations, and impact across women in tech, cloud-native, and developer communities in Nigeria."
+    title="Community"
+    description="Amina Lawal founded G3Women and co-founded CNCF Kaduna, and is a Women Techmakers Ambassador. Communities, programmes and impact across northern Nigeria."
 >
-    <section class="mx-auto max-w-[85rem] px-4 py-14 sm:px-6 lg:px-8 2xl:max-w-full">
-        <div class="mx-auto max-w-3xl">
+    <PageHeader
+        path="/community"
+        title="Communities that outlast the event."
+        lede="I build communities and programmes that change who gets to work in tech, especially for women and for people outside Lagos. Here's what I've founded, led and grown."
+    >
+        <a href={CONTACT.g3women} target="_blank" rel="noopener noreferrer" class="btn-primary">Visit G3Women ↗</a>
+        <a href="/mentorship" class="btn-ghost">Mentorship</a>
+    </PageHeader>
 
-            <!-- Header -->
-            <div class="mb-12">
-                <p class="text-sm font-semibold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
-                    Community &amp; Impact
-                </p>
-                <h1 class="text-4xl font-bold tracking-tight text-neutral-800 dark:text-neutral-200 sm:text-5xl mb-6">
-                    Organisations &amp; leadership
-                </h1>
-                <p class="text-pretty text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
-                    Building communities, running programmes, and advocating for structural change in how Nigeria's technology ecosystem works, particularly for women and people in regions outside Lagos.
-                </p>
-            </div>
-
-            <!-- G3Women featured section -->
-            <div class="mb-10">
-                <div class="rounded-2xl border-2 border-orange-200 dark:border-orange-900/50 bg-orange-50/50 dark:bg-neutral-800/60 overflow-hidden">
-                    <div class="p-7 md:p-8">
-                        <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
-                            <div>
-                                <span class="inline-block text-xs font-semibold uppercase tracking-widest text-orange-600 dark:text-orange-400 mb-2">Founded &amp; Leading</span>
-                                <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-                                    <a href="https://g3women.org" target="_blank" rel="noopener noreferrer" class="hover:text-orange-500 dark:hover:text-orange-400 transition">
-                                        G3Women Network for Growth
-                                    </a>
-                                </h2>
-                                <p class="text-sm font-medium text-orange-500 dark:text-orange-400 mt-1">
-                                    Founder · Chairman · CTO · Sept 2023 to Present
-                                </p>
-                            </div>
-                        </div>
-
-                        <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-5">
-                            Founded G3Women to address a structural gap: the absence of infrastructure for women in digital technology across northern Nigeria. The organisation began operating in September 2023 and was formally registered with Nigeria's Corporate Affairs Commission on 10 March 2025 (IT Number 8329018). I hold two formal roles: Chairman with governance authority over the board of trustees, and CTO with sole responsibility for all technical architecture, platform development, and digital infrastructure.
-                        </p>
-
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                            <div class="rounded-xl bg-white dark:bg-neutral-900/60 border border-orange-100 dark:border-neutral-700 p-4 text-center">
-                                <p class="text-2xl font-bold text-orange-500 dark:text-orange-400">300+</p>
-                                <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">IWD 2025 participants</p>
-                            </div>
-                            <div class="rounded-xl bg-white dark:bg-neutral-900/60 border border-orange-100 dark:border-neutral-700 p-4 text-center">
-                                <p class="text-2xl font-bold text-orange-500 dark:text-orange-400">250+</p>
-                                <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">WomenWhoAutomate applicants</p>
-                            </div>
-                            <div class="rounded-xl bg-white dark:bg-neutral-900/60 border border-orange-100 dark:border-neutral-700 p-4 text-center">
-                                <p class="text-2xl font-bold text-orange-500 dark:text-orange-400">10</p>
-                                <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">HerSite sites launched</p>
-                            </div>
-                            <div class="rounded-xl bg-white dark:bg-neutral-900/60 border border-orange-100 dark:border-neutral-700 p-4 text-center">
-                                <p class="text-2xl font-bold text-orange-500 dark:text-orange-400">6</p>
-                                <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">Partner institutions, IWD 2025</p>
-                            </div>
-                        </div>
-
-                        <!-- G3Digital Academy callout -->
-                        <div class="rounded-xl border border-orange-200 dark:border-orange-900/40 bg-white dark:bg-neutral-900/60 p-5">
-                            <div class="flex items-start gap-3">
-                                <div class="mt-0.5 shrink-0 rounded-md bg-orange-100 dark:bg-orange-900/30 p-1.5">
-                                    <svg class="size-4 text-orange-600 dark:text-orange-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="flex flex-wrap items-center gap-2 mb-1">
-                                        <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-200">G3Digital Academy</h3>
-                                        <a href="https://academy.g3women.org/" target="_blank" rel="noopener noreferrer"
-                                            class="text-xs font-medium text-orange-500 dark:text-orange-400 hover:underline">
-                                            academy.g3women.org
-                                        </a>
-                                    </div>
-                                    <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                                        Built from scratch as G3Women's CTO: a serverless learning management system deployed on <strong class="text-neutral-700 dark:text-neutral-300">Google Cloud Run</strong> with automated CI/CD via <strong class="text-neutral-700 dark:text-neutral-300">Google Cloud Build</strong>. The platform's multilingual architecture delivers courses natively in <strong class="text-neutral-700 dark:text-neutral-300">English, Hausa, Yoruba, and Igbo</strong>. Each language is a first-class architectural decision in the database schema, not a translation layer.
-                                    </p>
-                                    <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mt-2">
-                                        Includes <strong class="text-neutral-700 dark:text-neutral-300">Aunty Ada</strong>, a context-aware AI learning companion built on <strong class="text-neutral-700 dark:text-neutral-300">Google Gemini</strong> that adapts its responses to the learner's current lesson, language, and quiz state. Not a generic chatbot, but a companion embedded in the learning flow.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+    <!-- G3Women -->
+    <section class="section pt-14">
+        <div class="container-page">
+            <div class="grid gap-10 lg:grid-cols-[1.2fr_1fr]">
+                <div data-reveal>
+                    <p class="eyebrow">Founder · Chairman · CTO · 2023 to now</p>
+                    <h2 class="h-section">G3Women Network for Growth</h2>
+                    <div class="mt-5 space-y-4 text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
+                        <p>Northern Nigeria has talent but very little infrastructure for women entering digital tech. I founded G3Women in September 2023 to build that infrastructure. It was registered with the Corporate Affairs Commission in March 2025.</p>
+                        <p>As Chairman I govern the board of trustees. As CTO I own every technical decision, from architecture to the platforms our learners use.</p>
                     </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3" data-reveal style="--reveal-delay: 80ms">
+                    {g3Stats.map(s => (
+                        <div class="card p-5">
+                            <p class="font-display text-4xl font-bold text-neutral-900 dark:text-neutral-50" data-count={s.value} data-suffix={s.suffix}>{s.value}{s.suffix}</p>
+                            <p class="mt-2 text-sm font-medium text-neutral-800 dark:text-neutral-200">{s.label}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
 
-            <!-- Other orgs -->
-            <div class="space-y-5 mb-16">
-                {orgs.map(org => (
-                    <div class="rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/60 p-6">
-                        <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
-                            <div>
-                                <span class={`inline-block rounded-full text-xs font-semibold px-2.5 py-0.5 mb-2 ${org.badgeClass}`}>
-                                    {org.role.split(',')[0]}
+            <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {g3Programmes.map((p, i) => {
+                    const Tag = p.url ? 'a' : 'div'
+                    return (
+                        <Tag
+                            {...(p.url ? { href: p.url, target: '_blank', rel: 'noopener noreferrer' } : {})}
+                            class:list={['card p-6', p.url && 'card-hover group']}
+                            data-reveal
+                            style={`--reveal-delay: ${i * 60}ms`}
+                        >
+                            <h3 class="flex items-center justify-between font-bold text-neutral-900 dark:text-neutral-100">
+                                {p.name}
+                                {p.url && <span class="text-neutral-400 group-hover:text-sun-500">↗</span>}
+                            </h3>
+                            <p class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{p.body}</p>
+                        </Tag>
+                    )
+                })}
+            </div>
+        </div>
+    </section>
+
+    <!-- Other organisations -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <div data-reveal>
+                <p class="eyebrow">$ git log --communities</p>
+                <h2 class="h-section">Where else I've led</h2>
+            </div>
+            <ol class="mt-10 space-y-3">
+                {ORGS.map((org, i) => (
+                    <li data-reveal style={`--reveal-delay: ${i * 50}ms`}>
+                        <details class="card group overflow-hidden" open={i === 0}>
+                            <summary class="flex cursor-pointer list-none flex-wrap items-center gap-x-6 gap-y-2 p-6 [&::-webkit-details-marker]:hidden">
+                                <span class="w-32 font-mono text-xs text-neutral-500">{org.period}</span>
+                                <span class="min-w-0 flex-1">
+                                    <span class="block text-lg font-bold text-neutral-900 dark:text-neutral-100">{org.name}</span>
+                                    <span class="block text-sm text-orange-500 dark:text-orange-300">{org.role}</span>
                                 </span>
-                                <h2 class="text-lg font-bold text-neutral-800 dark:text-neutral-200">
-                                    {org.url
-                                        ? <a href={org.url} target="_blank" rel="noopener noreferrer" class="hover:text-orange-500 dark:hover:text-orange-400 transition">{org.name}</a>
-                                        : org.name
-                                    }
-                                </h2>
-                                <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
-                                    {org.role} · {org.period}
-                                </p>
-                            </div>
-                        </div>
-
-                        <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">{org.description}</p>
-
-                        <ul class="space-y-1.5 mb-4">
-                            {org.highlights.map(h => (
-                                <li class="flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-400">
-                                    <span class="mt-2 shrink-0 size-1.5 rounded-full bg-orange-400"></span>
-                                    {h}
-                                </li>
-                            ))}
-                        </ul>
-
-                        <div class="flex flex-wrap gap-3">
-                            {org.stats.map(s => (
-                                <div class="rounded-lg bg-white dark:bg-neutral-900/60 border border-neutral-200 dark:border-neutral-700 px-3 py-2 text-center">
-                                    <p class="text-base font-bold text-neutral-800 dark:text-neutral-200">{s.value}</p>
-                                    <p class="text-xs text-neutral-500 dark:text-neutral-400">{s.label}</p>
+                                <span class="hidden gap-6 md:flex">
+                                    {org.stats.map(s => (
+                                        <span class="text-right">
+                                            <span class="block font-display text-xl font-bold text-neutral-900 dark:text-neutral-100">{s.value}</span>
+                                            <span class="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">{s.label}</span>
+                                        </span>
+                                    ))}
+                                </span>
+                                <span class="flex size-8 items-center justify-center rounded-full border border-paper-300 font-mono transition group-open:rotate-45 group-open:border-sun-400 group-open:text-sun-500 dark:border-ink-600" aria-hidden="true">+</span>
+                            </summary>
+                            <div class="grid gap-6 border-t border-paper-200 p-6 dark:border-ink-700 md:grid-cols-[8rem_1fr] md:gap-x-6">
+                                <span class="hidden md:block"></span>
+                                <div>
+                                    <p class="max-w-2xl leading-relaxed text-neutral-600 dark:text-neutral-400">{org.description}</p>
+                                    <ul class="mt-4 space-y-2">
+                                        {org.highlights.map(h => (
+                                            <li class="flex gap-3 text-sm text-neutral-700 dark:text-neutral-300"><span class="text-sun-500">→</span>{h}</li>
+                                        ))}
+                                    </ul>
+                                    {org.url && <a href={org.url} target="_blank" rel="noopener noreferrer" class="link-arrow mt-5 text-sm">Visit ↗</a>}
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        </details>
+                    </li>
+                ))}
+            </ol>
+        </div>
+    </section>
+
+    <!-- Recognition -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <p class="eyebrow" data-reveal>$ cat recognition.txt</p>
+            <div class="mt-6 grid gap-4 md:grid-cols-3">
+                {RECOGNITION.map((r, i) => (
+                    <div class="card p-6" data-reveal style={`--reveal-delay: ${i * 60}ms`}>
+                        <span class="text-2xl text-sun-500">✦</span>
+                        <h3 class="mt-3 text-lg font-bold text-neutral-900 dark:text-neutral-100">{r.title}</h3>
+                        <p class="mt-1 text-sm text-neutral-500">{r.by}</p>
                     </div>
                 ))}
             </div>
-
-            <!-- Certifications -->
-            <div class="mb-12">
-                <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-6">Certifications &amp; recognition</h2>
-                <div class="space-y-3">
-                    <div class="flex items-center gap-4 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/60 px-5 py-4">
-                        <div class="shrink-0 rounded-md bg-orange-100 dark:bg-orange-900/30 p-2">
-                            <svg class="size-5 text-orange-600 dark:text-orange-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="text-sm font-bold text-neutral-800 dark:text-neutral-200">Google Cloud Certified Professional Cloud Architect</p>
-                            <p class="text-xs text-neutral-500 dark:text-neutral-400">Google Cloud</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/60 px-5 py-4">
-                        <div class="shrink-0 rounded-md bg-yellow-100 dark:bg-yellow-900/30 p-2">
-                            <svg class="size-5 text-yellow-600 dark:text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="text-sm font-bold text-neutral-800 dark:text-neutral-200">Generation Google Scholarship, EMEA</p>
-                            <p class="text-xs text-neutral-500 dark:text-neutral-400">EUR 7,000 competitive grant · 2023</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/60 px-5 py-4">
-                        <div class="shrink-0 rounded-md bg-blue-100 dark:bg-blue-900/30 p-2">
-                            <svg class="size-5 text-blue-600 dark:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="text-sm font-bold text-neutral-800 dark:text-neutral-200">GDE Academy, EMEA</p>
-                            <p class="text-xs text-neutral-500 dark:text-neutral-400">Selected as 1 of 57 from 1,452 applicants · 2025</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Connect CTA -->
-            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-neutral-800 dark:to-neutral-800/50 border border-orange-100 dark:border-neutral-700 px-8 py-10 text-center">
-                <div class="absolute top-4 right-8 size-20 rounded-full bg-orange-200/40 dark:bg-orange-900/20 blur-2xl"></div>
-                <h2 class="text-xl font-bold text-neutral-800 dark:text-neutral-200 mb-2">
-                    Let's build something together
-                </h2>
-                <p class="text-neutral-600 dark:text-neutral-400 mb-6 max-w-sm mx-auto text-sm text-pretty">
-                    Whether it's community, cloud infrastructure, or advocating for inclusion in tech, reach out.
-                </p>
-                <div class="flex flex-wrap gap-3 justify-center">
-                    <a
-                        href="https://www.linkedin.com/in/aminalawalofficial/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-x-2 rounded-lg px-5 py-2.5 text-sm font-bold text-white bg-[#0077B5] hover:bg-[#006399] transition duration-300"
-                    >
-                        Say Hello on LinkedIn
-                    </a>
-                    <a
-                        href="https://mail.google.com/mail/?view=cm&fs=1&to=amynalawal@gmail.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-x-2 rounded-lg px-5 py-2.5 text-sm font-bold border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:border-orange-400 dark:hover:border-orange-500 hover:text-orange-500 dark:hover:text-orange-400 transition duration-300"
-                    >
-                        Send an email
-                    </a>
-                </div>
-            </div>
-
         </div>
     </section>
 </BaseLayout>

@@ -1,92 +1,93 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro'
-import ProjectCard from '@components/projects/ProjectCard.astro'
 import { getCollection } from 'astro:content'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import PageHeader from '@components/PageHeader.astro'
+import ProjectCard from '@components/projects/ProjectCard.astro'
+import { CONTACT, RECOGNITION } from '@/data/site'
 
-const projects = await getCollection('projects')
+const projects = (await getCollection('projects'))
+    .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
 
 const skillGroups = [
-    {
-        label: "Languages",
-        skills: ["Bash", "Python"],
-    },
-    {
-        label: "Cloud",
-        skills: ["Google Cloud (GCP)", "AWS"],
-    },
-    {
-        label: "Frameworks",
-        skills: ["FastAPI", "Django", "Next.js"],
-    },
-    {
-        label: "Infrastructure",
-        skills: ["Kubernetes", "Docker", "Terraform", "Helm", "GitOps"],
-    },
-    {
-        label: "Observability",
-        skills: ["Grafana", "Prometheus", "ELK Stack"],
-    },
-    {
-        label: "Certifications",
-        skills: ["GCP Professional Cloud Architect"],
-    },
+    { label: 'Cloud', skills: ['Google Cloud', 'GKE', 'Cloud Run', 'Cloud Build', 'AWS'] },
+    { label: 'Platform', skills: ['Kubernetes', 'Docker', 'Helm', 'GitOps', 'Terraform'] },
+    { label: 'Delivery', skills: ['GitHub Actions', 'Cloud Build', 'CI/CD design'] },
+    { label: 'Observability', skills: ['Prometheus', 'Grafana', 'ELK Stack'] },
+    { label: 'Languages', skills: ['Python', 'Bash'] },
+    { label: 'Frameworks', skills: ['FastAPI', 'Django', 'Next.js'] },
 ]
 ---
 
 <BaseLayout
-    title="Projects | Amina Lawal"
-    description="Technical projects and infrastructure work by Amina Lawal, covering AI infrastructure, cloud architecture, and platform engineering.">
-    <section class="mx-auto max-w-[85rem] px-4 py-14 sm:px-6 lg:px-8 2xl:max-w-full">
-        <div class="mx-auto max-w-5xl">
+    title="Projects"
+    description="Projects by Amina Lawal across platform engineering, cloud infrastructure and developer tooling, including the G3Digital Academy on Google Cloud Run."
+>
+    <PageHeader
+        path="/projects"
+        title="Things I've built."
+        lede="Platforms, tools and experiments, from a multilingual learning platform on Cloud Run to templates that give solo developers a production-grade pipeline."
+    >
+        <a href={CONTACT.github} target="_blank" rel="noopener noreferrer" class="btn-ghost">More on GitHub ↗</a>
+    </PageHeader>
 
-            <!-- Header -->
-            <div class="mb-12">
-                <p class="text-sm font-semibold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
-                    Projects
-                </p>
-                <h1 class="text-4xl font-bold tracking-tight text-neutral-800 dark:text-neutral-200 sm:text-5xl mb-4">
-                    Things I've built
-                </h1>
-                <p class="text-pretty text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
-                    A selection of technical projects spanning AI infrastructure, cloud architecture, and platform engineering. Details on technologies, challenges, and outcomes.
-                </p>
-            </div>
+    <section class="section pt-14">
+        <div class="container-page">
+            <!-- Featured: G3Digital Academy -->
+            <a href="https://academy.g3women.org/" target="_blank" rel="noopener noreferrer" class="group relative block overflow-hidden rounded-[2rem] bg-ink-950 p-8 text-neutral-300 sm:p-12" data-reveal>
+                <div class="bg-grid pointer-events-none absolute inset-0 opacity-60"></div>
+                <div class="pointer-events-none absolute -bottom-24 -right-16 size-96 rounded-full bg-sun-400/25 blur-3xl"></div>
+                <div class="relative grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+                    <div>
+                        <p class="eyebrow text-sun-300">Featured · G3Women</p>
+                        <h2 class="mt-3 font-display text-3xl font-bold text-white sm:text-5xl">G3Digital Academy</h2>
+                        <p class="mt-4 max-w-xl leading-relaxed text-neutral-400">
+                            A serverless learning platform I architected and built as G3Women's CTO. It runs on Google Cloud Run with CI/CD through Cloud Build, and teaches natively in English, Hausa, Yoruba and Igbo. Each language is a first-class part of the data model, not a translation layer.
+                        </p>
+                        <span class="link-arrow mt-6 text-sun-300">academy.g3women.org ↗</span>
+                    </div>
+                    <ul class="grid grid-cols-2 gap-2 font-mono text-xs">
+                        {['Cloud Run', 'Cloud Build', 'Serverless', '4 languages', 'CI/CD', 'Learning companion'].map(t => (
+                            <li class="rounded-lg border border-ink-700 bg-ink-900/80 px-3 py-2 text-neutral-300">{t}</li>
+                        ))}
+                    </ul>
+                </div>
+            </a>
 
-            <!-- Project grid -->
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-20">
-                {projects.map((project) => (
-                    <ProjectCard project={project} />
+            <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {projects.map((project, i) => (
+                    <div data-reveal style={`--reveal-delay: ${i * 70}ms`}><ProjectCard project={project} /></div>
                 ))}
             </div>
+        </div>
+    </section>
 
-            <!-- Skills & Technologies -->
-            <div>
-                <div class="mb-8">
-                    <p class="text-sm font-semibold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-2">
-                        Skills
-                    </p>
-                    <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-                        Technologies & tools
-                    </h2>
-                </div>
-                <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                    {skillGroups.map((group) => (
-                        <div class="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800/60 p-5">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
-                                {group.label}
-                            </h3>
-                            <div class="flex flex-wrap gap-2">
-                                {group.skills.map((skill) => (
-                                    <span class="inline-block rounded-md bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 text-sm font-medium px-3 py-1">
-                                        {skill}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
+    <section class="section pt-0">
+        <div class="container-page grid gap-10 lg:grid-cols-[1fr_2fr]">
+            <div data-reveal>
+                <p class="eyebrow">$ cat stack.yaml</p>
+                <h2 class="h-section">Tools I reach for</h2>
+                <ul class="mt-8 space-y-3">
+                    {RECOGNITION.map(r => (
+                        <li class="flex gap-3">
+                            <span class="mt-1 text-sun-500">✦</span>
+                            <span>
+                                <span class="block font-semibold text-neutral-900 dark:text-neutral-100">{r.title}</span>
+                                <span class="text-sm text-neutral-500">{r.by}</span>
+                            </span>
+                        </li>
                     ))}
-                </div>
+                </ul>
             </div>
-
+            <div class="terminal p-6 sm:p-8" data-reveal style="--reveal-delay: 80ms">
+                {skillGroups.map(g => (
+                    <div class="grid gap-2 border-b border-ink-700 py-4 first:pt-0 last:border-0 last:pb-0 sm:grid-cols-[9rem_1fr]">
+                        <span class="text-sun-300">{g.label.toLowerCase()}:</span>
+                        <span class="flex flex-wrap gap-2">
+                            {g.skills.map(s => <span class="rounded-md border border-ink-600 px-2 py-0.5 text-neutral-300">{s}</span>)}
+                        </span>
+                    </div>
+                ))}
+            </div>
         </div>
     </section>
 </BaseLayout>

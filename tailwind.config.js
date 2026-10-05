@@ -42,6 +42,7 @@ export default {
                 400: '#facc15',
                 500: '#eab308',
             },
+            // Bright brand orange: a secondary accent, used sparingly
             orange: {
                 100: '#ffedd5',
                 200: '#fed7aa',
@@ -50,9 +51,48 @@ export default {
                 500: '#e14d0b',
                 600: '#ea580c',
             },
+            // Warm mustard yellow: the lead accent
+            sun: {
+                50: '#fffaeb',
+                100: '#fdf1cc',
+                200: '#f9e29a',
+                300: '#f5d06a',
+                400: '#efbd45',
+                500: '#d9a42a',
+                600: '#a97c17',
+                700: '#7f5d12',
+            },
             red: {
                 400: '#f87171',
                 500: '#ef4444',
+            },
+            green: {
+                100: '#dcfce7',
+                400: '#4ade80',
+                500: '#22c55e',
+                600: '#16a34a',
+                700: '#15803d',
+            },
+            blue: {
+                100: '#dbeafe',
+                400: '#60a5fa',
+                500: '#3b82f6',
+                700: '#1d4ed8',
+            },
+            // Warm off-white surfaces (light theme)
+            paper: {
+                50: '#fffdf9',
+                100: '#f7f4ee',
+                200: '#ede7dc',
+                300: '#ddd4c4',
+            },
+            // Deep near-black surfaces (dark theme)
+            ink: {
+                600: '#4a4650',
+                700: '#36333c',
+                800: '#2a2830',
+                900: '#222027',
+                950: '#1a191e',
             },
             zinc: {
                 200: '#e4e4e7',
@@ -65,6 +105,11 @@ export default {
             },
         },
         extend: {
+            fontFamily: {
+                sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                display: ['"Space Grotesk"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+            },
             typography: ({ theme }) => ({
                 blog: {
                     css: {
@@ -88,7 +133,7 @@ export default {
                         '--tw-prose-invert-body': theme('colors.neutral[400]'),
                         '--tw-prose-invert-headings': theme('colors.neutral[200]'),
                         '--tw-prose-invert-lead': theme('colors.neutral[300]'),
-                        '--tw-prose-invert-links': theme('colors.neutral[300]'),
+                        '--tw-prose-invert-links': theme('colors.orange[300]'),
                         '--tw-prose-invert-bold': theme('colors.neutral[300]'),
                         '--tw-prose-invert-counters': theme('colors.neutral[400]'),
                         '--tw-prose-invert-bullets': theme('colors.neutral[600]'),

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="2"/>
+    </pattern>
+    <radialGradient id="glow" cx="80%" cy="10%" r="60%">
+      <stop offset="0" stop-color="#efbd45" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#efbd45" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="#1a191e"/>
+  <rect width="1600" height="1000" fill="url(#grid)"/>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+
+  <g font-family="JetBrains Mono, ui-monospace, Menlo, monospace">
+    <!-- Pull requests -->
+    <g font-size="34" fill="#e8e6ea">
+      <rect x="110" y="250" width="300" height="96" rx="20" fill="#2a2830" stroke="#4a4650" stroke-width="3"/>
+      <circle cx="160" cy="298" r="12" fill="#4ade80"/>
+      <text x="190" y="310">PR #42</text>
+      <rect x="110" y="452" width="300" height="96" rx="20" fill="#2a2830" stroke="#4a4650" stroke-width="3"/>
+      <circle cx="160" cy="500" r="12" fill="#4ade80"/>
+      <text x="190" y="512">PR #43</text>
+      <rect x="110" y="654" width="300" height="96" rx="20" fill="#2a2830" stroke="#4a4650" stroke-width="3" stroke-dasharray="10 10"/>
+      <circle cx="160" cy="702" r="12" fill="#a8a3ad"/>
+      <text x="190" y="714" fill="#a8a3ad">PR #44 ✕</text>
+    </g>
+
+    <!-- Arrows -->
+    <g stroke="#efbd45" stroke-width="5" fill="none" stroke-linecap="round">
+      <path d="M430 298 H560"/><path d="M545 284 l18 14 -18 14"/>
+      <path d="M430 500 H560"/><path d="M545 486 l18 14 -18 14"/>
+      <path d="M430 702 H560" stroke="#a8a3ad" stroke-dasharray="8 12"/>
+    </g>
+
+    <!-- Actions -->
+    <rect x="580" y="230" width="250" height="540" rx="28" fill="#222027" stroke="#efbd45" stroke-width="3"/>
+    <text x="705" y="300" font-size="28" fill="#efbd45" text-anchor="middle">GitHub</text>
+    <text x="705" y="338" font-size="28" fill="#efbd45" text-anchor="middle">Actions</text>
+    <g font-size="24" fill="#c9c5cd" text-anchor="middle">
+      <text x="705" y="430">build</text>
+      <text x="705" y="500">push → AR</text>
+      <text x="705" y="570">deploy</text>
+      <text x="705" y="680" fill="#fa5a15">WIF · no keys</text>
+    </g>
+
+    <g stroke="#efbd45" stroke-width="5" fill="none" stroke-linecap="round">
+      <path d="M850 500 H960"/><path d="M945 486 l18 14 -18 14"/>
+    </g>
+
+    <!-- GKE cluster -->
+    <rect x="980" y="170" width="520" height="660" rx="36" fill="none" stroke="#4a4650" stroke-width="3" stroke-dasharray="14 10"/>
+    <text x="1020" y="230" font-size="28" fill="#a8a3ad">GKE cluster</text>
+    <g font-size="32">
+      <rect x="1030" y="270" width="420" height="150" rx="22" fill="#efbd45"/>
+      <text x="1065" y="335" fill="#1a191e" font-weight="700">ns: pr-42</text>
+      <text x="1065" y="385" fill="#1a191e" font-size="24">app ✓  svc ✓  ing ✓</text>
+      <rect x="1030" y="450" width="420" height="150" rx="22" fill="#f5d06a"/>
+      <text x="1065" y="515" fill="#1a191e" font-weight="700">ns: pr-43</text>
+      <text x="1065" y="565" fill="#1a191e" font-size="24">app ✓  svc ✓  ing ✓</text>
+      <rect x="1030" y="630" width="420" height="150" rx="22" fill="none" stroke="#a8a3ad" stroke-width="3" stroke-dasharray="10 10"/>
+      <text x="1065" y="695" fill="#a8a3ad" font-weight="700">ns: pr-44</text>
+      <text x="1065" y="745" fill="#fa5a15" font-size="24">deleted on close</text>
+    </g>
+  </g>
+
+  <text x="110" y="150" font-family="Space Grotesk, Inter, sans-serif" font-size="58" font-weight="700" fill="#ffffff">Ephemeral PR previews on GKE</text>
+  <text x="110" y="900" font-family="JetBrains Mono, ui-monospace, monospace" font-size="28" fill="#a8a3ad">terraform · github actions · workload identity federation · artifact registry</text>
+</svg>

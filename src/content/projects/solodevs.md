@@ -6,5 +6,6 @@ repo: "amiynarh/k8s-deploy-tool"
 tech: ["GitHub Actions", "Kubernetes", "Docker", "Terraform", "TLS/DNS", "Monitoring", "Secrets"]
 banner: "@images/projects/solodevs.png"
 featured: true
+order: 2
 ---
 

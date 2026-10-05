@@ -1,0 +1,286 @@
+---
+import { ARTICLES, CONTACT, MENTORSHIP, STACK, TALKS } from '@/data/site'
+
+// Everything the terminal can print is prepared here so the client script stays generic.
+const data = {
+    email: CONTACT.email,
+    links: CONTACT,
+    mentorship: { name: MENTORSHIP.name, url: MENTORSHIP.url, waitlist: MENTORSHIP.waitlist },
+    stack: STACK,
+    latestArticle: { title: ARTICLES[0].title, url: ARTICLES[0].url },
+    latestTalk: { title: TALKS[0].title, event: TALKS[0].event },
+}
+const suggestions = ['whoami', 'ls', 'mentorship', 'stack', 'contact']
+---
+
+<div class="terminal" data-terminal>
+    <div class="flex items-center gap-2 border-b border-ink-700 bg-ink-800/80 px-4 py-3">
+        <span class="size-3 rounded-full bg-[#ff5f57]"></span>
+        <span class="size-3 rounded-full bg-[#febc2e]"></span>
+        <span class="size-3 rounded-full bg-[#28c840]"></span>
+        <span class="ms-3 truncate text-xs text-neutral-500">amina@platform: ~</span>
+        <span class="ms-auto hidden text-[11px] text-neutral-600 sm:inline">try typing “help”</span>
+    </div>
+    <div class="h-[300px] overflow-y-auto px-4 py-4 sm:h-[330px]" data-term-scroll data-lenis-prevent>
+        <div data-term-output aria-live="polite">
+            <noscript><p>amina — platform engineer, writer, founder of G3Women.</p></noscript>
+        </div>
+        <form class="flex items-center gap-2" data-term-form autocomplete="off">
+            <label for="term-input" class="shrink-0 text-sun-300">~ $</label>
+            <input
+                id="term-input"
+                data-term-input
+                class="w-full bg-transparent text-neutral-100 caret-sun-400 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-neutral-600"
+                spellcheck="false"
+                autocapitalize="off"
+                aria-label="Terminal command"
+                placeholder="type a command…"
+            />
+        </form>
+    </div>
+    <div class="flex flex-wrap gap-1.5 border-t border-ink-700 bg-ink-800/50 px-3 py-2.5">
+        {suggestions.map(cmd => (
+            <button type="button" data-term-cmd={cmd} class="rounded-md border border-ink-600 px-2 py-1 text-[11px] text-neutral-400 transition hover:border-sun-400 hover:text-sun-300">
+                {cmd}
+            </button>
+        ))}
+    </div>
+</div>
+
+<script define:vars={{ data }}>
+    const term = document.querySelector('[data-terminal]')
+    const out = term.querySelector('[data-term-output]')
+    const scroller = term.querySelector('[data-term-scroll]')
+    const form = term.querySelector('[data-term-form]')
+    const input = term.querySelector('[data-term-input]')
+    const history = []
+    let historyIndex = 0
+
+    // A line is an array of segments: strings, or { text, href, cls }.
+    function print(...lines) {
+        for (const line of lines) {
+            const p = document.createElement('p')
+            p.className = 'whitespace-pre-wrap break-words'
+            for (const seg of [].concat(line)) {
+                if (typeof seg === 'string') {
+                    p.append(seg)
+                    continue
+                }
+                const el = document.createElement(seg.href ? 'a' : 'span')
+                el.textContent = seg.text
+                if (seg.cls)
+                    el.className = seg.cls
+                if (seg.href) {
+                    el.href = seg.href
+                    if (/^https?:/.test(seg.href)) {
+                        el.target = '_blank'
+                        el.rel = 'noopener noreferrer'
+                    }
+                }
+                p.append(el)
+            }
+            out.append(p)
+        }
+        scroller.scrollTop = scroller.scrollHeight
+    }
+
+    const dim = text => ({ text, cls: 'text-neutral-500' })
+    const hi = text => ({ text, cls: 'text-sun-300' })
+    const ok = text => ({ text, cls: 'text-green-400' })
+    const link = (text, href) => ({ text, href })
+
+    const dirs = {
+        'writing': '/writing',
+        'speaking': '/speaking',
+        'projects': '/projects',
+        'community': '/community',
+        'mentorship': '/mentorship',
+        'now': '/now',
+        'posts': '/posts',
+    }
+
+    const commands = {
+        help: () => print(
+            dim('available commands:'),
+            ['  ', hi('whoami'), '      who is Amina?'],
+            ['  ', hi('ls'), '          list what lives here'],
+            ['  ', hi('cd <dir>'), '    go to a section, e.g. cd writing'],
+            ['  ', hi('cat now.txt'), ' what I\'m doing right now'],
+            ['  ', hi('mentorship'), '  learn cloud with me'],
+            ['  ', hi('g3women'), '     the NGO I founded'],
+            ['  ', hi('stack'), '       tools I reach for'],
+            ['  ', hi('latest'), '      newest article and talk'],
+            ['  ', hi('contact'), '     say hello'],
+            ['  ', hi('clear'), '       wipe the screen'],
+        ),
+        whoami: () => print(
+            hi('Amina Lawal'),
+            'Platform Engineer · Google Cloud Professional Cloud Architect',
+            'I build the paved roads other engineers ship on, then write',
+            'and speak about how it really went.',
+            ['Founder of ', link('G3Women', data.links.g3women), ' · CNCF Kaduna co-founder · WTM Ambassador'],
+        ),
+        ls: () => print([
+            ...Object.keys(dirs).map(d => [link(`${d}/`, dirs[d]), '  ']).flat(),
+            hi('now.txt'),
+        ]),
+        cd: (arg) => {
+            const target = (arg || '').replace(/^~?\/?/, '').replace(/\/$/, '')
+            if (!target || target === '~') {
+                print(dim('you are already home.'))
+                return
+            }
+            if (!dirs[target]) {
+                print(`cd: no such directory: ${target}`, dim('try: ls'))
+                return
+            }
+            print(ok(`→ opening ${dirs[target]} …`))
+            setTimeout(() => (window.location.href = dirs[target]), 350)
+        },
+        cat: (arg) => {
+            if (arg !== 'now.txt') {
+                print(arg ? `cat: ${arg}: No such file` : 'cat: missing file operand', dim('try: cat now.txt'))
+                return
+            }
+            print(
+                ['• ', 'mentoring engineers through ', hi(data.mentorship.name)],
+                '• building golden paths and internal developer platforms',
+                '• writing for FreeCodeCamp and Google Cloud on Medium',
+                '• running G3Women and growing CNCF Kaduna',
+                ['  ', link('read the full /now page →', '/now')],
+            )
+        },
+        mentorship: () => print(
+            [hi(data.mentorship.name), ' · 4 months · 2 weeks per module · real cloud'],
+            'Linux → IAM → networking → Docker → Kubernetes → IaC → CI/CD → observability.',
+            'Proceeds go to G3Women, funding programmes for women in tech.',
+            [link('details', '/mentorship'), '  ·  ', link('join the waitlist', data.mentorship.waitlist)],
+        ),
+        g3women: () => print(
+            'G3Women Network for Growth: closing the gap for women in',
+            'digital tech across northern Nigeria. Founded 2023.',
+            ['I serve as Chairman and CTO. ', link('g3women.org', data.links.g3women)],
+        ),
+        stack: () => print(data.stack.map(s => `[${s}]`).join(' ')),
+        latest: () => print(
+            [dim('article  '), link(data.latestArticle.title, data.latestArticle.url)],
+            [dim('talk     '), `${data.latestTalk.title}, ${data.latestTalk.event}`],
+        ),
+        contact: () => print(
+            [dim('email     '), link(data.email, `mailto:${data.email}`)],
+            [dim('linkedin  '), link('in/aminalawalofficial', data.links.linkedin)],
+            [dim('x         '), link('@amiynarh', data.links.x)],
+            [dim('github    '), link('@Amiynarh', data.links.github)],
+        ),
+        clear: () => {
+            out.replaceChildren()
+        },
+        sudo: (arg) => {
+            if (arg?.startsWith('hire'))
+                print(ok('[sudo] permission granted.'), ['Excellent choice. ', link('Send the details →', `mailto:${data.email}?subject=Let's work together`)])
+            else
+                print('amina is not in the sudoers file. This incident will be reported. 🙂')
+        },
+        echo: arg => print(arg || ''),
+        pwd: () => print('/home/amina'),
+        date: () => print(new Date().toString()),
+        exit: () => print(dim('there is no escape. try "ls" instead.')),
+        kubectl: (arg) => {
+            if (arg?.includes('get pods'))
+                print(dim('NAME      READY   STATUS    RESTARTS'), ['amina-0   1/1     ', ok('Running'), '   0'])
+            else
+                print(dim('kubectl: try "kubectl get pods"'))
+        },
+    }
+    commands.dir = commands.ls
+    commands.about = commands.whoami
+    commands.open = commands.cd
+
+    function run(raw) {
+        const value = raw.trim()
+        print([hi('~ $ '), value])
+        if (!value)
+            return
+        history.push(value)
+        historyIndex = history.length
+        const [name, ...rest] = value.split(/\s+/)
+        const cmd = commands[name.toLowerCase()]
+        if (cmd)
+            cmd(rest.join(' '))
+        else if (dirs[name.toLowerCase().replace(/\/$/, '')])
+            commands.cd(name)
+        else
+            print(`command not found: ${name}`, dim('type "help" to see what I understand.'))
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault()
+        run(input.value)
+        input.value = ''
+    })
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' && history.length) {
+            e.preventDefault()
+            historyIndex = Math.max(historyIndex - 1, 0)
+            input.value = history[historyIndex]
+        }
+        else if (e.key === 'ArrowDown' && history.length) {
+            e.preventDefault()
+            historyIndex = Math.min(historyIndex + 1, history.length)
+            input.value = history[historyIndex] ?? ''
+        }
+        else if (e.key === 'Tab') {
+            const partial = input.value.trim().toLowerCase()
+            const match = partial && Object.keys(commands).find(c => c.startsWith(partial))
+            if (match) {
+                e.preventDefault()
+                input.value = match
+            }
+        }
+    })
+
+    term.querySelectorAll('[data-term-cmd]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            run(btn.dataset.termCmd)
+            input.focus({ preventScroll: true })
+        })
+    })
+
+    // Clicking anywhere in the window focuses the prompt (unless selecting text / clicking a link)
+    scroller.addEventListener('click', (e) => {
+        if (e.target.closest('a') || window.getSelection()?.toString())
+            return
+        input.focus({ preventScroll: true })
+    })
+
+    // Intro: type "whoami" by itself, then hint at help
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const intro = 'whoami'
+    if (reduce) {
+        run(intro)
+        print(dim('type "help" or tap a command below ↓'))
+    }
+    else {
+        let i = 0
+        const typer = setInterval(() => {
+            input.value = intro.slice(0, ++i)
+            if (i === intro.length) {
+                clearInterval(typer)
+                setTimeout(() => {
+                    input.value = ''
+                    run(intro)
+                    print(dim('type "help" or tap a command below ↓'))
+                }, 300)
+            }
+        }, 90)
+        // If the visitor starts typing, stop the demo immediately
+        input.addEventListener('focus', () => {
+            if (i < intro.length) {
+                clearInterval(typer)
+                i = intro.length
+                input.value = ''
+            }
+        }, { once: true })
+    }
+</script>

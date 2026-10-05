@@ -4,15 +4,16 @@ export const SITE: Site = {
     author: 'Amina Lawal',
     url: 'https://aminalawal.com',
     title: 'Amina Lawal',
-    description: 'Cloud & Platform Engineer specialising in AI infrastructure. Founder of G3Women, speaker, and writer for FreeCodeCamp and Google Cloud.',
+    description: 'Amina Lawal is a Platform Engineer and Google Cloud Professional Cloud Architect. Founder of G3Women, mentor, speaker, and writer for FreeCodeCamp and Google Cloud.',
     shortDescription: '',
 }
 
 export const NavigationLinks: NavigationLink[] = [
     { name: 'Writing', url: '/writing' },
+    { name: 'Speaking', url: '/speaking' },
     { name: 'Projects', url: '/projects' },
     { name: 'Community', url: '/community' },
-    { name: 'Speaking', url: '/speaking' },
+    { name: 'Mentorship', url: '/mentorship' },
     { name: 'Now', url: '/now' },
 ]
 
@@ -32,6 +33,8 @@ export const FooterLinks = [
             { name: 'Projects', url: '/projects' },
             { name: 'Speaking', url: '/speaking' },
             { name: 'Community', url: '/community' },
+            { name: 'Mentorship', url: '/mentorship' },
+            { name: 'G3Women', url: 'https://g3women.org' },
         ],
     },
     {

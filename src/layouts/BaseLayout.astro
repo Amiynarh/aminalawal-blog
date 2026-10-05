@@ -1,7 +1,9 @@
 ---
+import '@/styles/global.css'
 import BaseHead from '@components/BaseHead.astro'
 import Footer from '@components/Footer.astro'
 import Header from '@components/Header.astro'
+import CommandPalette from '@components/CommandPalette.astro'
 import GoogleAnalytics from '@components/support/GoogleAnalytics.astro'
 import UmamiAnalytics from '@components/support/UmamiAnalytics.astro'
 import { SITE } from '@/config'
@@ -15,10 +17,10 @@ interface Props {
 }
 
 const { title, description = SITE.description, ogImage, lang = 'en', structuredData } = Astro.props
-const normalizeTitle = !title ? SITE.title : `${title} | ${SITE.title}`
+const normalizeTitle = !title ? SITE.title : title.includes(SITE.title) ? title : `${title} | ${SITE.title}`
 ---
 
-<html lang={lang} class="scrollbar-hide lenis lenis-smooth scroll-pt-16">
+<html lang={lang} class="scroll-pt-24 lenis lenis-smooth">
     <head>
         <GoogleAnalytics />
         <title>{normalizeTitle}</title>
@@ -30,57 +32,84 @@ const normalizeTitle = !title ? SITE.title : `${title} | ${SITE.title}`
             ogDescription={description}
             structuredData={structuredData}
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        />
         <script is:inline>
-         if (localStorage.getItem('hs_theme') === 'dark' || (!('hs_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-             document.documentElement.classList.add('dark')
-         }
-         else {
-             document.documentElement.classList.remove('dark')
-         }
-         </script>
+            document.documentElement.classList.add('js')
+            if (localStorage.getItem('hs_theme') === 'dark' || (!('hs_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark')
+            }
+            else {
+                document.documentElement.classList.remove('dark')
+            }
+        </script>
         <script is:inline src="/vendor/lenis/lenis1.1.5.min.js"></script>
         <script is:inline>
-        const lenis = new Lenis()
-        function raf(time) {
-            lenis.raf(time)
-            requestAnimationFrame(raf)
-        }
-        requestAnimationFrame(raf)
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const lenis = new Lenis()
+                window.__lenis = lenis
+                const raf = (time) => {
+                    lenis.raf(time)
+                    requestAnimationFrame(raf)
+                }
+                requestAnimationFrame(raf)
+            }
         </script>
         <UmamiAnalytics />
     </head>
-    <body class="bg-neutral-200 selection:bg-yellow-400 selection:text-neutral-700 dark:bg-neutral-800">
-        <div class="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-            <Header />
-            <main>
-                <slot />
-            </main>
-        </div>
+    <body class="min-h-screen">
+        <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-orange-400 focus:px-4 focus:py-2 focus:text-white">
+            Skip to content
+        </a>
+        <Header />
+        <main id="main">
+            <slot />
+        </main>
         <Footer />
-        <style>
-            .scrollbar-hide::-webkit-scrollbar {
-                display: none;
-            }
-            .scrollbar-hide {
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-            }
-            html.lenis,
-            html.lenis body {
-                height: auto;
-            }
-            .lenis.lenis-smooth {
-                scroll-behavior: auto !important;
-            }
-            .lenis.lenis-smooth [data-lenis-prevent] {
-                overscroll-behavior: contain;
-            }
-            .lenis.lenis-stopped {
-                overflow: hidden;
-            }
-            .lenis.lenis-scrolling iframe {
-                pointer-events: none;
-            }
-        </style>
+        <CommandPalette />
+        <script>
+            // Reveal elements as they scroll into view
+            const revealObserver = new IntersectionObserver((entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible')
+                        revealObserver.unobserve(entry.target)
+                    }
+                }
+            }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 })
+            document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el))
+
+            // Count numbers up the first time they are seen
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            const countObserver = new IntersectionObserver((entries) => {
+                for (const entry of entries) {
+                    if (!entry.isIntersecting)
+                        continue
+                    const el = entry.target as HTMLElement
+                    countObserver.unobserve(el)
+                    const target = Number(el.dataset.count)
+                    const suffix = el.dataset.suffix ?? ''
+                    if (reduceMotion || Number.isNaN(target)) {
+                        el.textContent = `${target}${suffix}`
+                        continue
+                    }
+                    const start = performance.now()
+                    const duration = 1400
+                    const tick = (now: number) => {
+                        const t = Math.min((now - start) / duration, 1)
+                        const eased = 1 - (1 - t) ** 3
+                        el.textContent = `${Math.round(target * eased)}${suffix}`
+                        if (t < 1)
+                            requestAnimationFrame(tick)
+                    }
+                    requestAnimationFrame(tick)
+                }
+            }, { threshold: 0.6 })
+            document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el))
+        </script>
     </body>
 </html>

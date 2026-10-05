@@ -1,195 +1,341 @@
 ---
 import { getCollection } from 'astro:content'
-import type { CollectionEntry } from 'astro:content'
 import BaseLayout from '@layouts/BaseLayout.astro'
+import Terminal from '@components/Terminal.astro'
 import ProjectCard from '@components/projects/ProjectCard.astro'
-import HeroSection from '@components/ui/sections/HeroSection.astro'
-import FeaturesSection from '@components/ui/sections/FeaturesSection.astro'
-import HeroSectionAlt from '@components/ui/sections/HeroSectionAlt.astro'
-import SimpleYoutubeBtn from '@components/ui/buttons/SimpleYoutubeBtn.astro'
-import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro'
-import blogHeroImg from '@images/test3.png'
+import Image from '@components/ui/images/Image.astro'
+import illustration from '@images/test3.png'
+import headshot from '@images/amina-headshot.jpg'
+import { ARTICLES, CONTACT, IMPACT, MENTORSHIP, STACK, TALKS, TALK_TYPES } from '@/data/site'
 
-const projects: CollectionEntry<'projects'>[] = (await getCollection('projects')).slice(0, 3);
+const projects = (await getCollection('projects'))
+    .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)).slice(0, 3)
+const latestArticles = ARTICLES.slice(0, 4)
+const recentTalks = TALKS.filter((t, i, all) => all.findIndex(o => o.title === t.title) === i).slice(0, 3)
+
+const fmt = (d: string) => new Date(d).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
+// Short pseudo commit hash so the writing list reads like `git log`
+const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7).toString(16).slice(0, 7)
+
+const doors = [
+    {
+        n: '01',
+        title: 'Engineer',
+        body: 'Kubernetes, Terraform and Google Cloud. I build internal platforms and golden paths so teams ship without fighting their infrastructure.',
+        href: '/projects',
+        cta: 'See projects',
+    },
+    {
+        n: '02',
+        title: 'Writer',
+        body: 'Practical, tested tutorials on FreeCodeCamp and Google Cloud\'s Medium publication, plus the broken bits nobody else mentions.',
+        href: '/writing',
+        cta: 'Read articles',
+    },
+    {
+        n: '03',
+        title: 'Speaker',
+        body: 'DevFest stages, community meetups and government policy dialogues on cloud, platform engineering and access.',
+        href: '/speaking',
+        cta: 'View talks',
+    },
+    {
+        n: '04',
+        title: 'Builder of people',
+        body: 'Founder of G3Women, co-founder of CNCF Kaduna, WTM Ambassador, and now a mentor teaching cloud from first principles.',
+        href: '/community',
+        cta: 'Meet the communities',
+    },
+]
 ---
 
 <BaseLayout
-    title="Amina Lawal | Platform Engineer, Community Builder & Writer"
-    description="Cloud & Platform Engineer specialising in AI infrastructure. Founder of G3Women, speaker, and writer for FreeCodeCamp and Google Cloud."
+    title="Amina Lawal | Platform Engineer, Writer & Community Builder"
+    description="Amina Lawal is a Platform Engineer and Google Cloud Professional Cloud Architect. Founder of G3Women, mentor, speaker, and writer for FreeCodeCamp and Google Cloud."
 >
-    <HeroSection
-        title=`Hello, <span class="text-yellow-500 dark:text-yellow-400">I'm Amina.</span>`
-        subTitle="Platform Engineer focused on AI infrastructure. I build distributed systems, found communities, shape policy, and write about the messy reality of all of it."
-        src={blogHeroImg}
-        alt="Amina Lawal"
-        primaryBtn="Read my writing"
-        primaryBtnURL="/writing"
-        secondaryBtn="Say hello on LinkedIn"
-        secondaryBtnURL="https://www.linkedin.com/in/aminalawalofficial/"
-    />
-
-    <FeaturesSection />
-
-    <!-- Latest writing (external) -->
-    <section class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full">
-        <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
-            <h2 class="text-3xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl md:leading-tight">
-                Latest Writing
-            </h2>
-            <p class="mt-1 text-pretty text-neutral-600 dark:text-neutral-400">
-                Published on FreeCodeCamp and Google Cloud's Medium publication.
-            </p>
-        </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 max-w-4xl mx-auto">
-            <!-- FreeCodeCamp article -->
-            <a
-                href="https://www.freecodecamp.org/news/build-and-deploy-multi-architecture-docker-apps-on-google-cloud-using-arm-nodes/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group flex flex-col rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800/60 p-6 transition hover:border-orange-200 dark:hover:border-orange-900 hover:shadow-md"
-            >
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="inline-block rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 text-xs font-semibold px-2.5 py-0.5">FreeCodeCamp</span>
-                    <span class="text-xs text-neutral-500 dark:text-neutral-500">April 2026</span>
-                </div>
-                <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug mb-2">
-                    How to Build and Deploy Multi-Architecture Docker Apps on Google Cloud Using ARM Nodes (Without QEMU)
-                </h3>
-                <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed flex-grow">
-                    Building Docker images that run on both ARM and x86 using Google Cloud, Docker Buildx, and a Kubernetes cluster with mixed CPU architectures.
-                </p>
-                <span class="mt-4 text-sm font-semibold text-orange-500 dark:text-orange-400 group-hover:underline">Read article →</span>
-            </a>
-
-            <!-- Medium article -->
-            <a
-                href="https://medium.com/google-cloud/gcp-network-reliability-going-beyond-the-basics-with-cloud-armor-and-private-service-connect-af2637d8aa72"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group flex flex-col rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800/60 p-6 transition hover:border-orange-200 dark:hover:border-orange-900 hover:shadow-md"
-            >
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="inline-block rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 text-xs font-semibold px-2.5 py-0.5">Google Cloud</span>
-                    <span class="text-xs text-neutral-500 dark:text-neutral-500">January 2026</span>
-                </div>
-                <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug mb-2">
-                    GCP Network Reliability: Going Beyond the Basics with Cloud Armor and Private Service Connect
-                </h3>
-                <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed flex-grow">
-                    Zero-trust network architecture on GCP: combining Cloud Armor for external protection and Private Service Connect for internal API connectivity.
-                </p>
-                <span class="mt-4 text-sm font-semibold text-orange-500 dark:text-orange-400 group-hover:underline">Read article →</span>
-            </a>
-        </div>
-        <div class="mt-8 flex justify-center">
-            <PrimaryCTA url="/writing" title="All Writing" />
-        </div>
-    </section>
-
-    <section class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full">
-        <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
-            <h2 class="text-3xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl md:leading-tight">
-                Featured Projects
-            </h2>
-            <p class="mt-1 text-pretty text-neutral-600 dark:text-neutral-400">
-                Some of my recent technical projects and contributions
-            </p>
-        </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
-                <ProjectCard project={project} />
-            ))}
-        </div>
-        <div class="mt-8 flex justify-center">
-            <PrimaryCTA url="/projects" title="View All Projects" />
-        </div>
-    </section>
-
-    <!-- Community & Speaking section -->
-    <section class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full">
-        <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+    <!-- Hero -->
+    <section class="bg-grid relative overflow-hidden">
+        <div class="pointer-events-none absolute -left-32 top-10 size-96 rounded-full bg-sun-400/20 blur-3xl"></div>
+        <div class="pointer-events-none absolute -right-20 bottom-0 size-80 rounded-full bg-yellow-400/20 blur-3xl"></div>
+        <div class="container-page relative grid items-center gap-12 pb-20 pt-14 sm:pt-20 lg:grid-cols-[1.05fr_1fr] lg:pb-28">
             <div>
-                <p class="text-sm font-semibold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
-                    Community & Advocacy
+                <p class="eyebrow" data-reveal>
+                    <span class="status-dot"></span>
+                    Mentorship waitlist open · Cohort 2
                 </p>
-                <h2 class="text-3xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl leading-tight">
-                    Beyond the terminal
-                </h2>
-                <p class="mt-4 text-pretty text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                    Engineering is only part of the story. I founded G3Women to close structural gaps in digital tech for women in northern Nigeria. I speak at conferences, shape policy at government level, and run programmes that produce engineers, not just certificates.
+                <h1 class="mt-5 font-display text-5xl font-bold leading-[1.02] text-neutral-900 dark:text-neutral-50 sm:text-6xl lg:text-7xl" data-reveal style="--reveal-delay: 80ms">
+                    Hello, I'm Amina.
+                    <span class="mt-2 block text-[0.62em] leading-tight text-neutral-500 dark:text-neutral-400">
+                        I build <span class="mark text-neutral-800 dark:text-neutral-100" data-rotator data-words='["platforms.","golden paths.","communities.","engineers."]'>platforms.</span><span class="caret text-sun-500 dark:text-sun-300">_</span>
+                    </span>
+                </h1>
+                <p class="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-neutral-600 dark:text-neutral-400" data-reveal style="--reveal-delay: 160ms">
+                    I'm a Platform Engineer and Google Cloud Professional Cloud Architect.
                 </p>
-                <div class="mt-6 flex flex-wrap gap-3">
-                    <PrimaryCTA url="/speaking" title="Talks & Events" />
-                    <a
-                        href="https://g3women.org"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-x-2 rounded-lg px-4 py-3 text-sm font-bold border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-orange-400 dark:hover:border-orange-500 hover:text-orange-500 dark:hover:text-orange-400 transition duration-300"
-                    >
-                        G3Women →
+                <div class="mt-8 flex flex-wrap gap-3" data-reveal style="--reveal-delay: 240ms">
+                    <a href="/mentorship" class="btn-primary group">
+                        Learn cloud with me
+                        <span class="transition group-hover:translate-x-0.5">→</span>
                     </a>
+                    <a href="/writing" class="btn-ghost">Read my writing</a>
                 </div>
+                <p class="mt-6 hidden font-mono text-xs text-neutral-500 sm:block" data-reveal style="--reveal-delay: 320ms">
+                    Tip: press <kbd class="kbd">/</kbd> anywhere to jump around the site.
+                </p>
             </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="rounded-xl bg-orange-50 dark:bg-neutral-900/50 border border-orange-100 dark:border-neutral-800 p-5">
-                    <p class="text-2xl font-bold text-orange-500 dark:text-orange-400 mb-1">385+</p>
-                    <p class="font-semibold text-neutral-800 dark:text-neutral-200 text-sm">IWD Attendees</p>
-                    <p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Annual summit, Kano (grown from 45 virtual)</p>
-                </div>
-                <div class="rounded-xl bg-yellow-50 dark:bg-neutral-900/50 border border-yellow-100 dark:border-neutral-800 p-5">
-                    <p class="text-2xl font-bold text-yellow-500 dark:text-yellow-400 mb-1">250+</p>
-                    <p class="font-semibold text-neutral-800 dark:text-neutral-200 text-sm">WomenWhoAutomate</p>
-                    <p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Applications for G3Women's first cohort</p>
-                </div>
-                <div class="rounded-xl bg-neutral-100 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 p-5">
-                    <p class="text-2xl font-bold text-neutral-700 dark:text-neutral-300 mb-1">10</p>
-                    <p class="font-semibold text-neutral-800 dark:text-neutral-200 text-sm">HerSite IWD 2026</p>
-                    <p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Websites built for women-led businesses in a day</p>
-                </div>
-                <div class="rounded-xl bg-neutral-100 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 p-5">
-                    <p class="text-2xl font-bold text-neutral-700 dark:text-neutral-300 mb-1">1/57</p>
-                    <p class="font-semibold text-neutral-800 dark:text-neutral-200 text-sm">GDE Academy EMEA</p>
-                    <p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Selected from 1,452 applicants (2025)</p>
+            <div class="relative" data-reveal style="--reveal-delay: 200ms">
+                <figure class="relative ms-auto w-[70%] max-w-[22rem] overflow-hidden rounded-[2rem] border-4 border-paper-50 shadow-[0_30px_60px_-30px_rgb(0_0_0_/_0.45)] rotate-[2deg] transition duration-500 hover:rotate-0 dark:border-ink-800">
+                    <Image src={headshot} alt="Amina Lawal, portrait" width={720} height={900} format="webp" loading="eager" class="aspect-[4/5] w-full object-cover object-top grayscale" />
+                </figure>
+                <div class="relative -mt-20 w-[92%] sm:-mt-28 lg:-ms-6 lg:-mt-36">
+                    <Terminal />
                 </div>
             </div>
         </div>
     </section>
 
-    <HeroSectionAlt
-        title="Follow me on GitHub"
-        subTitle="I build. I experiment. I sometimes even document it. Check out my GitHub to see what I'm up to."
-        url="https://github.com/amiynarh"
-    />
-
-    <section class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full">
-        <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
-            <h2 class="text-3xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl md:leading-tight">
-                Subscribe to my YouTube
-            </h2>
-            <p class="mt-1 text-pretty text-neutral-600 dark:text-neutral-400">
-                Tutorials, tech talks, and behind-the-scenes of my DevOps and AI infrastructure journey.
-            </p>
-        </div>
-
-        <div class="mx-auto grid max-w-5xl gap-6 sm:grid-cols-1 md:grid-cols-2">
-            <div class="aspect-video overflow-hidden rounded-xl shadow-lg">
-                <iframe
-                    class="h-full w-full"
-                    src="https://www.youtube.com/embed/x-iHbFicvH4"
-                    title="YouTube video player"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
+    <!-- Stack marquee -->
+    <section class="border-y border-paper-200 bg-paper-50 py-5 dark:border-ink-800 dark:bg-ink-900/50" aria-label="Tools I work with">
+        <div class="marquee overflow-hidden">
+            <div class="marquee-track flex w-max gap-10 font-mono text-sm text-neutral-500">
+                {[...STACK, ...STACK].map((tool, i) => (
+                    <span class="flex items-center gap-10 whitespace-nowrap" aria-hidden={i >= STACK.length ? 'true' : undefined}>
+                        {tool}<span class="text-sun-500">◆</span>
+                    </span>
+                ))}
             </div>
-            <div class="flex flex-col justify-center">
-                <h3 class="mb-2 text-xl font-bold text-neutral-800 dark:text-neutral-200">Latest Video</h3>
-                <p class="mb-4 text-pretty text-neutral-600 dark:text-neutral-400">
-                    Check out my latest content where I break down everything you need to know: from what containers are to running your first Docker container.
-                </p>
-                <div class="inline-block">
-                    <SimpleYoutubeBtn url="https://youtube.com/@aminalawal3999" title="Subscribe Now" />
+        </div>
+    </section>
+
+    <!-- Four doors -->
+    <section class="section">
+        <div class="container-page">
+            <div class="grid gap-6 lg:grid-cols-[1fr_1.6fr] lg:gap-12">
+                <div data-reveal>
+                    <p class="eyebrow">$ ls ~/amina</p>
+                    <h2 class="h-section">One person, four ways in.</h2>
+                    <p class="lede">This isn't only a tech blog. Pick whichever door you came for. They all lead to the same belief: good infrastructure, and good communities, make everyone around them better.</p>
+                    <div class="relative mt-8 hidden overflow-hidden rounded-3xl bg-ink-950 lg:block">
+                        <Image src={illustration} alt="Illustration of Amina coding on a laptop, surrounded by the Google Cloud, Kubernetes and Terraform logos" class="w-full" width={560} height={560} format="webp" />
+                    </div>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    {doors.map((door, i) => (
+                        <a href={door.href} class="card card-hover group flex flex-col p-6 sm:p-7" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+                            <span class="font-mono text-xs text-neutral-400">{door.n}</span>
+                            <h3 class="mt-6 text-2xl font-bold text-neutral-900 transition group-hover:text-sun-600 dark:text-neutral-100 dark:group-hover:text-sun-300">{door.title}</h3>
+                            <p class="mt-3 flex-grow text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{door.body}</p>
+                            <span class="link-arrow mt-6 text-sm">{door.cta} <span aria-hidden="true">→</span></span>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mentorship spotlight -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <div class="relative overflow-hidden rounded-[2rem] bg-ink-950 p-7 text-neutral-200 sm:p-12" data-reveal>
+                <div class="bg-grid pointer-events-none absolute inset-0 opacity-60"></div>
+                <div class="pointer-events-none absolute -right-20 -top-24 size-96 rounded-full bg-sun-400/25 blur-3xl"></div>
+                <div class="relative grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-center">
+                    <div>
+                        <p class="eyebrow text-sun-300">New · {MENTORSHIP.name}</p>
+                        <h2 class="mt-3 text-balance font-display text-3xl font-bold text-white sm:text-5xl">
+                            4 months. Real cloud. <span class="text-sun-300">Proceeds fund G3Women.</span>
+                        </h2>
+                        <p class="mt-5 max-w-lg text-pretty leading-relaxed text-neutral-400">
+                            A small-cohort, live mentorship, two weeks per module, that takes you from Linux and networking to Kubernetes, IaC, CI/CD and observability on Google Cloud. No toy sandboxes: you will break real things on purpose and learn how they recover. Proceeds go to G3Women's programmes for women in tech.
+                        </p>
+                        <div class="mt-8 flex flex-wrap gap-3">
+                            <a href="/mentorship" class="btn-primary group">How it works <span class="transition group-hover:translate-x-0.5">→</span></a>
+                            <a href={MENTORSHIP.waitlist} target="_blank" rel="noopener noreferrer" class="btn border border-ink-600 text-neutral-200 hover:border-neutral-300">Join the waitlist</a>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline: the 8 modules as CI stages -->
+                    <ol class="grid gap-2 font-mono text-sm sm:grid-cols-2" aria-label="Curriculum, module by module">
+                        {MENTORSHIP.modules.map(w => (
+                            <li class="group flex items-center gap-3 rounded-xl border border-ink-700 bg-ink-900/80 px-4 py-3 transition hover:border-sun-400/60">
+                                <span class="flex size-6 shrink-0 items-center justify-center rounded-full border border-green-500/50 text-[10px] text-green-400 transition group-hover:bg-green-500 group-hover:text-ink-950">✓</span>
+                                <span class="min-w-0">
+                                    <span class="block text-[10px] uppercase tracking-wider text-neutral-500">module {w.n} · wk {w.weeks}</span>
+                                    <span class="block leading-snug text-neutral-200">{w.title}</span>
+                                </span>
+                            </li>
+                        ))}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest writing as git log -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+                <div>
+                    <p class="eyebrow">$ git log --writing</p>
+                    <h2 class="h-section">Latest writing</h2>
+                </div>
+                <a href="/writing" class="link-arrow">All writing <span aria-hidden="true">→</span></a>
+            </div>
+            <ul class="mt-10 divide-y divide-paper-200 border-y border-paper-200 dark:divide-ink-800 dark:border-ink-800">
+                {latestArticles.map((a, i) => (
+                    <li data-reveal style={`--reveal-delay: ${i * 60}ms`}>
+                        <a href={a.url} target="_blank" rel="noopener noreferrer" class="group grid gap-2 py-6 sm:grid-cols-[7rem_1fr_auto] sm:items-baseline sm:gap-6">
+                            <span class="font-mono text-xs text-orange-500 dark:text-orange-300">{hash(a.url)}</span>
+                            <span>
+                                <span class="block text-lg font-semibold leading-snug text-neutral-900 transition group-hover:text-sun-600 dark:text-neutral-100 dark:group-hover:text-sun-300">{a.title}</span>
+                                <span class="mt-1.5 block text-sm text-neutral-600 dark:text-neutral-400">{a.description}</span>
+                            </span>
+                            <span class="flex items-center gap-3 font-mono text-xs text-neutral-500 sm:flex-col sm:items-end">
+                                <span class:list={['chip', a.publication === 'FreeCodeCamp' ? '!border-green-500/40 !text-green-700 dark:!text-green-400' : '!border-blue-500/40 !text-blue-700 dark:!text-blue-400']}>{a.publication}</span>
+                                {fmt(a.date)}
+                            </span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </section>
+
+    <!-- Impact -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <div class="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-12">
+                <div data-reveal>
+                    <p class="eyebrow">$ uptime --community</p>
+                    <h2 class="h-section">Beyond the terminal</h2>
+                    <p class="lede">
+                        I founded <a href={CONTACT.g3women} target="_blank" rel="noopener noreferrer" class="font-semibold text-neutral-900 underline decoration-sun-400 decoration-2 underline-offset-4 dark:text-neutral-100">G3Women</a> to close structural gaps for women in digital tech across northern Nigeria. I also shape policy conversations and run programmes that produce engineers, not certificates.
+                    </p>
+                    <a href="/community" class="link-arrow mt-6">Community & impact <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    {IMPACT.map((s, i) => (
+                        <div class="card p-6" data-reveal style={`--reveal-delay: ${i * 70}ms`}>
+                            <span class:list={['block h-1.5 w-10 rounded-full', i % 2 ? 'bg-orange-300' : 'bg-sun-400']}></span>
+                            <p class="mt-4 font-display text-5xl font-bold text-neutral-900 dark:text-neutral-50" data-count={s.value} data-suffix={s.suffix}>{s.value}{s.suffix}</p>
+                            <p class="mt-3 font-semibold text-neutral-900 dark:text-neutral-100">{s.label}</p>
+                            <p class="mt-1 font-mono text-xs text-neutral-500">{s.note}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Speaking -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+                <div>
+                    <p class="eyebrow">$ cat talks.log</p>
+                    <h2 class="h-section">On stage lately</h2>
+                </div>
+                <a href="/speaking" class="link-arrow">All talks <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="mt-10 grid gap-4 md:grid-cols-3">
+                {recentTalks.map((t, i) => (
+                    <article class="card flex flex-col p-6" data-reveal style={`--reveal-delay: ${i * 70}ms`}>
+                        <div class="flex items-center justify-between font-mono text-xs text-neutral-500">
+                            <span class="chip">{TALK_TYPES[t.type]}</span>
+                            {t.date}
+                        </div>
+                        <h3 class="mt-5 text-lg font-bold leading-snug text-neutral-900 dark:text-neutral-100">{t.title}</h3>
+                        <p class="mt-2 text-sm font-medium text-orange-500 dark:text-orange-300">{t.event}</p>
+                        <p class="mt-3 flex-grow text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{t.description}</p>
+                        {t.recording && <a href={t.recording} target="_blank" rel="noopener noreferrer" class="link-arrow mt-5 text-sm">Watch recording →</a>}
+                    </article>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+                <div>
+                    <p class="eyebrow">$ kubectl get projects</p>
+                    <h2 class="h-section">Things I've built</h2>
+                </div>
+                <a href="/projects" class="link-arrow">All projects <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {projects.map((project, i) => (
+                    <div data-reveal style={`--reveal-delay: ${i * 70}ms`}><ProjectCard project={project} /></div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <!-- Elsewhere -->
+    <section class="section pt-0">
+        <div class="container-page">
+            <div class="grid gap-4 md:grid-cols-[1.4fr_1fr]">
+                <div class="card overflow-hidden" data-reveal>
+                    <div class="aspect-video">
+                        <iframe
+                            class="h-full w-full"
+                            src="https://www.youtube-nocookie.com/embed/x-iHbFicvH4"
+                            title="Amina Lawal on YouTube: containers and running your first Docker container"
+                            loading="lazy"
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                </div>
+                <div class="card flex flex-col p-7" data-reveal style="--reveal-delay: 80ms">
+                    <p class="eyebrow">$ open --elsewhere</p>
+                    <h2 class="mt-3 text-2xl font-bold text-neutral-900 dark:text-neutral-100">Watch, follow, fork.</h2>
+                    <p class="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">Video walkthroughs from containers to clusters, experiments on GitHub, and shorter thoughts on X and LinkedIn.</p>
+                    <ul class="mt-6 grid flex-grow content-end gap-2 font-mono text-sm">
+                        {[
+                            ['YouTube', CONTACT.youtube, '@aminalawal3999'],
+                            ['GitHub', CONTACT.github, '@Amiynarh'],
+                            ['LinkedIn', CONTACT.linkedin, 'aminalawalofficial'],
+                            ['X', CONTACT.x, '@amiynarh'],
+                        ].map(([name, url, handle]) => (
+                            <li>
+                                <a href={url} target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between rounded-xl border border-paper-200 px-4 py-2.5 transition hover:border-sun-400 dark:border-ink-700">
+                                    <span class="text-neutral-800 dark:text-neutral-200">{name}</span>
+                                    <span class="text-xs text-neutral-500 transition group-hover:text-sun-600">{handle} ↗</span>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 </BaseLayout>
+
+<script>
+    // Rotate the word after "I build …" with a small typing effect
+    const el = document.querySelector<HTMLElement>('[data-rotator]')
+    if (el && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const words: string[] = JSON.parse(el.dataset.words ?? '[]')
+        let w = 0
+        const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
+        const loop = async () => {
+            for (;;) {
+                await sleep(2200)
+                const current = words[w]
+                for (let i = current.length; i >= 0; i--) {
+                    el.textContent = current.slice(0, i)
+                    await sleep(35)
+                }
+                w = (w + 1) % words.length
+                const next = words[w]
+                for (let i = 1; i <= next.length; i++) {
+                    el.textContent = next.slice(0, i)
+                    await sleep(70)
+                }
+            }
+        }
+        loop()
+    }
+</script>
