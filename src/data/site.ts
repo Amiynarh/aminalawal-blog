@@ -288,7 +288,7 @@ export const ORGS: Org[] = [
         id: 'gdsc',
         name: 'Google Developer Student Club, BUK',
         role: 'Lead',
-        period: '2020 to 2022',
+        period: '2021 to 2022',
         description: 'Built the campus developer community at Bayero University Kano and helped students move into software and cloud engineering.',
         highlights: ['1,000+ student members', '13+ technical workshops', '4+ industry partnerships'],
         stats: [{ value: '1,000+', label: 'members' }, { value: '13+', label: 'workshops' }],
@@ -307,6 +307,7 @@ export const ORGS: Org[] = [
 export const RECOGNITION = [
     { title: 'Professional Cloud Architect', by: 'Google Cloud certification' },
     { title: 'GDE Academy, EMEA', by: '1 of 57 selected from 1,452 applicants · 2025' },
+    { title: 'GDG Community Recognition', by: 'Google GDG programme · multi-year ecosystem contribution · 2024' },
     { title: 'Generation Google Scholarship', by: 'EMEA · €7,000 competitive grant · 2023' },
 ]
 
